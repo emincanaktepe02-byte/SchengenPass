@@ -1,0 +1,135 @@
+{
+  "name": "SchengenPass — VFS Global Randevu Takip",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "minutes", "minutesInterval": 3 }] }
+      },
+      "name": "Her 3 Dakika",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [180, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "countries",
+              "value": "aut,bel,bgr,che,cze,dnk,est,fin,fra,hrv,isl,ltu,lux,lva,mlt,nld,nor,pol,svn,swe"
+            },
+            {
+              "name": "centers",
+              "value": "istanbul-sisli,istanbul-kadikoy,ankara,izmir"
+            },
+            {
+              "name": "siteUrl",
+              "value": "https://schengenpass.vercel.app"
+            },
+            {
+              "name": "secret",
+              "value": "schengenpass_secret_2025"
+            },
+            {
+              "name": "telegramToken",
+              "value": "8897629079:AAFCt5qm18NBrhdbuoHPb3h16aE67_7NHYw"
+            },
+            {
+              "name": "telegramChatId",
+              "value": "1366850013"
+            }
+          ]
+        }
+      },
+      "name": "Yapılandırma",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [380, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://visa.vfsglobal.com/tur/en/{{$json[\"country\"]}}/appointment",
+        "options": {
+          "headers": {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Accept": "application/json, text/plain, */*"
+          },
+          "timeout": 15000
+        }
+      },
+      "name": "VFS Global API Kontrol",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [580, 300],
+      "notes": "Bu node her ülke için VFS Global API'sini kontrol eder. Gerçek VFS API endpoint'i için browser automation (Puppeteer) kullanmanız gerekebilir."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"appointmentAvailable\"]}}",
+              "value2": "true"
+            }
+          ]
+        }
+      },
+      "name": "Randevu Var mı?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [780, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{$node[\"Yapılandırma\"].json[\"siteUrl\"]}}/api/signals",
+        "method": "POST",
+        "bodyParametersJson": "={\n  \"secret\": \"{{$node[\"Yapılandırma\"].json[\"secret\"]}}\",\n  \"signal\": {\n    \"countryCode\": \"{{$json[\"country\"]}}\",\n    \"countryName\": \"{{$json[\"countryName\"]}}\",\n    \"flag\": \"{{$json[\"flag\"]}}\",\n    \"center\": \"{{$json[\"center\"]}}\",\n    \"appointmentType\": \"{{$json[\"appointmentType\"]}}\",\n    \"slots\": {{$json[\"availableSlots\"]}},\n    \"isActive\": true,\n    \"popularCity\": \"{{$json[\"popularCity\"]}}\",\n    \"destinationCode\": \"{{$json[\"destinationCode\"]}}\"\n  }\n}",
+        "options": {
+          "headers": { "Content-Type": "application/json" }
+        }
+      },
+      "name": "SchengenPass API'ye Gönder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [980, 200]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/bot{{$node[\"Yapılandırma\"].json[\"telegramToken\"]}}/sendMessage",
+        "method": "POST",
+        "bodyParametersJson": "={\n  \"chat_id\": \"{{$node[\"Yapılandırma\"].json[\"telegramChatId\"]}}\",\n  \"text\": \"🚨 YENİ VİZE RANDEVU!\\n\\n{{$json[\"flag\"]}} {{$json[\"countryName\"]}}\\n📍 {{$json[\"center\"]}}\\n🪑 {{$json[\"availableSlots\"]}} boş slot\\n\\nhttps://visa.vfsglobal.com/tur/en/{{$json[\"country\"]}}/\",\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {
+          "headers": { "Content-Type": "application/json" }
+        }
+      },
+      "name": "Telegram Bildirimi",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [980, 350]
+    }
+  ],
+  "connections": {
+    "Her 3 Dakika": {
+      "main": [[{ "node": "Yapılandırma", "type": "main", "index": 0 }]]
+    },
+    "Yapılandırma": {
+      "main": [[{ "node": "VFS Global API Kontrol", "type": "main", "index": 0 }]]
+    },
+    "VFS Global API Kontrol": {
+      "main": [[{ "node": "Randevu Var mı?", "type": "main", "index": 0 }]]
+    },
+    "Randevu Var mı?": {
+      "main": [
+        [{ "node": "SchengenPass API'ye Gönder", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "SchengenPass API'ye Gönder": {
+      "main": [[{ "node": "Telegram Bildirimi", "type": "main", "index": 0 }]]
+    }
+  },
+  "meta": {
+    "description": "SchengenPass VFS Global otomasyon workflow'u. Not: VFS Global sayfaları JS ile yüklendiğinden gerçek senaryoda Puppeteer/Playwright node'u veya ScrapeNinja gibi bir servis kullanılması gerekir.",
+    "version": "1.0.0"
+  }
+}
