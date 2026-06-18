@@ -1,3 +1,5 @@
+export type CenterOperator = "VFS Global" | "BLS International" | "Kosmos" | "iData" | "Konsolosluk";
+
 export interface Country {
   code: string;
   name: string;
@@ -5,6 +7,8 @@ export interface Country {
   popularCity: string;
   destinationCode: string;
   centers: string[];
+  centerOperator: CenterOperator;
+  centerUrl: string;
   visible: boolean;
   tips: string[];
   requirements: string[];
@@ -35,4 +39,18 @@ export interface Flight {
   sourceUrl?: string;
   note?: string;
   postedAt: string;
+}
+
+export interface CheapFlightDeal {
+  origin: string;
+  originCity: string;
+  destination: string;
+  destinationCity: string;
+  departDate: string;
+  price: number;
+  currency: "TRY";
+  sixMonthAvg: number;
+  savingsPercent: number;
+  airline?: string;
+  bookingLink: string;
 }

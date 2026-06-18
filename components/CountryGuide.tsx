@@ -47,6 +47,17 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
             <span className="inline-flex text-[10px] bg-white/5 border border-white/8 rounded-full px-2.5 py-1 text-white/40">
               Ort. bekleme: {country.avgWait}
             </span>
+            <span
+              className={`inline-flex text-[10px] rounded-full px-2.5 py-1 border ${
+                country.centerOperator === "Kosmos"
+                  ? "bg-blue-500/10 border-blue-500/20 text-blue-300/60"
+                  : country.centerOperator === "BLS International"
+                  ? "bg-orange-500/10 border-orange-500/20 text-orange-300/60"
+                  : "bg-white/5 border-white/8 text-white/35"
+              }`}
+            >
+              {country.centerOperator}
+            </span>
           </div>
         </div>
 
@@ -111,12 +122,12 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
                     Vize kuralları değişebilir. Başvuru öncesi resmi kaynaktan doğrulayın.
                   </p>
                   <a
-                    href={`https://visa.vfsglobal.com/tur/en/${country.code}/`}
+                    href={country.centerUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[11px] text-white/35 hover:text-white/60 transition-colors mt-1.5 underline underline-offset-2"
                   >
-                    VFS {country.name} sayfası
+                    {country.centerOperator} — {country.name} başvuru sayfası
                     <ExternalLink size={10} />
                   </a>
                 </div>
