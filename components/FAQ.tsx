@@ -5,32 +5,32 @@ import { Plus, Minus } from "lucide-react";
 
 const FAQS = [
   {
-    q: "SchengenPass bir vize danışmanlık firması mıdır?",
-    a: "Hayır. SchengenPass, VFS Global randevularını otomatik izleyen bir teknoloji platformudur. Randevu almak ya da vize başvurunuzu yönetmek için hizmet sunmayız; yalnızca boş randevu fırsatlarını size ilk gösteren teknolojiyi geliştirip işletiriz.",
+    q: "SchengenPass nedir?",
+    a: "SchengenPass, Türkiye'den Schengen ülkelerine vize başvurusu yapacaklar için ücretsiz, topluluk temelli bir rehber platformudur. Boş randevu paylaşımları, uygun uçuş fırsatları ve ülke başvuru rehberlerini bir arada bulabilirsiniz.",
   },
   {
-    q: "Sisteminiz VFS Global'e yasal yollarla mı erişiyor?",
-    a: "Evet. Sistemimiz yalnızca VFS Global'in kamuya açık sayfalarını izler. Hiçbir sisteme yetkisiz erişim yapılmaz. Bu, haber sitelerini takip etmekten farklı değildir — sadece sizin yerinize yapar.",
+    q: "Bu site gerçekten ücretsiz mi?",
+    a: "Evet, tamamen ücretsiz. Abonelik, premium plan veya gizli ücret yoktur. İçerik topluluk katkıları ve küratörler tarafından hazırlanır; amacımız bilgiyi herkesin erişebileceği hale getirmektir.",
   },
   {
-    q: "Deneme süresi bittikten sonra ne olur?",
-    a: "Kayıt sırasında kaydettiğiniz karttan 7. gün sonunda 18 Euro tahsil edilir ve aboneliğiniz başlar. İptal ederseniz bir daha ücret alınmaz. Deneme süresinde istediğiniz zaman üye panelinizden iptal edebilirsiniz.",
+    q: "Scraping veya bot kullanıyor musunuz?",
+    a: "Hayır. Siteye girilen tüm içerik — randevu paylaşımları, uçuş fırsatları, ülke rehberleri — elle hazırlanır ve küratörlerimiz tarafından eklenir. Hiçbir web sitesinden otomatik veri çekilmez.",
   },
   {
-    q: "Hangi VFS merkezleri takip ediliyor?",
-    a: "İstanbul (Şişli ve Kadıköy), Ankara ve İzmir'deki VFS Global Türkiye merkezlerinin tamamı, her 3 dakikada bir 20 Schengen ülkesi için ayrı ayrı kontrol edilmektedir.",
+    q: "Bilgiler güncel ve doğru mu?",
+    a: "Vize kuralları sık değişebildiğinden tüm içeriğimize 'resmi konsolosluk veya VFS kaynağından doğrulayın' uyarısı ekliyoruz. Emin olmadığımız bilgileri 'doğrulanmalı' olarak işaretliyoruz; asla tahmin yürütmüyoruz.",
   },
   {
-    q: "Telegram bildirimi nasıl çalışıyor?",
-    a: "Paket aktivasyonu sonrasında size özel bir bot aktivasyon linki gönderilir. Linke tıklayarak SchengenPass Telegram botunu başlatırsınız. Randevu bulunduğunda bot, ülke ve merkez bilgisiyle birlikte size anlık mesaj gönderir.",
+    q: "İçeriği kim hazırlıyor?",
+    a: "İçerik, küratörler tarafından elle hazırlanır. Randevu paylaşımları topluluk tarafından katkılanır ve moderasyon sonrasında yayınlanır. İlham aldığımız kaynakları 'Kaynaklar' bölümünde açıkça belirtiyoruz.",
   },
   {
-    q: "Randevuyu SchengenPass mi alıyor?",
-    a: "Hayır. Randevuyu siz alırsınız, doğrudan VFS Global web sitesinden. SchengenPass size yalnızca fırsatı gösterir; randevu sürecine müdahil olmaz.",
+    q: "Paralı vize danışmanlık firmalarına karşı neden uyarıyorsunuz?",
+    a: "Schengen vize başvurusu tamamen yasal ve kamuya açık bir süreçtir. Bazı firmalar bu bilgiyi avantajlarına kullanarak yüksek ücretler talep edebilir. Amacımız karalama değil; doğru bilgiyle bilinçli kararlar almanıza yardımcı olmak.",
   },
   {
-    q: "Danışmanlık paketine (165€) ne zaman başvurabilirim?",
-    a: "Danışmanlık paketi şu an kontenjanı dolu olduğundan satışa kapalıdır. Bekleme listesine girerek kontenjan açıldığında öncelikli bildirim alabilirsiniz.",
+    q: "Siteye nasıl katkıda bulunabilirim?",
+    a: "Yakaladığınız boş randevuları veya uygun uçuş fırsatlarını 'Randevu Paylaş' bölümünden gönderebilirsiniz. Tüm paylaşımlar moderasyon sonrasında yayınlanır. Kişisel bilgileriniz hiçbir zaman paylaşılmaz.",
   },
 ];
 

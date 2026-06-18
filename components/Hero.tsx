@@ -32,10 +32,10 @@ const SLIDES = [
 ];
 
 const STATS = [
-  { value: "20", label: "Schengen ülkesi" },
-  { value: "7/24", label: "Otomatik kontrol" },
-  { value: "4.6★", label: "Kullanıcı puanı" },
-  { value: "18€", label: "Aylık abonelik" },
+  { value: "26", label: "Schengen ülkesi" },
+  { value: "€0", label: "Tamamen ücretsiz" },
+  { value: "Elle", label: "Küratörlenmiş içerik" },
+  { value: "Sıfır", label: "Bot veya scraping" },
 ];
 
 export default function Hero() {
@@ -104,9 +104,9 @@ export default function Hero() {
           transition={{ delay: 0.2 }}
           className="inline-flex items-center gap-2 border border-white/20 bg-white/5 backdrop-blur-sm rounded-full px-4 py-1.5 mb-8"
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
           <span className="text-xs text-white/70 font-light tracking-wider uppercase">
-            Türkiye'den canlı randevu takibi
+            Ücretsiz · Küratörlü · Scraping Yok
           </span>
         </motion.div>
 
@@ -120,7 +120,7 @@ export default function Hero() {
         >
           Schengen Vizesi
           <br />
-          <span className="font-medium italic">Artık Kolay</span>
+          <span className="font-medium italic">İçin Rehberiniz</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -130,8 +130,8 @@ export default function Hero() {
           transition={{ delay: 0.5 }}
           className="text-base sm:text-lg text-white/50 font-light max-w-xl mx-auto mb-4 leading-relaxed"
         >
-          VFS Global'deki 20 Schengen ülkesini saniyeler içinde tarayan yapay zeka destekli sistemimiz,
-          boş randevu bulur bulmaz sizi anında uyarır.
+          Topluluk temelli, ücretsiz bir Schengen vize rehberi. Boş randevu paylaşımları,
+          uygun uçuş fırsatları ve detaylı ülke başvuru rehberleri.
         </motion.p>
 
         <motion.p
@@ -140,7 +140,7 @@ export default function Hero() {
           transition={{ delay: 0.6 }}
           className="text-sm text-white/30 font-light mb-10"
         >
-          Aracı firmalara binlerce lira vermeden önce bunu deneyin.
+          Bot yok. Scraping yok. Ücret yok. Sadece bilgi.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -150,14 +150,14 @@ export default function Hero() {
           transition={{ delay: 0.7 }}
           className="flex flex-col sm:flex-row gap-3 justify-center items-center"
         >
-          <Link href="#pricing">
+          <Link href="#guide">
             <Button variant="default" size="lg" className="text-sm px-8">
-              7 Gün Ücretsiz Başla →
+              Ülke Rehberini Gör →
             </Button>
           </Link>
-          <Link href="#signals">
+          <Link href="#appointments">
             <Button variant="ghost" size="lg" className="text-sm px-8">
-              Canlı Sinyalleri Gör
+              Randevu Paylaşımları
             </Button>
           </Link>
         </motion.div>

@@ -12,17 +12,27 @@ export interface Country {
   avgWait: string;
 }
 
-export interface Signal {
+export interface Appointment {
   id: string;
-  countryCode: string;
-  countryName: string;
+  country: string;
   flag: string;
   center: string;
-  appointmentType: string;
-  slots: number;
-  foundAt: string;
-  filledAt?: string;
-  isActive: boolean;
-  popularCity: string;
-  destinationCode: string;
+  appointmentDate: string;
+  source?: string;
+  note?: string;
+  sharedAt: string;
+  screenshotUrl?: string;
+}
+
+export interface Flight {
+  id: string;
+  origin: string;
+  destination: string;
+  date: string;
+  price: string;
+  airline: string;
+  sourceLabel?: string;
+  sourceUrl?: string;
+  note?: string;
+  postedAt: string;
 }

@@ -1,8 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+
+const NAV_LINKS = [
+  { href: "#appointments", label: "Randevu Paylaşımları" },
+  { href: "#flights", label: "Uygun Uçuşlar" },
+  { href: "#guide", label: "Ülke Rehberi" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -39,28 +44,21 @@ export default function Navbar() {
 
       {/* Desktop Nav */}
       <div className="hidden md:flex items-center gap-8">
-        <Link href="#signals" className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight">
-          Canlı Sinyaller
-        </Link>
-        <Link href="#how" className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight">
-          Nasıl Çalışır
-        </Link>
-        <Link href="#guide" className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight">
-          Vize Rehberi
-        </Link>
-        <Link href="#pricing" className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight">
-          Fiyatlar
-        </Link>
+        {NAV_LINKS.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight"
+          >
+            {l.label}
+          </Link>
+        ))}
       </div>
 
-      {/* CTA */}
-      <div className="hidden md:flex items-center gap-3">
-        <Button variant="ghost" size="sm" className="text-xs">
-          Giriş Yap
-        </Button>
-        <Button variant="default" size="sm" className="text-xs">
-          7 Gün Ücretsiz Dene →
-        </Button>
+      {/* Ücretsiz badge */}
+      <div className="hidden md:flex items-center gap-2 border border-white/10 rounded-full px-3 py-1.5">
+        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+        <span className="text-xs text-white/50 font-light">Ücretsiz</span>
       </div>
 
       {/* Mobile menu button */}
@@ -74,19 +72,16 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="absolute top-16 left-0 right-0 bg-black/95 backdrop-blur-md border-b border-white/10 p-6 flex flex-col gap-4 md:hidden">
-          {["Canlı Sinyaller", "Nasıl Çalışır", "Vize Rehberi", "Fiyatlar"].map((item, i) => (
+          {NAV_LINKS.map((l) => (
             <Link
-              key={i}
-              href={`#${["signals", "how", "guide", "pricing"][i]}`}
+              key={l.href}
+              href={l.href}
               className="text-white/70 hover:text-white text-sm font-light"
               onClick={() => setMenuOpen(false)}
             >
-              {item}
+              {l.label}
             </Link>
           ))}
-          <Button variant="default" size="sm" className="w-full mt-2">
-            7 Gün Ücretsiz Dene →
-          </Button>
         </div>
       )}
     </nav>
