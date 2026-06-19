@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-gold:      #C9A84C;
-  --color-gold-lt:   #E8CC7A;
-  --color-navy:      #0A1628;
-  --color-navy-mid:  #1a2d4a;
-  --color-mblue:     #0077B6;
-  --color-cream:     #FAF9F7;
+  --color-ink:    #111111;
+  --color-ink2:   #1A1A1A;
+  --color-ink3:   #242424;
+  --color-cream:  #F0EBE0;
+  --color-cream2: #E8E1D5;
+  --color-gold:   #D4A843;
+  --color-gold2:  #B8922E;
+  --color-muted:  rgba(240,235,224,0.45);
 
-  --font-bradford: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-visuelt:  'DM Sans', system-ui, -apple-system, sans-serif;
-
-  --radius-card: 16px;
-  --radius-pill: 9999px;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:  'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -21,90 +20,86 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: #ffffff;
-  color: #0A1628;
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  background-color: #111111;
+  color: #F0EBE0;
+  font-family: 'DM Sans', system-ui, sans-serif;
   font-weight: 300;
+  font-size: 15px;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Animations ── */
-@keyframes gold-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
-}
-
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
-}
-
-@keyframes marquee-ltr {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* ── Glass — light luxury ── */
-.glass {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(201, 168, 76, 0.18);
-  box-shadow: 0 2px 20px rgba(10, 22, 40, 0.06);
-}
-
-.glass-dark {
-  background: rgba(10, 22, 40, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* ── Gradient text — gold ── */
-.gradient-text {
-  background: linear-gradient(135deg, #B8933F 0%, #E8CC7A 45%, #C9A84C 100%);
-  background-size: 200% 200%;
-  animation: gold-shimmer 4s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-cyan-violet {
-  background: linear-gradient(135deg, #C9A84C, #B8933F);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Luxury card ── */
-.luxury-card {
-  background: #ffffff;
-  border: 1px solid rgba(201, 168, 76, 0.12);
-  box-shadow: 0 1px 4px rgba(10,22,40,0.04), 0 8px 24px rgba(10,22,40,0.05);
-}
-
-/* ── Section backgrounds ── */
-.section-cream { background-color: #FAF9F7; }
-.section-white { background-color: #ffffff; }
-
-/* ── Aurora bg (kept for hero with pearl tint) ── */
-.aurora-bg {
-  background: linear-gradient(155deg, #ffffff 0%, #FAF9F7 40%, #f0f4f8 70%, #faf8f4 100%);
-}
-
-/* ── Glow effects ── */
-.glow-gold { box-shadow: 0 0 28px rgba(201,168,76,0.22), 0 0 50px rgba(201,168,76,0.08); }
-
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #f8f6f0; }
-::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(201,168,76,0.55); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #111111; }
+::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.35); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212,168,67,0.6); }
 
-::selection { background: rgba(201,168,76,0.18); color: #0A1628; }
+::selection { background: rgba(212,168,67,0.25); color: #F0EBE0; }
+
+/* ── Typography helpers ── */
+.serif { font-family: 'Playfair Display', Georgia, serif; }
+.sans  { font-family: 'DM Sans', system-ui, sans-serif; }
+
+.gold-text {
+  background: linear-gradient(135deg, #D4A843 0%, #F0CC6A 50%, #C89A35 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Section helpers ── */
+.section-ink  { background: #111111; }
+.section-ink2 { background: #1A1A1A; }
+.section-ink3 { background: #0D0D0D; }
+
+/* ── Cards ── */
+.card {
+  background: #1A1A1A;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+}
+.card:hover {
+  border-color: rgba(212,168,67,0.2);
+}
+
+/* ── Subtle gold divider ── */
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.4), transparent);
+}
 
 /* ── Float animations ── */
-.orb-1 { animation: float-gentle 6s ease-in-out infinite; }
-.orb-2 { animation: float-gentle 8s ease-in-out infinite 2s; }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  border-radius: 9999px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(240,235,224,0.45);
+}
+
+/* ── Gold badge ── */
+.badge-gold {
+  border-color: rgba(212,168,67,0.25);
+  background: rgba(212,168,67,0.06);
+  color: rgba(212,168,67,0.8);
+}
+
+/* ── Prose ── */
+.prose-dark p  { color: rgba(240,235,224,0.55); font-weight: 300; line-height: 1.8; }
+.prose-dark h4 { color: rgba(240,235,224,0.8); font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+.prose-dark strong { color: rgba(240,235,224,0.75); font-weight: 500; }
