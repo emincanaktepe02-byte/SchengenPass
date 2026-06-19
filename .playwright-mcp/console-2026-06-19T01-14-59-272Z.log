@@ -1,0 +1,3 @@
+[    1271ms] [LOG] [tp] entrypoint init @ https://emrld.ltd/NTQxMjk0.js?t=541294:0
+[    1946ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://emrld.ltd/entrypoint_config?page_url=http%3A%2F%2Flocalhost%3A3001%2F&t=541294:0
+[    1947ms] [ERROR] config is not valid @ https://emrld.ltd/chunk.B4n9mcKQ.js:13

@@ -26,31 +26,31 @@ const FAQS = [
   },
   {
     q: "CASCADE (kademeleme) kuralı nedir? Nasıl çalışır?",
-    a: "CASCADE kuralı, AB Vize Kodu Madde 24/2 kapsamında vizelerini kurallara uygun kullanan başvuru sahiplerine bir sonraki başvuruda daha uzun süreli vize verilmesini zorunlu kılar. Adımlar: İlk vize → seyahat süresi kadar kısa; 2. başvuru → 1 yıl çok girişli; 3. başvuru → 2 yıl çok girişli; 4. başvuru → 5 yıl çok girişli. Tek bir ihlal (aşım, erken dönüş yokluğu) CASCADE&apos;i sıfırlar. Almanya iDATA ve Fransa VFS bu kuralı en tutarlı uygulayan merkezler arasındadır.",
+    a: "CASCADE kuralı, AB Vize Kodu Madde 24/2 kapsamında vizelerini kurallara uygun kullanan başvuru sahiplerine bir sonraki başvuruda daha uzun süreli vize verilmesini zorunlu kılar. Adımlar: İlk vize → seyahat süresi kadar kısa; 2. başvuru → 1 yıl çok girişli; 3. başvuru → 2 yıl çok girişli; 4. başvuru → 5 yıl çok girişli. Tek bir ihlal (aşım, erken dönüş yokluğu) CASCADE&apos;i sıfırlar.",
   },
   {
     q: "Çift girişli (double entry) vize nedir? Çok girişli vizeden farkı ne?",
-    a: "Tek girişli vize: Schengen'e bir kez girip çıkınca biter. Çift girişli: İki ayrı giriş hakkı verir (örn. İtalya → Türkiye → tekrar Schengen). Çok girişli (multiple entry): Vize geçerlilik süresi boyunca istediğiniz kadar giriş çıkış yapabilirsiniz (90/180 kuralına uygun). Çok girişli vize almak için birinci vizenizi kurallara uygun kullanmış olmanız ve ikinci başvuruda bunu kanıtlamanız gerekir (CASCADE kuralı).",
+    a: "Tek girişli vize: Schengen'e bir kez girip çıkınca biter. Çift girişli: İki ayrı giriş hakkı verir. Çok girişli (multiple entry): Vize geçerlilik süresi boyunca istediğiniz kadar giriş çıkış yapabilirsiniz (90/180 kuralına uygun). Çok girişli vize almak için birinci vizenizi kurallara uygun kullanmış olmanız ve ikinci başvuruda bunu kanıtlamanız gerekir (CASCADE kuralı).",
   },
   {
     q: "Biometrik veri nedir? Merkeze gitmeden başvurabilir miyim?",
-    a: "Schengen vize başvurusunda biyometrik parmak izi ve dijital fotoğraf vermeniz zorunludur. Bu işlem yalnızca yetkili vize merkezinde (VFS, iDATA, Kosmos vb.) fiziksel olarak yapılabilir. İlk kez başvuranlar kesinlikle merkeze gelmek zorundadır. Biyometrik veriler 59 ay (yaklaşık 5 yıl) sistemde saklanır; bu süre içindeki sonraki başvurularda fiziksel katılım gerekli olmayabilir. Postane veya posta yoluyla başvuru kabul edilmez.",
+    a: "Schengen vize başvurusunda biyometrik parmak izi ve dijital fotoğraf vermeniz zorunludur. Bu işlem yalnızca yetkili vize merkezinde (VFS, iDATA, Kosmos vb.) fiziksel olarak yapılabilir. İlk kez başvuranlar kesinlikle merkeze gelmek zorundadır. Biyometrik veriler 59 ay sistemde saklanır; bu süre içindeki sonraki başvurularda fiziksel katılım gerekli olmayabilir.",
   },
   {
     q: "Schengen vizesi için hangi sigorta zorunlu?",
-    a: "Tüm Schengen ülkelerinde geçerli, minimum 30.000€ teminatlı seyahat sağlık sigortası zorunludur. Poliçe; tüm Schengen bölgesini kapsamalı, hastane, acil tıbbi tahliye ve cenaze masraflarını içermeli ve seyahat süresini eksiksiz kapsamalıdır. Yabancı sigorta poliçeleri genellikle kabul edilir ancak İngilizce veya seyahat edilen ülkenin dilinde olması tercih edilir. Türkiye'den Mapfre, Axa ve Allianz güvenilir seçenekler sunar.",
+    a: "Tüm Schengen ülkelerinde geçerli, minimum 30.000€ teminatlı seyahat sağlık sigortası zorunludur. Poliçe; tüm Schengen bölgesini kapsamalı, hastane, acil tıbbi tahliye ve cenaze masraflarını içermeli ve seyahat süresini eksiksiz kapsamalıdır. Türkiye'den Mapfre, Axa ve Allianz güvenilir seçenekler sunar.",
   },
   {
     q: "Türkiye'de bağ belgesi nedir? Neden önemli?",
-    a: "Konsolosluklar, başvuru sahibinin seyahat sonunda Türkiye'ye döneceğinden emin olmak ister. Bağ belgesi bu güvenceyi sağlayan evraklardır: iş sözleşmesi veya işveren yazısı, tapu veya kira sözleşmesi, SGK belgesi, araç ruhsatı, öğrenci belgesi. Ne kadar güçlü bir Türkiye bağınız olursa ret riski o kadar düşer. Bu belgelerin yokluğu özellikle Almanya ve Fransa'da ret gerekçesi olarak gösterilmektedir.",
+    a: "Konsolosluklar, başvuru sahibinin seyahat sonunda Türkiye'ye döneceğinden emin olmak ister. Bağ belgesi bu güvenceyi sağlayan evraklardır: iş sözleşmesi veya işveren yazısı, tapu veya kira sözleşmesi, SGK belgesi, araç ruhsatı, öğrenci belgesi. Ne kadar güçlü bir Türkiye bağınız olursa ret riski o kadar düşer.",
   },
   {
     q: "Vize ücreti ne kadar? Ücret iadesi olur mu?",
-    a: "2026 itibarıyla standart Schengen vize ücreti 90€'dur (çocuklar için 45€, 6 yaş altı ücretsiz). Buna ek olarak vize merkezi hizmet bedeli 25–35€ arasındadır. Toplam kişi başı yaklaşık 115–130€. Vize reddedilse dahi vize ücreti iade edilmez; hizmet bedeli ise bazı merkezlerde kısmen iade edilebilir. Başvuru formu doldurulduktan sonra geri çekilse bile ücret iade edilmez.",
+    a: "2026 itibarıyla standart Schengen vize ücreti 90€'dur (çocuklar için 45€, 6 yaş altı ücretsiz). Buna ek olarak vize merkezi hizmet bedeli 25–35€ arasındadır. Toplam kişi başı yaklaşık 115–130€. Vize reddedilse dahi vize ücreti iade edilmez; hizmet bedeli ise bazı merkezlerde kısmen iade edilebilir.",
   },
   {
     q: "Hangi ülkeler en yüksek onay oranına sahip?",
-    a: "2023 AB Schengen İstatistiklerine göre Türk başvuru sahipleri için en yüksek onay oranına sahip ülkeler: Estonya (~%92), Letonya (~%91), Malta (~%89), Macaristan (~%88), Slovakya (~%87), Yunanistan (~%85-88). En yüksek red oranları ise Belçika (~%26), Fransa (~%24) ve Almanya'dadır (~%20). Red oranı yüksek olan ülkeler, CASCADE kuralını daha tutarlı uygulayan ülkelerdir — doğru belgelerle başvurulduğunda red riski düşer.",
+    a: "2023 AB Schengen İstatistiklerine göre Türk başvuru sahipleri için en yüksek onay oranına sahip ülkeler: Estonya (~%92), Letonya (~%91), Malta (~%89), Macaristan (~%88), Slovakya (~%87), Yunanistan (~%85-88). En yüksek red oranları ise Belçika (~%26), Fransa (~%24) ve Almanya'dadır (~%20).",
   },
 ];
 
@@ -58,7 +58,7 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24" style={{ background: "linear-gradient(to bottom, #040d1a, #020918)" }}>
+    <section className="py-24 section-cream">
       <div className="max-w-3xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -66,20 +66,20 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-6">
-            <span className="text-xs text-white/40 font-light tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 bg-white border border-[#0A1628]/8 rounded-full px-4 py-1.5 mb-6 shadow-sm">
+            <span className="text-xs text-[#0A1628]/40 font-light tracking-wider uppercase">
               Sık Sorulan Sorular
             </span>
           </div>
           <h2
-            className="text-3xl md:text-4xl font-light text-white tracking-tight mb-3"
+            className="text-3xl md:text-4xl font-light text-[#0A1628] tracking-tight mb-3"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             İnternette En Çok
             <br />
             <span className="italic gradient-text">Sorulan Sorular</span>
           </h2>
-          <p className="text-white/35 font-light text-sm leading-relaxed max-w-xl mx-auto">
+          <p className="text-[#0A1628]/40 font-light text-sm leading-relaxed max-w-xl mx-auto">
             Schengen vizesi başvurusunda merak edilen her şey — sade, açık ve güncel cevaplarla.
           </p>
         </motion.div>
@@ -92,18 +92,19 @@ export default function FAQ() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: Math.min(i * 0.04, 0.3) }}
-              className="glass rounded-2xl overflow-hidden hover:border-white/12 transition-all"
+              className="bg-white border border-[#0A1628]/7 rounded-2xl overflow-hidden hover:border-[#C9A84C]/30 hover:shadow-sm transition-all"
+              style={{ boxShadow: "0 1px 3px rgba(10,22,40,0.04)" }}
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-start justify-between p-5 text-left hover:bg-white/[0.03] transition-colors gap-4"
+                className="w-full flex items-start justify-between p-5 text-left hover:bg-[#FAF9F7] transition-colors gap-4"
               >
-                <span className="text-sm text-white/75 font-light leading-relaxed pr-2">{faq.q}</span>
-                <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full glass flex items-center justify-center">
+                <span className="text-sm text-[#0A1628]/70 font-light leading-relaxed pr-2">{faq.q}</span>
+                <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full border border-[#0A1628]/10 bg-[#FAF9F7] flex items-center justify-center">
                   {open === i ? (
-                    <Minus size={11} className="text-[#00d4ff]" />
+                    <Minus size={11} className="text-[#C9A84C]" />
                   ) : (
-                    <Plus size={11} className="text-white/40" />
+                    <Plus size={11} className="text-[#0A1628]/40" />
                   )}
                 </span>
               </button>
@@ -117,8 +118,8 @@ export default function FAQ() {
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-5 border-t border-white/5 pt-4">
-                      <p className="text-sm text-white/50 font-light leading-relaxed">{faq.a}</p>
+                    <div className="px-5 pb-5 border-t border-[#0A1628]/5 pt-4">
+                      <p className="text-sm text-[#0A1628]/55 font-light leading-relaxed">{faq.a}</p>
                     </div>
                   </motion.div>
                 )}
@@ -131,7 +132,7 @@ export default function FAQ() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-8 text-center text-xs text-white/20 font-light"
+          className="mt-8 text-center text-xs text-[#0A1628]/25 font-light"
         >
           Cevaplar genel bilgi amaçlıdır · Başvurudan önce ilgili konsolosluğun resmi sitesini kontrol edin
         </motion.p>

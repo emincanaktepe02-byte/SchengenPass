@@ -1,0 +1,1137 @@
+- main [ref=e2]:
+  - navigation [ref=e3]:
+    - link "SchengenPass SchengenPass" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e5]:
+        - img "SchengenPass" [ref=e6]
+        - generic [ref=e7]: SchengenPass
+    - generic [ref=e12]:
+      - link "Randevu Paylaşımları" [ref=e13] [cursor=pointer]:
+        - /url: "#appointments"
+      - link "Uygun Uçuşlar" [ref=e14] [cursor=pointer]:
+        - /url: "#flights"
+      - link "Ülke Rehberi" [ref=e15] [cursor=pointer]:
+        - /url: "#guide"
+    - generic [ref=e18]: Ücretsiz
+  - generic [ref=e19]:
+    - img "Paris" [ref=e21]
+    - generic [ref=e24]:
+      - button [ref=e25]
+      - button [ref=e26]
+      - button [ref=e27]
+      - button [ref=e28]
+    - generic [ref=e31]: Paris, Fransa
+    - generic [ref=e32]:
+      - generic [ref=e35]: Ücretsiz · Küratörlü · Scraping Yok
+      - heading "Schengen Vizesi İçin Rehberiniz" [level=1] [ref=e36]:
+        - text: Schengen Vizesi
+        - text: İçin Rehberiniz
+      - paragraph [ref=e37]: Topluluk temelli, ücretsiz bir Schengen vize rehberi. Boş randevu paylaşımları, uygun uçuş fırsatları ve detaylı ülke başvuru rehberleri.
+      - paragraph [ref=e38]: Bot yok. Scraping yok. Ücret yok. Sadece bilgi.
+      - generic [ref=e39]:
+        - link "Ülke Rehberini Gör →" [ref=e40] [cursor=pointer]:
+          - /url: "#guide"
+          - button "Ülke Rehberini Gör →" [ref=e41]
+        - link "Randevu Paylaşımları" [ref=e42] [cursor=pointer]:
+          - /url: "#appointments"
+          - button "Randevu Paylaşımları" [ref=e43]
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]: "26"
+          - generic [ref=e47]: Schengen ülkesi
+        - generic [ref=e48]:
+          - generic [ref=e49]: €0
+          - generic [ref=e50]: Tamamen ücretsiz
+        - generic [ref=e51]:
+          - generic [ref=e52]: Elle
+          - generic [ref=e53]: Küratörlenmiş içerik
+        - generic [ref=e54]:
+          - generic [ref=e55]: Sıfır
+          - generic [ref=e56]: Bot veya scraping
+  - generic [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]:
+        - generic [ref=e63]: Sizden Gelenler
+        - heading "Topluluktan Randevu Paylaşımları" [level=2] [ref=e64]:
+          - text: Topluluktan Randevu
+          - text: Paylaşımları
+        - paragraph [ref=e65]: Kullanıcılarımızın yakaladığı boş Schengen vize randevuları. VFS sitesinden bağımsız olarak paylaşılır.
+      - link "Randevu Paylaş" [ref=e66] [cursor=pointer]:
+        - /url: mailto:info@schengenpass.com?subject=Randevu%20Paylasimi
+        - img [ref=e67]
+        - text: Randevu Paylaş
+    - generic [ref=e68]:
+      - img [ref=e69]
+      - paragraph [ref=e71]:
+        - text: Bu paylaşımlar topluluk üyeleri tarafından yapılmıştır. Randevu almadan önce
+        - link "VFS Global sitesinden" [ref=e72] [cursor=pointer]:
+          - /url: https://visa.vfsglobal.com/tur/en/
+        - text: bizzat doğrulayın. SchengenPass bu bilgilerin güncelliğini garanti etmez.
+    - generic [ref=e73]:
+      - img [ref=e75]
+      - paragraph [ref=e77]: Henüz randevu paylaşımı yok.
+      - paragraph [ref=e78]: Yakında güncelleniyor.
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - generic [ref=e82]:
+        - img [ref=e83]
+        - generic [ref=e85]: Schengen Uçuşları
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "Uygun Fiyatlı Schengen Uçuşları" [level=2] [ref=e88]:
+            - text: Uygun Fiyatlı
+            - text: Schengen Uçuşları
+          - paragraph [ref=e89]: IST, SAW, ESB ve ADB kalkışlı 27+ Schengen ülkesine bilet fiyatlarını Skyscanner'dan takip et.
+        - link "Skyscanner'da Tüm Uçuşlar" [ref=e90] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/ucak-bileti
+          - text: Skyscanner'da Tüm Uçuşlar
+          - img [ref=e91]
+    - generic [ref=e95]:
+      - img [ref=e96]
+      - paragraph [ref=e98]: Fiyatlar sürekli değişkendir. Satın almadan önce Skyscanner'dan doğrulayın. SchengenPass bilet satışı yapmaz, Skyscanner bağlantıları sunar.
+    - generic [ref=e99]:
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - img [ref=e102]
+          - generic [ref=e105]: Kalkış Noktasına Göre Ara
+        - generic [ref=e106]:
+          - button "IST· İstanbul" [ref=e107]:
+            - text: IST
+            - generic [ref=e108]: · İstanbul
+          - button "SAW· İstanbul (SAW)" [ref=e109]:
+            - text: SAW
+            - generic [ref=e110]: · İstanbul (SAW)
+          - button "ESB· Ankara" [ref=e111]:
+            - text: ESB
+            - generic [ref=e112]: · Ankara
+          - button "ADB· İzmir" [ref=e113]:
+            - text: ADB
+            - generic [ref=e114]: · İzmir
+      - generic [ref=e115]:
+        - link "🇬🇷 Atina Yunanistan Ara" [ref=e116] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/ath/
+          - generic [ref=e117]:
+            - generic [ref=e118]: 🇬🇷
+            - generic [ref=e119]:
+              - generic [ref=e120]: Atina
+              - generic [ref=e121]: Yunanistan
+          - generic [ref=e122]:
+            - img [ref=e123]
+            - generic [ref=e126]: Ara
+        - link "🇫🇷 Paris Fransa Ara" [ref=e127] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/cdg/
+          - generic [ref=e128]:
+            - generic [ref=e129]: 🇫🇷
+            - generic [ref=e130]:
+              - generic [ref=e131]: Paris
+              - generic [ref=e132]: Fransa
+          - generic [ref=e133]:
+            - img [ref=e134]
+            - generic [ref=e137]: Ara
+        - link "🇮🇹 Roma İtalya Ara" [ref=e138] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/fco/
+          - generic [ref=e139]:
+            - generic [ref=e140]: 🇮🇹
+            - generic [ref=e141]:
+              - generic [ref=e142]: Roma
+              - generic [ref=e143]: İtalya
+          - generic [ref=e144]:
+            - img [ref=e145]
+            - generic [ref=e148]: Ara
+        - link "🇪🇸 Madrid İspanya Ara" [ref=e149] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/mad/
+          - generic [ref=e150]:
+            - generic [ref=e151]: 🇪🇸
+            - generic [ref=e152]:
+              - generic [ref=e153]: Madrid
+              - generic [ref=e154]: İspanya
+          - generic [ref=e155]:
+            - img [ref=e156]
+            - generic [ref=e159]: Ara
+        - link "🇪🇸 Barselona İspanya Ara" [ref=e160] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/bcn/
+          - generic [ref=e161]:
+            - generic [ref=e162]: 🇪🇸
+            - generic [ref=e163]:
+              - generic [ref=e164]: Barselona
+              - generic [ref=e165]: İspanya
+          - generic [ref=e166]:
+            - img [ref=e167]
+            - generic [ref=e170]: Ara
+        - link "🇳🇱 Amsterdam Hollanda Ara" [ref=e171] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/ams/
+          - generic [ref=e172]:
+            - generic [ref=e173]: 🇳🇱
+            - generic [ref=e174]:
+              - generic [ref=e175]: Amsterdam
+              - generic [ref=e176]: Hollanda
+          - generic [ref=e177]:
+            - img [ref=e178]
+            - generic [ref=e181]: Ara
+        - link "🇩🇪 Berlin Almanya Ara" [ref=e182] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/ber/
+          - generic [ref=e183]:
+            - generic [ref=e184]: 🇩🇪
+            - generic [ref=e185]:
+              - generic [ref=e186]: Berlin
+              - generic [ref=e187]: Almanya
+          - generic [ref=e188]:
+            - img [ref=e189]
+            - generic [ref=e192]: Ara
+        - link "🇦🇹 Viyana Avusturya Ara" [ref=e193] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/vie/
+          - generic [ref=e194]:
+            - generic [ref=e195]: 🇦🇹
+            - generic [ref=e196]:
+              - generic [ref=e197]: Viyana
+              - generic [ref=e198]: Avusturya
+          - generic [ref=e199]:
+            - img [ref=e200]
+            - generic [ref=e203]: Ara
+        - link "🇨🇿 Prag Çekya Ara" [ref=e204] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/prg/
+          - generic [ref=e205]:
+            - generic [ref=e206]: 🇨🇿
+            - generic [ref=e207]:
+              - generic [ref=e208]: Prag
+              - generic [ref=e209]: Çekya
+          - generic [ref=e210]:
+            - img [ref=e211]
+            - generic [ref=e214]: Ara
+        - link "🇭🇺 Budapeşte Macaristan Ara" [ref=e215] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/bud/
+          - generic [ref=e216]:
+            - generic [ref=e217]: 🇭🇺
+            - generic [ref=e218]:
+              - generic [ref=e219]: Budapeşte
+              - generic [ref=e220]: Macaristan
+          - generic [ref=e221]:
+            - img [ref=e222]
+            - generic [ref=e225]: Ara
+        - link "🇵🇹 Lizbon Portekiz Ara" [ref=e226] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/lis/
+          - generic [ref=e227]:
+            - generic [ref=e228]: 🇵🇹
+            - generic [ref=e229]:
+              - generic [ref=e230]: Lizbon
+              - generic [ref=e231]: Portekiz
+          - generic [ref=e232]:
+            - img [ref=e233]
+            - generic [ref=e236]: Ara
+        - link "🇨🇭 Zürih İsviçre Ara" [ref=e237] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/zrh/
+          - generic [ref=e238]:
+            - generic [ref=e239]: 🇨🇭
+            - generic [ref=e240]:
+              - generic [ref=e241]: Zürih
+              - generic [ref=e242]: İsviçre
+          - generic [ref=e243]:
+            - img [ref=e244]
+            - generic [ref=e247]: Ara
+        - link "🇸🇪 Stockholm İsveç Ara" [ref=e248] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/arn/
+          - generic [ref=e249]:
+            - generic [ref=e250]: 🇸🇪
+            - generic [ref=e251]:
+              - generic [ref=e252]: Stockholm
+              - generic [ref=e253]: İsveç
+          - generic [ref=e254]:
+            - img [ref=e255]
+            - generic [ref=e258]: Ara
+        - link "🇳🇴 Oslo Norveç Ara" [ref=e259] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/osl/
+          - generic [ref=e260]:
+            - generic [ref=e261]: 🇳🇴
+            - generic [ref=e262]:
+              - generic [ref=e263]: Oslo
+              - generic [ref=e264]: Norveç
+          - generic [ref=e265]:
+            - img [ref=e266]
+            - generic [ref=e269]: Ara
+        - link "🇩🇰 Kopenhag Danimarka Ara" [ref=e270] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/cph/
+          - generic [ref=e271]:
+            - generic [ref=e272]: 🇩🇰
+            - generic [ref=e273]:
+              - generic [ref=e274]: Kopenhag
+              - generic [ref=e275]: Danimarka
+          - generic [ref=e276]:
+            - img [ref=e277]
+            - generic [ref=e280]: Ara
+        - link "🇫🇮 Helsinki Finlandiya Ara" [ref=e281] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/hel/
+          - generic [ref=e282]:
+            - generic [ref=e283]: 🇫🇮
+            - generic [ref=e284]:
+              - generic [ref=e285]: Helsinki
+              - generic [ref=e286]: Finlandiya
+          - generic [ref=e287]:
+            - img [ref=e288]
+            - generic [ref=e291]: Ara
+        - link "🇧🇪 Brüksel Belçika Ara" [ref=e292] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/bru/
+          - generic [ref=e293]:
+            - generic [ref=e294]: 🇧🇪
+            - generic [ref=e295]:
+              - generic [ref=e296]: Brüksel
+              - generic [ref=e297]: Belçika
+          - generic [ref=e298]:
+            - img [ref=e299]
+            - generic [ref=e302]: Ara
+        - link "🇵🇱 Varşova Polonya Ara" [ref=e303] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/waw/
+          - generic [ref=e304]:
+            - generic [ref=e305]: 🇵🇱
+            - generic [ref=e306]:
+              - generic [ref=e307]: Varşova
+              - generic [ref=e308]: Polonya
+          - generic [ref=e309]:
+            - img [ref=e310]
+            - generic [ref=e313]: Ara
+        - link "🇸🇰 Bratislava Slovakya Ara" [ref=e314] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/bts/
+          - generic [ref=e315]:
+            - generic [ref=e316]: 🇸🇰
+            - generic [ref=e317]:
+              - generic [ref=e318]: Bratislava
+              - generic [ref=e319]: Slovakya
+          - generic [ref=e320]:
+            - img [ref=e321]
+            - generic [ref=e324]: Ara
+        - link "🇪🇪 Tallinn Estonya Ara" [ref=e325] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/tll/
+          - generic [ref=e326]:
+            - generic [ref=e327]: 🇪🇪
+            - generic [ref=e328]:
+              - generic [ref=e329]: Tallinn
+              - generic [ref=e330]: Estonya
+          - generic [ref=e331]:
+            - img [ref=e332]
+            - generic [ref=e335]: Ara
+        - link "🇱🇻 Riga Letonya Ara" [ref=e336] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/rix/
+          - generic [ref=e337]:
+            - generic [ref=e338]: 🇱🇻
+            - generic [ref=e339]:
+              - generic [ref=e340]: Riga
+              - generic [ref=e341]: Letonya
+          - generic [ref=e342]:
+            - img [ref=e343]
+            - generic [ref=e346]: Ara
+        - link "🇧🇬 Sofya Bulgaristan Ara" [ref=e347] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/sof/
+          - generic [ref=e348]:
+            - generic [ref=e349]: 🇧🇬
+            - generic [ref=e350]:
+              - generic [ref=e351]: Sofya
+              - generic [ref=e352]: Bulgaristan
+          - generic [ref=e353]:
+            - img [ref=e354]
+            - generic [ref=e357]: Ara
+        - link "🇲🇹 Malta Malta Ara" [ref=e358] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/mla/
+          - generic [ref=e359]:
+            - generic [ref=e360]: 🇲🇹
+            - generic [ref=e361]:
+              - generic [ref=e362]: Malta
+              - generic [ref=e363]: Malta
+          - generic [ref=e364]:
+            - img [ref=e365]
+            - generic [ref=e368]: Ara
+        - link "🇭🇷 Zagreb Hırvatistan Ara" [ref=e369] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/zag/
+          - generic [ref=e370]:
+            - generic [ref=e371]: 🇭🇷
+            - generic [ref=e372]:
+              - generic [ref=e373]: Zagreb
+              - generic [ref=e374]: Hırvatistan
+          - generic [ref=e375]:
+            - img [ref=e376]
+            - generic [ref=e379]: Ara
+        - link "🇷🇴 Bükreş Romanya Ara" [ref=e380] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/otp/
+          - generic [ref=e381]:
+            - generic [ref=e382]: 🇷🇴
+            - generic [ref=e383]:
+              - generic [ref=e384]: Bükreş
+              - generic [ref=e385]: Romanya
+          - generic [ref=e386]:
+            - img [ref=e387]
+            - generic [ref=e390]: Ara
+        - link "🇸🇮 Ljubljana Slovenya Ara" [ref=e391] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/lju/
+          - generic [ref=e392]:
+            - generic [ref=e393]: 🇸🇮
+            - generic [ref=e394]:
+              - generic [ref=e395]: Ljubljana
+              - generic [ref=e396]: Slovenya
+          - generic [ref=e397]:
+            - img [ref=e398]
+            - generic [ref=e401]: Ara
+        - link "🇱🇹 Vilnius Litvanya Ara" [ref=e402] [cursor=pointer]:
+          - /url: https://www.skyscanner.com.tr/transport/flights/ist/vno/
+          - generic [ref=e403]:
+            - generic [ref=e404]: 🇱🇹
+            - generic [ref=e405]:
+              - generic [ref=e406]: Vilnius
+              - generic [ref=e407]: Litvanya
+          - generic [ref=e408]:
+            - img [ref=e409]
+            - generic [ref=e412]: Ara
+      - paragraph [ref=e413]: Seçilen kalkış → hedef için Skyscanner'da esnek tarih araması açılır.
+  - generic [ref=e415]:
+    - generic [ref=e416]:
+      - generic [ref=e418]: Ülke Rehberi
+      - generic [ref=e419]:
+        - generic [ref=e420]:
+          - heading "Schengen Başvuru Rehberi 2026" [level=2] [ref=e421]:
+            - text: Schengen Başvuru
+            - text: Rehberi 2026
+          - paragraph [ref=e422]: 27 ülke · Kaskad kuralı · Banka gereksinimleri · Red riski analizi · VFS, iDATA, Kosmos, BLS, AS Visa Solutions
+        - generic [ref=e423]:
+          - img [ref=e424]
+          - textbox "Ülke ara..." [ref=e427]
+    - generic [ref=e428]:
+      - generic [ref=e429]:
+        - generic [ref=e431]: 2024–2026 AB Vize Kodu
+        - heading "Kaskad Kuralı— Vize Kademeleme Sistemi" [level=3] [ref=e432]
+        - paragraph [ref=e433]: "AB Vize Kodu Madde 24/2 uyarınca: Schengen vizeni kurallara uygun her kullanımda bir üst basamağa geçersin. Doğru kullanım = uzun süreli çok girişli vize."
+      - generic [ref=e434]:
+        - generic [ref=e435]:
+          - paragraph [ref=e436]: Kademeleme Basamakları
+          - generic [ref=e437]:
+            - generic [ref=e438]:
+              - generic [ref=e440]: "1."
+              - generic [ref=e442]:
+                - paragraph [ref=e443]: İlk Başvuru
+                - paragraph [ref=e444]: Tek/çift girişli
+                - paragraph [ref=e445]: Seyahat süresi kadar
+            - generic [ref=e446]:
+              - generic [ref=e448]: "2."
+              - generic [ref=e450]:
+                - paragraph [ref=e451]: 1 Yıl Çok Girişli
+                - paragraph [ref=e452]: İlk vizeni doğru kullandıysan
+                - paragraph [ref=e453]: Schengen'de serbestlik
+            - generic [ref=e454]:
+              - generic [ref=e456]: "3."
+              - generic [ref=e458]:
+                - paragraph [ref=e459]: 2 Yıl Çok Girişli
+                - paragraph [ref=e460]: 1 yıllık vizeni doğru kullandıysan
+                - paragraph [ref=e461]: Uzun vadeli planlama
+            - generic [ref=e462]:
+              - generic [ref=e464]: "4."
+              - generic [ref=e465]:
+                - paragraph [ref=e466]: 5 Yıl Çok Girişli
+                - paragraph [ref=e467]: 2 yıllık vizeni doğru kullandıysan
+                - paragraph [ref=e468]: Tam kaskad avantajı
+        - generic [ref=e469]:
+          - generic [ref=e470]:
+            - paragraph [ref=e471]: Kaskadı Koruyan Kurallar
+            - list [ref=e472]:
+              - listitem [ref=e473]:
+                - img [ref=e474]
+                - generic [ref=e477]: 180 gün içinde en fazla 90 gün Schengen'de kalabilirsin
+              - listitem [ref=e478]:
+                - img [ref=e479]
+                - generic [ref=e482]: Vize bitiş tarihini asla aşma — tek ihlal kaskadı sıfırlar
+              - listitem [ref=e483]:
+                - img [ref=e484]
+                - generic [ref=e487]: Her seyahatten sonra çıkış belgelerini (boarding pass, damga) sakla
+              - listitem [ref=e488]:
+                - img [ref=e489]
+                - generic [ref=e492]: İkinci başvuruda 'çok girişli vize talep ediyorum' yaz ve önceki vizeni göster
+              - listitem [ref=e493]:
+                - img [ref=e494]
+                - generic [ref=e497]: Pasaport değişirse eski pasaportunu mutlaka yanında taşı
+          - generic [ref=e498]:
+            - paragraph [ref=e499]:
+              - img [ref=e500]
+              - text: Kaskad İçin Önerilen Ülkeler
+            - generic [ref=e502]:
+              - generic [ref=e503]:
+                - generic [ref=e504]: 🇩🇪
+                - generic [ref=e505]: AlmanyaİDATA, 2. başvuruda 1 yıl vize verir
+              - generic [ref=e506]:
+                - generic [ref=e507]: 🇳🇱
+                - generic [ref=e508]: HollandaVFS, kaskad kuralına uyumlu
+              - generic [ref=e509]:
+                - generic [ref=e510]: 🇦🇹
+                - generic [ref=e511]: AvusturyaVFS, çok girişli konusunda esnek
+              - generic [ref=e512]:
+                - generic [ref=e513]: 🇫🇷
+                - generic [ref=e514]: FransaVFS, düzenli seyahatte çok girişli
+              - generic [ref=e515]:
+                - generic [ref=e516]: 🇮🇹
+                - generic [ref=e517]: İtalyaiDATA, kademeli yükseltme uygular
+    - generic [ref=e518]:
+      - generic [ref=e519]:
+        - generic [ref=e520]:
+          - generic [ref=e522]: İlk Schengen Başvurusu
+          - heading "Nereden Başlamalı?" [level=3] [ref=e523]
+          - paragraph [ref=e524]: İlk Schengen için randevu kolaylığı, hızlı işlem ve düşük red oranına sahip ülkeleri tercih et.
+        - generic [ref=e525]:
+          - generic [ref=e526]:
+            - paragraph [ref=e527]: Önerilen Ülkeler (Kolaydan Zorluya)
+            - generic [ref=e528]:
+              - generic [ref=e529]:
+                - generic [ref=e530]: 🇬🇷
+                - generic [ref=e531]:
+                  - text: Yunanistan
+                  - paragraph [ref=e532]: Kosmos Vize, 3-7 iş günü, hızlı randevu
+              - generic [ref=e533]:
+                - generic [ref=e534]: 🇲🇹
+                - generic [ref=e535]:
+                  - text: Malta
+                  - paragraph [ref=e536]: VFS, 7-10 iş günü, esnek belgeler
+              - generic [ref=e537]:
+                - generic [ref=e538]: 🇪🇪
+                - generic [ref=e539]:
+                  - text: Estonya
+                  - paragraph [ref=e540]: VFS, 5-10 iş günü, düşük red oranı
+              - generic [ref=e541]:
+                - generic [ref=e542]: 🇱🇻
+                - generic [ref=e543]:
+                  - text: Letonya
+                  - paragraph [ref=e544]: VFS, 7-10 iş günü, kolay randevu
+              - generic [ref=e545]:
+                - generic [ref=e546]: 🇸🇰
+                - generic [ref=e547]:
+                  - text: Slovakya
+                  - paragraph [ref=e548]: BLS, 7-10 iş günü, az kuyruk
+              - generic [ref=e549]:
+                - generic [ref=e550]: 🇭🇺
+                - generic [ref=e551]:
+                  - text: Macaristan
+                  - paragraph [ref=e552]: AS Visa, 7-10 iş günü, uygun maliyet
+          - paragraph [ref=e554]: "İpucu: İlk vizende hedef ülkende en az 3-4 gece konak planla. Kısa konaklamalar şüphe uyandırabilir."
+      - generic [ref=e555]:
+        - generic [ref=e556]:
+          - generic [ref=e558]: Belge Kontrol Listesi
+          - heading "Eksiksiz Başvuru" [level=3] [ref=e559]
+          - paragraph [ref=e560]: Yeşil = yapmalısın · Kırmızı = yapma
+        - list [ref=e562]:
+          - listitem [ref=e563]:
+            - img [ref=e564]
+            - generic [ref=e567]: Pasaport — seyahat sonrası en az 3 ay geçerli
+          - listitem [ref=e568]:
+            - img [ref=e569]
+            - generic [ref=e572]: Son 3-6 aylık banka hesap özeti (ani büyük yatırım YOK)
+          - listitem [ref=e573]:
+            - img [ref=e574]
+            - generic [ref=e577]: "Minimum bakiye: günlük 50-100€ × gün + konaklama + bilet"
+          - listitem [ref=e578]:
+            - img [ref=e579]
+            - generic [ref=e582]: Aylık düzenli gelir görünür olmalı (maaş/fatura)
+          - listitem [ref=e583]:
+            - img [ref=e584]
+            - generic [ref=e587]: Otel/Airbnb rezervasyonu — kesinleştirilmiş (iade edilebilir)
+          - listitem [ref=e588]:
+            - img [ref=e589]
+            - generic [ref=e592]: Uçuş rezervasyonu — onaylı (bilet zorunlu değil, rezervasyon yeterli)
+          - listitem [ref=e593]:
+            - img [ref=e594]
+            - generic [ref=e597]: Seyahat sigortası — en az 30.000€ teminat, tüm Schengen geçerli
+          - listitem [ref=e598]:
+            - img [ref=e599]
+            - generic [ref=e602]: "Türkiye bağ belgesi: iş sözleşmesi + tapu/kira sözleşmesi"
+          - listitem [ref=e603]:
+            - img [ref=e604]
+            - generic [ref=e608]: Başvurudan hemen önce bankaya büyük para yatırma
+          - listitem [ref=e609]:
+            - img [ref=e610]
+            - generic [ref=e614]: Tatil günleri için belirsiz seyahat planı sunma
+          - listitem [ref=e615]:
+            - img [ref=e616]
+            - generic [ref=e620]: Eksik belgeyle randevu iptalini bekle ve düzelt
+    - generic [ref=e621]:
+      - generic [ref=e622]:
+        - img [ref=e623]
+        - generic [ref=e625]: 2026 Genel İpuçları
+      - generic [ref=e626]:
+        - generic [ref=e627]:
+          - generic [ref=e628]: ⏰
+          - generic [ref=e629]:
+            - paragraph [ref=e630]: Boş Randevular Gece Çıkar
+            - paragraph [ref=e631]: İptal edilen rezervasyonlar genellikle sabah 08:00–09:00 ve gece 23:00–00:00'da sisteme döner. Bu saatlerde Kosmos, VFS ve iDATA portallarını kontrol et.
+        - generic [ref=e632]:
+          - generic [ref=e633]: 💶
+          - generic [ref=e634]:
+            - paragraph [ref=e635]: 2026 Vize Maliyeti ~120€
+            - paragraph [ref=e636]: 2026 itibarıyla vize ücreti 90€ + vize merkezi servis bedeli ~25-35€ = kişi başı yaklaşık 115-125€. Döviz kuru farkını hesaba kat.
+        - generic [ref=e637]:
+          - generic [ref=e638]: 📅
+          - generic [ref=e639]:
+            - paragraph [ref=e640]: 180 Gün Öncesinden Başvurabilirsin
+            - paragraph [ref=e641]: Schengen vize başvurusu seyahat tarihinden en fazla 180 gün önce (en erken), 15 gün önce (en geç) yapılabilir. Popüler ülkeler için en erken tarihe randevu al.
+        - generic [ref=e642]:
+          - generic [ref=e643]: 🇬🇷
+          - generic [ref=e644]:
+            - paragraph [ref=e645]: "En Kolay Randevu: Yunanistan"
+            - paragraph [ref=e646]: 2026'da Yunanistan özellikle Ekim–Mart döneminde randevu bulmayı en kolaylaştıran Schengen ülkesidir. Slovakya, Macaristan ve Estonya da erişilebilir seçenekler.
+        - generic [ref=e647]:
+          - generic [ref=e648]: 🏙️
+          - generic [ref=e649]:
+            - paragraph [ref=e650]: Alternatif Şehir Dene
+            - paragraph [ref=e651]: İstanbul merkezleri genellikle dolu. Ankara, İzmir, Bursa ve Antalya'daki vize merkezleri çoğunlukla daha erken slot sunar. Aynı ülke için farklı şehirlere bakabilirsin.
+        - generic [ref=e652]:
+          - generic [ref=e653]: 📋
+          - generic [ref=e654]:
+            - paragraph [ref=e655]: Güçlü Türkiye Bağı = Ret Riskini Düşürür
+            - paragraph [ref=e656]: "Konsolosluklar için en önemli belge: Türkiye'de ne bıraktığın. İş sözleşmesi, tapu/kira, araç ruhsatı, SGK belgesi — bu belgeler vizeyi güçlendirir."
+    - generic [ref=e657]:
+      - img [ref=e658]
+      - paragraph [ref=e660]: Bu rehberdeki bilgiler genel bilgilendirme amaçlıdır. Vize kuralları değişkendir — başvuru öncesi mutlaka ilgili konsolosluğun veya yetkili vize merkezinin resmi sitesini kontrol edin.
+    - generic [ref=e661]:
+      - button "Tüm Ülkeler (27)" [ref=e662]:
+        - text: Tüm Ülkeler
+        - generic [ref=e663]: (27)
+      - button "VFS Global (21)" [ref=e664]:
+        - text: VFS Global
+        - generic [ref=e665]: (21)
+      - button "iDATA (2)" [ref=e666]:
+        - text: iDATA
+        - generic [ref=e667]: (2)
+      - button "Kosmos Vize (1)" [ref=e668]:
+        - text: Kosmos Vize
+        - generic [ref=e669]: (1)
+      - button "BLS International (2)" [ref=e670]:
+        - text: BLS International
+        - generic [ref=e671]: (2)
+      - button "AS Visa Solutions (1)" [ref=e672]:
+        - text: AS Visa Solutions
+        - generic [ref=e673]: (1)
+    - generic [ref=e674]:
+      - button "🇫🇷 🇫🇷 Fransa Paris VFS Global 10-15 iş günü Zorlu Kaskad" [ref=e676]:
+        - generic: 🇫🇷
+        - generic [ref=e677]:
+          - generic [ref=e678]:
+            - generic [ref=e679]: 🇫🇷
+            - generic [ref=e680]:
+              - heading "Fransa" [level=3] [ref=e681]
+              - paragraph [ref=e682]: Paris
+          - generic [ref=e683]:
+            - generic [ref=e684]: VFS Global
+            - generic [ref=e686]: 10-15 iş günü
+            - generic [ref=e687]: Zorlu
+            - generic [ref=e692]:
+              - img [ref=e693]
+              - text: Kaskad
+        - img [ref=e696]
+      - button "🇨🇭 🇨🇭 İsviçre Zürih VFS Global 15 iş günü Orta Kaskad" [ref=e699]:
+        - generic: 🇨🇭
+        - generic [ref=e700]:
+          - generic [ref=e701]:
+            - generic [ref=e702]: 🇨🇭
+            - generic [ref=e703]:
+              - heading "İsviçre" [level=3] [ref=e704]
+              - paragraph [ref=e705]: Zürih
+          - generic [ref=e706]:
+            - generic [ref=e707]: VFS Global
+            - generic [ref=e709]: 15 iş günü
+            - generic [ref=e710]: Orta
+            - generic [ref=e715]:
+              - img [ref=e716]
+              - text: Kaskad
+        - img [ref=e719]
+      - button "🇳🇱 🇳🇱 Hollanda Amsterdam VFS Global 10-15 iş günü Orta Kaskad" [ref=e722]:
+        - generic: 🇳🇱
+        - generic [ref=e723]:
+          - generic [ref=e724]:
+            - generic [ref=e725]: 🇳🇱
+            - generic [ref=e726]:
+              - heading "Hollanda" [level=3] [ref=e727]
+              - paragraph [ref=e728]: Amsterdam
+          - generic [ref=e729]:
+            - generic [ref=e730]: VFS Global
+            - generic [ref=e732]: 10-15 iş günü
+            - generic [ref=e733]: Orta
+            - generic [ref=e738]:
+              - img [ref=e739]
+              - text: Kaskad
+        - img [ref=e742]
+      - button "🇳🇴 🇳🇴 Norveç Oslo VFS Global 10-15 iş günü Orta" [ref=e745]:
+        - generic: 🇳🇴
+        - generic [ref=e746]:
+          - generic [ref=e747]:
+            - generic [ref=e748]: 🇳🇴
+            - generic [ref=e749]:
+              - heading "Norveç" [level=3] [ref=e750]
+              - paragraph [ref=e751]: Oslo
+          - generic [ref=e752]:
+            - generic [ref=e753]: VFS Global
+            - generic [ref=e755]: 10-15 iş günü
+            - generic [ref=e756]: Orta
+        - img [ref=e762]
+      - button "🇸🇪 🇸🇪 İsveç Stockholm VFS Global 15 iş günü Orta Kaskad" [ref=e765]:
+        - generic: 🇸🇪
+        - generic [ref=e766]:
+          - generic [ref=e767]:
+            - generic [ref=e768]: 🇸🇪
+            - generic [ref=e769]:
+              - heading "İsveç" [level=3] [ref=e770]
+              - paragraph [ref=e771]: Stockholm
+          - generic [ref=e772]:
+            - generic [ref=e773]: VFS Global
+            - generic [ref=e775]: 15 iş günü
+            - generic [ref=e776]: Orta
+            - generic [ref=e781]:
+              - img [ref=e782]
+              - text: Kaskad
+        - img [ref=e785]
+      - button "🇲🇹 🇲🇹 Malta Valletta VFS Global 7-10 iş günü Kolay" [ref=e788]:
+        - generic: 🇲🇹
+        - generic [ref=e789]:
+          - generic [ref=e790]:
+            - generic [ref=e791]: 🇲🇹
+            - generic [ref=e792]:
+              - heading "Malta" [level=3] [ref=e793]
+              - paragraph [ref=e794]: Valletta
+          - generic [ref=e795]:
+            - generic [ref=e796]: VFS Global
+            - generic [ref=e798]: 7-10 iş günü
+            - generic [ref=e799]: Kolay
+        - img [ref=e805]
+      - button "🇮🇸 🇮🇸 İzlanda Reykjavik VFS Global 10 iş günü Kolay" [ref=e808]:
+        - generic: 🇮🇸
+        - generic [ref=e809]:
+          - generic [ref=e810]:
+            - generic [ref=e811]: 🇮🇸
+            - generic [ref=e812]:
+              - heading "İzlanda" [level=3] [ref=e813]
+              - paragraph [ref=e814]: Reykjavik
+          - generic [ref=e815]:
+            - generic [ref=e816]: VFS Global
+            - generic [ref=e818]: 10 iş günü
+            - generic [ref=e819]: Kolay
+        - img [ref=e825]
+      - button "🇪🇪 🇪🇪 Estonya Tallinn VFS Global 5-10 iş günü Kolay" [ref=e828]:
+        - generic: 🇪🇪
+        - generic [ref=e829]:
+          - generic [ref=e830]:
+            - generic [ref=e831]: 🇪🇪
+            - generic [ref=e832]:
+              - heading "Estonya" [level=3] [ref=e833]
+              - paragraph [ref=e834]: Tallinn
+          - generic [ref=e835]:
+            - generic [ref=e836]: VFS Global
+            - generic [ref=e838]: 5-10 iş günü
+            - generic [ref=e839]: Kolay
+        - img [ref=e845]
+      - button "🇱🇻 🇱🇻 Letonya Riga VFS Global 7-10 iş günü Kolay" [ref=e848]:
+        - generic: 🇱🇻
+        - generic [ref=e849]:
+          - generic [ref=e850]:
+            - generic [ref=e851]: 🇱🇻
+            - generic [ref=e852]:
+              - heading "Letonya" [level=3] [ref=e853]
+              - paragraph [ref=e854]: Riga
+          - generic [ref=e855]:
+            - generic [ref=e856]: VFS Global
+            - generic [ref=e858]: 7-10 iş günü
+            - generic [ref=e859]: Kolay
+        - img [ref=e865]
+      - button "🇱🇹 🇱🇹 Litvanya Vilnius VFS Global 7-10 iş günü Kolay" [ref=e868]:
+        - generic: 🇱🇹
+        - generic [ref=e869]:
+          - generic [ref=e870]:
+            - generic [ref=e871]: 🇱🇹
+            - generic [ref=e872]:
+              - heading "Litvanya" [level=3] [ref=e873]
+              - paragraph [ref=e874]: Vilnius
+          - generic [ref=e875]:
+            - generic [ref=e876]: VFS Global
+            - generic [ref=e878]: 7-10 iş günü
+            - generic [ref=e879]: Kolay
+        - img [ref=e885]
+      - button "🇸🇮 🇸🇮 Slovenya Ljubljana VFS Global 7-10 iş günü Kolay" [ref=e888]:
+        - generic: 🇸🇮
+        - generic [ref=e889]:
+          - generic [ref=e890]:
+            - generic [ref=e891]: 🇸🇮
+            - generic [ref=e892]:
+              - heading "Slovenya" [level=3] [ref=e893]
+              - paragraph [ref=e894]: Ljubljana
+          - generic [ref=e895]:
+            - generic [ref=e896]: VFS Global
+            - generic [ref=e898]: 7-10 iş günü
+            - generic [ref=e899]: Kolay
+        - img [ref=e905]
+      - button "🇭🇷 🇭🇷 Hırvatistan Dubrovnik VFS Global 10-15 iş günü Kolay" [ref=e908]:
+        - generic: 🇭🇷
+        - generic [ref=e909]:
+          - generic [ref=e910]:
+            - generic [ref=e911]: 🇭🇷
+            - generic [ref=e912]:
+              - heading "Hırvatistan" [level=3] [ref=e913]
+              - paragraph [ref=e914]: Dubrovnik
+          - generic [ref=e915]:
+            - generic [ref=e916]: VFS Global
+            - generic [ref=e918]: 10-15 iş günü
+            - generic [ref=e919]: Kolay
+        - img [ref=e925]
+      - button "🇩🇰 🇩🇰 Danimarka Kopenhag VFS Global 10-15 iş günü Orta" [ref=e928]:
+        - generic: 🇩🇰
+        - generic [ref=e929]:
+          - generic [ref=e930]:
+            - generic [ref=e931]: 🇩🇰
+            - generic [ref=e932]:
+              - heading "Danimarka" [level=3] [ref=e933]
+              - paragraph [ref=e934]: Kopenhag
+          - generic [ref=e935]:
+            - generic [ref=e936]: VFS Global
+            - generic [ref=e938]: 10-15 iş günü
+            - generic [ref=e939]: Orta
+        - img [ref=e945]
+      - button "🇫🇮 🇫🇮 Finlandiya Helsinki VFS Global 10-15 iş günü Kolay" [ref=e948]:
+        - generic: 🇫🇮
+        - generic [ref=e949]:
+          - generic [ref=e950]:
+            - generic [ref=e951]: 🇫🇮
+            - generic [ref=e952]:
+              - heading "Finlandiya" [level=3] [ref=e953]
+              - paragraph [ref=e954]: Helsinki
+          - generic [ref=e955]:
+            - generic [ref=e956]: VFS Global
+            - generic [ref=e958]: 10-15 iş günü
+            - generic [ref=e959]: Kolay
+        - img [ref=e965]
+      - button "🇦🇹 🇦🇹 Avusturya Viyana VFS Global 10-15 iş günü Orta Kaskad" [ref=e968]:
+        - generic: 🇦🇹
+        - generic [ref=e969]:
+          - generic [ref=e970]:
+            - generic [ref=e971]: 🇦🇹
+            - generic [ref=e972]:
+              - heading "Avusturya" [level=3] [ref=e973]
+              - paragraph [ref=e974]: Viyana
+          - generic [ref=e975]:
+            - generic [ref=e976]: VFS Global
+            - generic [ref=e978]: 10-15 iş günü
+            - generic [ref=e979]: Orta
+            - generic [ref=e984]:
+              - img [ref=e985]
+              - text: Kaskad
+        - img [ref=e988]
+      - button "🇧🇪 🇧🇪 Belçika Brüksel VFS Global 15 iş günü Zorlu" [ref=e991]:
+        - generic: 🇧🇪
+        - generic [ref=e992]:
+          - generic [ref=e993]:
+            - generic [ref=e994]: 🇧🇪
+            - generic [ref=e995]:
+              - heading "Belçika" [level=3] [ref=e996]
+              - paragraph [ref=e997]: Brüksel
+          - generic [ref=e998]:
+            - generic [ref=e999]: VFS Global
+            - generic [ref=e1001]: 15 iş günü
+            - generic [ref=e1002]: Zorlu
+        - img [ref=e1008]
+      - button "🇧🇬 🇧🇬 Bulgaristan Sofya VFS Global 7-10 iş günü Kolay" [ref=e1011]:
+        - generic: 🇧🇬
+        - generic [ref=e1012]:
+          - generic [ref=e1013]:
+            - generic [ref=e1014]: 🇧🇬
+            - generic [ref=e1015]:
+              - heading "Bulgaristan" [level=3] [ref=e1016]
+              - paragraph [ref=e1017]: Sofya
+          - generic [ref=e1018]:
+            - generic [ref=e1019]: VFS Global
+            - generic [ref=e1021]: 7-10 iş günü
+            - generic [ref=e1022]: Kolay
+        - img [ref=e1028]
+      - button "🇱🇺 🇱🇺 Lüksemburg Lüksemburg Şehri VFS Global 7-10 iş günü Kolay" [ref=e1031]:
+        - generic: 🇱🇺
+        - generic [ref=e1032]:
+          - generic [ref=e1033]:
+            - generic [ref=e1034]: 🇱🇺
+            - generic [ref=e1035]:
+              - heading "Lüksemburg" [level=3] [ref=e1036]
+              - paragraph [ref=e1037]: Lüksemburg Şehri
+          - generic [ref=e1038]:
+            - generic [ref=e1039]: VFS Global
+            - generic [ref=e1041]: 7-10 iş günü
+            - generic [ref=e1042]: Kolay
+        - img [ref=e1048]
+      - button "🇨🇿 🇨🇿 Çekya Prag VFS Global 10-15 iş günü Orta" [ref=e1051]:
+        - generic: 🇨🇿
+        - generic [ref=e1052]:
+          - generic [ref=e1053]:
+            - generic [ref=e1054]: 🇨🇿
+            - generic [ref=e1055]:
+              - heading "Çekya" [level=3] [ref=e1056]
+              - paragraph [ref=e1057]: Prag
+          - generic [ref=e1058]:
+            - generic [ref=e1059]: VFS Global
+            - generic [ref=e1061]: 10-15 iş günü
+            - generic [ref=e1062]: Orta
+        - img [ref=e1068]
+      - button "🇵🇱 🇵🇱 Polonya Varşova VFS Global 10-15 iş günü Kolay" [ref=e1071]:
+        - generic: 🇵🇱
+        - generic [ref=e1072]:
+          - generic [ref=e1073]:
+            - generic [ref=e1074]: 🇵🇱
+            - generic [ref=e1075]:
+              - heading "Polonya" [level=3] [ref=e1076]
+              - paragraph [ref=e1077]: Varşova
+          - generic [ref=e1078]:
+            - generic [ref=e1079]: VFS Global
+            - generic [ref=e1081]: 10-15 iş günü
+            - generic [ref=e1082]: Kolay
+        - img [ref=e1088]
+      - button "🇵🇹 🇵🇹 Portekiz Lizbon VFS Global 10-15 iş günü Kolay Kaskad" [ref=e1091]:
+        - generic: 🇵🇹
+        - generic [ref=e1092]:
+          - generic [ref=e1093]:
+            - generic [ref=e1094]: 🇵🇹
+            - generic [ref=e1095]:
+              - heading "Portekiz" [level=3] [ref=e1096]
+              - paragraph [ref=e1097]: Lizbon
+          - generic [ref=e1098]:
+            - generic [ref=e1099]: VFS Global
+            - generic [ref=e1101]: 10-15 iş günü
+            - generic [ref=e1102]: Kolay
+            - generic [ref=e1107]:
+              - img [ref=e1108]
+              - text: Kaskad
+        - img [ref=e1111]
+      - button "🇩🇪 🇩🇪 Almanya Berlin iDATA 10-15 iş günü Orta Kaskad" [ref=e1114]:
+        - generic: 🇩🇪
+        - generic [ref=e1115]:
+          - generic [ref=e1116]:
+            - generic [ref=e1117]: 🇩🇪
+            - generic [ref=e1118]:
+              - heading "Almanya" [level=3] [ref=e1119]
+              - paragraph [ref=e1120]: Berlin
+          - generic [ref=e1121]:
+            - generic [ref=e1122]: iDATA
+            - generic [ref=e1124]: 10-15 iş günü
+            - generic [ref=e1125]: Orta
+            - generic [ref=e1130]:
+              - img [ref=e1131]
+              - text: Kaskad
+        - img [ref=e1134]
+      - button "🇮🇹 🇮🇹 İtalya Roma iDATA 10-15 iş günü Orta Kaskad" [ref=e1137]:
+        - generic: 🇮🇹
+        - generic [ref=e1138]:
+          - generic [ref=e1139]:
+            - generic [ref=e1140]: 🇮🇹
+            - generic [ref=e1141]:
+              - heading "İtalya" [level=3] [ref=e1142]
+              - paragraph [ref=e1143]: Roma
+          - generic [ref=e1144]:
+            - generic [ref=e1145]: iDATA
+            - generic [ref=e1147]: 10-15 iş günü
+            - generic [ref=e1148]: Orta
+            - generic [ref=e1153]:
+              - img [ref=e1154]
+              - text: Kaskad
+        - img [ref=e1157]
+      - button "🇬🇷 🇬🇷 Yunanistan Atina Kosmos Vize 3-7 iş günü Kolay" [ref=e1160]:
+        - generic: 🇬🇷
+        - generic [ref=e1161]:
+          - generic [ref=e1162]:
+            - generic [ref=e1163]: 🇬🇷
+            - generic [ref=e1164]:
+              - heading "Yunanistan" [level=3] [ref=e1165]
+              - paragraph [ref=e1166]: Atina
+          - generic [ref=e1167]:
+            - generic [ref=e1168]: Kosmos Vize
+            - generic [ref=e1170]: 3-7 iş günü
+            - generic [ref=e1171]: Kolay
+        - img [ref=e1177]
+      - button "🇪🇸 🇪🇸 İspanya Madrid BLS International 10-15 iş günü Orta" [ref=e1180]:
+        - generic: 🇪🇸
+        - generic [ref=e1181]:
+          - generic [ref=e1182]:
+            - generic [ref=e1183]: 🇪🇸
+            - generic [ref=e1184]:
+              - heading "İspanya" [level=3] [ref=e1185]
+              - paragraph [ref=e1186]: Madrid
+          - generic [ref=e1187]:
+            - generic [ref=e1188]: BLS International
+            - generic [ref=e1190]: 10-15 iş günü
+            - generic [ref=e1191]: Orta
+        - img [ref=e1197]
+      - button "🇸🇰 🇸🇰 Slovakya Bratislava BLS International 7-10 iş günü Kolay" [ref=e1200]:
+        - generic: 🇸🇰
+        - generic [ref=e1201]:
+          - generic [ref=e1202]:
+            - generic [ref=e1203]: 🇸🇰
+            - generic [ref=e1204]:
+              - heading "Slovakya" [level=3] [ref=e1205]
+              - paragraph [ref=e1206]: Bratislava
+          - generic [ref=e1207]:
+            - generic [ref=e1208]: BLS International
+            - generic [ref=e1210]: 7-10 iş günü
+            - generic [ref=e1211]: Kolay
+        - img [ref=e1217]
+      - button "🇭🇺 🇭🇺 Macaristan Budapeşte AS Visa Solutions 7-10 iş günü Kolay" [ref=e1220]:
+        - generic: 🇭🇺
+        - generic [ref=e1221]:
+          - generic [ref=e1222]:
+            - generic [ref=e1223]: 🇭🇺
+            - generic [ref=e1224]:
+              - heading "Macaristan" [level=3] [ref=e1225]
+              - paragraph [ref=e1226]: Budapeşte
+          - generic [ref=e1227]:
+            - generic [ref=e1228]: AS Visa Solutions
+            - generic [ref=e1230]: 7-10 iş günü
+            - generic [ref=e1231]: Kolay
+        - img [ref=e1237]
+    - paragraph [ref=e1239]: 27 ülke gösteriliyor · İçerik elle küratörlenmiş ve güncel tutulmaktadır · Resmi kaynaklardan doğrulayın
+  - generic [ref=e1241]:
+    - generic [ref=e1242]:
+      - generic [ref=e1243]:
+        - img [ref=e1244]
+        - generic [ref=e1247]: Neden Ücretsiz?
+      - heading "Bilgi Herkese Açık Olmalı" [level=2] [ref=e1248]:
+        - text: Bilgi Herkese
+        - text: Açık Olmalı
+      - paragraph [ref=e1249]: Schengen vize başvurusu tamamen yasal ve kamuya açık bir süreçtir. Gerekli belgeler, başvuru adımları, randevu alma yöntemleri — bunların hepsi herkesin erişebileceği bilgilerdir. Bu siteyi, bu bilgiyi bir araya getirip herkesin kolayca ulaşabilmesi için yaptık.
+      - paragraph [ref=e1250]: "Paralı vize danışmanlık firmalarına karşı dikkatli olun: Sunulan hizmet çoğu zaman abartılı ücretlere değmeyebilir. Kaynağı belirsiz vaatler yerine doğrulanmış bilgiye güvenin."
+    - generic [ref=e1251]:
+      - generic [ref=e1252]:
+        - img [ref=e1253]
+        - generic [ref=e1255]: €0
+        - generic [ref=e1256]: Her zaman ücretsiz
+      - generic [ref=e1257]:
+        - img [ref=e1258]
+        - generic [ref=e1261]: 26+
+        - generic [ref=e1262]: Schengen ülkesi rehberi
+      - generic [ref=e1263]:
+        - img [ref=e1264]
+        - generic [ref=e1267]: Elle
+        - generic [ref=e1268]: Küratörlenmiş içerik
+      - generic [ref=e1269]:
+        - img [ref=e1270]
+        - generic [ref=e1272]: Sıfır
+        - generic [ref=e1273]: Bot veya scraping
+    - generic [ref=e1274]:
+      - generic [ref=e1275]:
+        - generic [ref=e1276]: Kıyaslama
+        - generic [ref=e1277]: Paralı Aracılar
+        - generic [ref=e1278]: SchengenPass
+      - generic [ref=e1279]:
+        - generic [ref=e1280]: Ücret
+        - generic [ref=e1281]: 500 – 1.500 €
+        - generic [ref=e1282]: Ücretsiz
+      - generic [ref=e1283]:
+        - generic [ref=e1284]: İçerik kaynağı
+        - generic [ref=e1285]: Belirsiz
+        - generic [ref=e1286]: Elle küratörlenmiş
+      - generic [ref=e1287]:
+        - generic [ref=e1288]: Bot / Scraping
+        - generic [ref=e1289]: Çoğunlukla evet
+        - generic [ref=e1290]: Hayır
+      - generic [ref=e1291]:
+        - generic [ref=e1292]: Şeffaflık
+        - generic [ref=e1293]: Neredeyse yok
+        - generic [ref=e1294]: Tam şeffaf
+      - generic [ref=e1295]:
+        - generic [ref=e1296]: Randevuyu kim alıyor?
+        - generic [ref=e1297]: Belirsiz süreç
+        - generic [ref=e1298]: Siz, doğrudan VFS'den
+    - generic [ref=e1300]:
+      - heading "\"Vize randevusu için yüksek ücretler ödemenize gerek yok.\"" [level=3] [ref=e1301]
+      - paragraph [ref=e1302]: VFS Global randevuları herkese açıktır ve başvuru süreci resmi konsolosluk kanalları üzerinden yürütülür. Bu site, bu süreci kolaylaştıracak bilgiyi ücretsiz, şeffaf ve bot kullanmadan sunmak için var. İçerik topluluk katkıları ve elle küratörlemeyle güncellenir.
+      - link "Ülke Rehberini İncele →" [ref=e1303] [cursor=pointer]:
+        - /url: "#guide"
+        - button "Ülke Rehberini İncele →" [ref=e1304]
+  - generic [ref=e1306]:
+    - generic [ref=e1307]:
+      - generic [ref=e1309]: Sık Sorulan Sorular
+      - heading "Merak Ettikleriniz" [level=2] [ref=e1310]
+    - generic [ref=e1311]:
+      - button "SchengenPass nedir?" [ref=e1313]:
+        - generic [ref=e1314]: SchengenPass nedir?
+        - img [ref=e1315]
+      - button "Bu site gerçekten ücretsiz mi?" [ref=e1317]:
+        - generic [ref=e1318]: Bu site gerçekten ücretsiz mi?
+        - img [ref=e1319]
+      - button "Scraping veya bot kullanıyor musunuz?" [ref=e1321]:
+        - generic [ref=e1322]: Scraping veya bot kullanıyor musunuz?
+        - img [ref=e1323]
+      - button "Bilgiler güncel ve doğru mu?" [ref=e1325]:
+        - generic [ref=e1326]: Bilgiler güncel ve doğru mu?
+        - img [ref=e1327]
+      - button "İçeriği kim hazırlıyor?" [ref=e1329]:
+        - generic [ref=e1330]: İçeriği kim hazırlıyor?
+        - img [ref=e1331]
+      - button "Paralı vize danışmanlık firmalarına karşı neden uyarıyorsunuz?" [ref=e1333]:
+        - generic [ref=e1334]: Paralı vize danışmanlık firmalarına karşı neden uyarıyorsunuz?
+        - img [ref=e1335]
+      - button "Siteye nasıl katkıda bulunabilirim?" [ref=e1337]:
+        - generic [ref=e1338]: Siteye nasıl katkıda bulunabilirim?
+        - img [ref=e1339]
+  - generic [ref=e1341]:
+    - generic [ref=e1342]:
+      - generic [ref=e1343]:
+        - generic [ref=e1344]:
+          - generic [ref=e1346]: S
+          - generic [ref=e1347]: SchengenPass
+        - paragraph [ref=e1348]: Türkiye'den Schengen vize başvurusu yapacaklar için ücretsiz, topluluk temelli bir rehber. Scraping yok, bot yok, ücret yok.
+        - link "info@schengenpass.com" [ref=e1350] [cursor=pointer]:
+          - /url: mailto:info@schengenpass.com
+          - img [ref=e1351]
+          - text: info@schengenpass.com
+        - generic [ref=e1354]:
+          - paragraph [ref=e1355]: İlham Aldığımız Kaynaklar
+          - generic [ref=e1356]:
+            - link "@gokdenizgok" [ref=e1357] [cursor=pointer]:
+              - /url: https://www.instagram.com/gokdenizgok
+              - img [ref=e1358]
+              - text: "@gokdenizgok"
+            - link "@ucuzarota" [ref=e1362] [cursor=pointer]:
+              - /url: https://www.instagram.com/ucuzarota
+              - img [ref=e1363]
+              - text: "@ucuzarota"
+            - link "@ucuza.ucak" [ref=e1367] [cursor=pointer]:
+              - /url: https://www.instagram.com/ucuza.ucak
+              - img [ref=e1368]
+              - text: "@ucuza.ucak"
+            - link "ucuzaucak.net" [ref=e1372] [cursor=pointer]:
+              - /url: https://ucuzaucak.net
+              - img [ref=e1373]
+              - text: ucuzaucak.net
+      - generic [ref=e1377]:
+        - heading "Site" [level=4] [ref=e1378]
+        - list [ref=e1379]:
+          - listitem [ref=e1380]:
+            - link "Randevu Paylaşımları" [ref=e1381] [cursor=pointer]:
+              - /url: "#appointments"
+          - listitem [ref=e1382]:
+            - link "Uygun Uçuşlar" [ref=e1383] [cursor=pointer]:
+              - /url: "#flights"
+          - listitem [ref=e1384]:
+            - link "Ülke Rehberi" [ref=e1385] [cursor=pointer]:
+              - /url: "#guide"
+      - generic [ref=e1386]:
+        - heading "Yasal" [level=4] [ref=e1387]
+        - list [ref=e1388]:
+          - listitem [ref=e1389]:
+            - link "Gizlilik Politikası" [ref=e1390] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e1391]:
+            - link "Kullanım Koşulları" [ref=e1392] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e1393]:
+            - link "KVKK" [ref=e1394] [cursor=pointer]:
+              - /url: "#"
+        - heading "Ülkeler" [level=4] [ref=e1395]
+        - list [ref=e1396]:
+          - listitem [ref=e1397]:
+            - link "Fransa Vizesi" [ref=e1398] [cursor=pointer]:
+              - /url: "#guide"
+          - listitem [ref=e1399]:
+            - link "Hollanda Vizesi" [ref=e1400] [cursor=pointer]:
+              - /url: "#guide"
+          - listitem [ref=e1401]:
+            - link "Norveç Vizesi" [ref=e1402] [cursor=pointer]:
+              - /url: "#guide"
+          - listitem [ref=e1403]:
+            - link "İsviçre Vizesi" [ref=e1404] [cursor=pointer]:
+              - /url: "#guide"
+          - listitem [ref=e1405]:
+            - link "İsveç Vizesi" [ref=e1406] [cursor=pointer]:
+              - /url: "#guide"
+    - generic [ref=e1407]:
+      - paragraph [ref=e1408]: © 2025 SchengenPass. Tüm hakları saklıdır.
+      - paragraph [ref=e1409]: SchengenPass, VFS Global veya herhangi bir konsolosluğun resmi temsilcisi değildir. Sunulan bilgiler bilgilendirme amaçlıdır; resmi kaynaklardan doğrulayın.

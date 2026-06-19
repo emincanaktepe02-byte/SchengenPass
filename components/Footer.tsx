@@ -3,17 +3,17 @@ import { Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer style={{ background: "linear-gradient(to bottom, #030b14, #020918)" }} className="border-t border-white/5">
+    <footer className="bg-[#0A1628] border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#C9A84C] to-[#B8933F] flex items-center justify-center shadow-sm">
                 <span className="text-[10px] font-bold text-white">SP</span>
               </div>
               <span className="font-light text-white text-base tracking-tight">
-                Schengen<span className="font-semibold gradient-text-cyan-violet">Pass</span>
+                Schengen<span className="font-semibold gradient-text">Pass</span>
               </span>
             </div>
             <p className="text-white/30 text-sm font-light leading-relaxed max-w-xs">
@@ -23,7 +23,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2 mt-6">
               <a
                 href="mailto:info@schengenpass.com"
-                className="flex items-center gap-2 text-white/25 text-xs hover:text-[#00d4ff] transition-colors"
+                className="flex items-center gap-2 text-white/25 text-xs hover:text-[#C9A84C] transition-colors"
               >
                 <Mail size={12} />
                 info@schengenpass.com
@@ -42,7 +42,7 @@ export default function Footer() {
                 { href: "#blog", label: "Blog" },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/25 text-xs font-light hover:text-white/60 transition-colors">
+                  <Link href={l.href} className="text-white/25 text-xs font-light hover:text-[#C9A84C] transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {["Gizlilik Politikası", "Kullanım Koşulları", "KVKK"].map((l) => (
                 <li key={l}>
-                  <a href="#" className="text-white/25 text-xs font-light hover:text-white/50 transition-colors">
+                  <a href="#" className="text-white/25 text-xs font-light hover:text-[#C9A84C]/70 transition-colors">
                     {l}
                   </a>
                 </li>
@@ -66,7 +66,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {["Yunanistan", "Malta", "Estonya", "Macaristan", "Almanya"].map((c) => (
                 <li key={c}>
-                  <a href="#guide" className="text-white/25 text-xs font-light hover:text-white/50 transition-colors">
+                  <a href="#guide" className="text-white/25 text-xs font-light hover:text-[#C9A84C]/70 transition-colors">
                     {c} Vizesi
                   </a>
                 </li>

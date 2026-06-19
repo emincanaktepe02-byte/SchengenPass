@@ -1,0 +1,13 @@
+[   15435ms] [WARNING] [GPT] PubAdsService.disableInitialLoad is deprecated, use googletag.setConfig({disableInitialLoad: ...}) instead.
+https://goo.gle/gpt-message#170 @ https://www.skyscanner.com.tr/transport/flights/ist/ath/?:36
+[   15438ms] [WARNING] [GPT] Slot.setTargeting is deprecated, use Slot.setConfig({targeting: ...}) instead.
+https://goo.gle/gpt-message#171 @ https://www.skyscanner.com.tr/transport/flights/ist/ath/?:36
+[   23331ms] [WARNING] [GPT] Using deprecated googletag.encryptedSignalProviders. Please use googletag.secureSignalProviders instead.
+https://goo.gle/gpt-message#155 @ https://www.skyscanner.com.tr/transport/flights/ist/ath/?:36
+[   25996ms] [WARNING] [GPT] Using deprecated googletag.encryptedSignalProviders. Please use googletag.secureSignalProviders instead.
+https://goo.gle/gpt-message#155 @ https://www.skyscanner.com.tr/transport/flights/ist/ath/?:36
+[   47996ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cm.g.doubleclick.net/pixel?google_nid=openx&google_hm=Mjc2MjRmYzAtNzI2OC0yZTFjLWM2MzktMzcyNjZmNDM1NGJh:0
+[   48002ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cm.g.doubleclick.net/pixel?google_nid=rubicon&google_hm=NjUwYWI0YzJmY2QyMWE4MDNiYjI0MmQ1MTcyMmNmZGIxZmU0ZWYzOQ&gdpr=0:0
+[   48004ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cm.g.doubleclick.net/pixel?google_nid=rubicon&google_cm&google_sc&process_consent=T&gdpr=0:0
+[   48004ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cm.g.doubleclick.net/pixel?google_nid=rp&google_cm&google_hm=TVFLOEIyMUQtMjMtSThKTw==&gdpr=0:0
+[   48004ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://cm.g.doubleclick.net/pixel?google_nid=openx&google_cm&google_sc:0

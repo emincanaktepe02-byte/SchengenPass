@@ -14,12 +14,12 @@ import type { CenterOperator } from "@/lib/types";
 const OPERATOR_STYLE: Record<CenterOperator, {
   border: string; badge: string; dot: string; filterActive: string;
 }> = {
-  "VFS Global": { border: "border-l-white/20", badge: "bg-white/5 border border-white/10 text-white/50", dot: "bg-white/30", filterActive: "bg-white/10 border-white/20 text-white/70" },
-  "iData": { border: "border-l-violet-500/50", badge: "bg-violet-500/10 border border-violet-500/25 text-violet-300/80", dot: "bg-violet-400", filterActive: "bg-violet-500/15 border-violet-400/30 text-violet-300" },
-  "Kosmos": { border: "border-l-blue-500/50", badge: "bg-blue-500/10 border border-blue-500/25 text-blue-300/80", dot: "bg-blue-400", filterActive: "bg-blue-500/15 border-blue-400/30 text-blue-300" },
-  "BLS International": { border: "border-l-orange-500/50", badge: "bg-orange-500/10 border border-orange-500/25 text-orange-300/80", dot: "bg-orange-400", filterActive: "bg-orange-500/15 border-orange-400/30 text-orange-300" },
-  "AS Visa Solutions": { border: "border-l-emerald-500/50", badge: "bg-emerald-500/10 border border-emerald-500/25 text-emerald-300/80", dot: "bg-emerald-400", filterActive: "bg-emerald-500/15 border-emerald-400/30 text-emerald-300" },
-  "Konsolosluk": { border: "border-l-yellow-500/50", badge: "bg-yellow-500/10 border border-yellow-500/25 text-yellow-300/80", dot: "bg-yellow-400", filterActive: "bg-yellow-500/15 border-yellow-400/30 text-yellow-300" },
+  "VFS Global": { border: "border-l-[#0A1628]/20", badge: "bg-[#0A1628]/4 border border-[#0A1628]/10 text-[#0A1628]/55", dot: "bg-[#0A1628]/30", filterActive: "bg-[#0A1628]/8 border-[#0A1628]/18 text-[#0A1628]/70" },
+  "iData": { border: "border-l-violet-500/40", badge: "bg-violet-50 border border-violet-200 text-violet-700", dot: "bg-violet-500", filterActive: "bg-violet-50 border-violet-300 text-violet-700" },
+  "Kosmos": { border: "border-l-[#0077B6]/40", badge: "bg-sky-50 border border-sky-200 text-sky-700", dot: "bg-sky-500", filterActive: "bg-sky-50 border-sky-300 text-sky-700" },
+  "BLS International": { border: "border-l-orange-500/40", badge: "bg-orange-50 border border-orange-200 text-orange-700", dot: "bg-orange-500", filterActive: "bg-orange-50 border-orange-300 text-orange-700" },
+  "AS Visa Solutions": { border: "border-l-emerald-500/40", badge: "bg-emerald-50 border border-emerald-200 text-emerald-700", dot: "bg-emerald-500", filterActive: "bg-emerald-50 border-emerald-300 text-emerald-700" },
+  "Konsolosluk": { border: "border-l-[#C9A84C]/40", badge: "bg-amber-50 border border-amber-200 text-amber-700", dot: "bg-amber-500", filterActive: "bg-amber-50 border-amber-300 text-amber-700" },
 };
 
 const OPERATOR_LABELS: Record<CenterOperator, string> = {
@@ -49,14 +49,15 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: Math.min(index * 0.03, 0.3) }}
-      className="rounded-2xl overflow-hidden border border-white/8 hover:border-white/15 transition-all duration-200"
+      className="rounded-2xl overflow-hidden border border-[#0A1628]/7 hover:border-[#C9A84C]/30 hover:shadow-md transition-all duration-200 bg-white"
+      style={{ boxShadow: "0 1px 4px rgba(10,22,40,0.04)" }}
     >
       {/* Card header with country gradient background */}
       <button
         onClick={() => setOpen(!open)}
         className="w-full text-left relative overflow-hidden"
         style={{
-          background: `linear-gradient(135deg, ${g1}35 0%, #111111 50%, ${g2}20 100%)`,
+          background: `linear-gradient(135deg, ${g1}12 0%, #ffffff 50%, ${g2}08 100%)`,
         }}
       >
         {/* Decorative large flag */}
@@ -72,10 +73,10 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
           <div className="flex items-start gap-3 mb-4">
             <span className="text-4xl leading-none">{country.flag}</span>
             <div>
-              <h3 className="text-xl font-semibold text-white leading-tight tracking-tight">
+              <h3 className="text-xl font-semibold text-[#0A1628] leading-tight tracking-tight">
                 {country.name}
               </h3>
-              <p className="text-sm text-white/40 font-light mt-0.5">{country.popularCity}</p>
+              <p className="text-sm text-[#0A1628]/40 font-light mt-0.5">{country.popularCity}</p>
             </div>
           </div>
 
@@ -85,13 +86,13 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
               <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${style.dot}`} />
               {operatorLabel}
             </span>
-            <span className="inline-flex items-center gap-1 text-[11px] bg-white/5 border border-white/10 rounded-full px-2.5 py-1 text-white/40">
+            <span className="inline-flex items-center gap-1 text-[11px] bg-[#0A1628]/4 border border-[#0A1628]/8 rounded-full px-2.5 py-1 text-[#0A1628]/45">
               {country.processingTime}
             </span>
-            <span className={`inline-flex items-center gap-1.5 text-[11px] rounded-full px-2.5 py-1 bg-white/5 border border-white/10 ${diff.color}`}>
+            <span className={`inline-flex items-center gap-1.5 text-[11px] rounded-full px-2.5 py-1 bg-[#0A1628]/4 border border-[#0A1628]/8 ${diff.color}`}>
               <span className="flex gap-0.5">
                 {diff.bars.map((filled, i) => (
-                  <span key={i} className={`block w-1 h-2.5 rounded-[2px] ${filled ? diff.color.replace("text-", "bg-") : "bg-white/10"}`} />
+                  <span key={i} className={`block w-1 h-2.5 rounded-[2px] ${filled ? diff.color.replace("text-", "bg-") : "bg-[#0A1628]/10"}`} />
                 ))}
               </span>
               {diff.label}
@@ -109,7 +110,7 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
         <div className="absolute bottom-4 right-5 z-10">
           <ChevronDown
             size={16}
-            className={`text-white/25 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            className={`text-[#0A1628]/25 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           />
         </div>
       </button>
@@ -122,17 +123,17 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden bg-[#111111]"
+            className="overflow-hidden bg-[#FAF9F7]"
           >
-            <div className="px-6 py-5 space-y-5 border-t border-white/6">
+            <div className="px-6 py-5 space-y-5 border-t border-[#0A1628]/5">
               {/* Required documents */}
               <div>
-                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-3 font-medium">
+                <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-3 font-medium">
                   📋 Gerekli Belgeler
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {country.requirements.map((req, i) => (
-                    <span key={i} className="text-[11px] bg-white/[0.04] border border-white/8 rounded-full px-3 py-1 text-white/50">
+                    <span key={i} className="text-[11px] bg-white border border-[#0A1628]/8 rounded-full px-3 py-1 text-[#0A1628]/55">
                       {req}
                     </span>
                   ))}
@@ -141,18 +142,18 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
 
               {/* Bank requirements */}
               <div>
-                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
+                <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
                   <CreditCard size={10} />
                   Banka & Finansal Gereksinimler
                 </p>
-                <p className="text-[13px] text-white/55 font-light leading-relaxed">
+                <p className="text-[13px] text-[#0A1628]/55 font-light leading-relaxed">
                   {country.bankRequirements}
                 </p>
               </div>
 
               {/* Rejection reasons */}
               <div>
-                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
+                <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
                   <ShieldAlert size={10} />
                   Red Riskleri & Çözümleri
                 </p>
@@ -161,13 +162,13 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
                     const [risk, solution] = reason.includes("→") ? reason.split("→") : [reason, null];
                     return (
                       <li key={i} className="flex items-start gap-2.5">
-                        <XCircle size={12} className="text-red-400/50 shrink-0 mt-0.5" />
-                        <span className="text-[12px] text-white/45 font-light leading-relaxed">
-                          <span className="text-white/60">{risk.trim()}</span>
+                        <XCircle size={12} className="text-red-500/50 shrink-0 mt-0.5" />
+                        <span className="text-[12px] text-[#0A1628]/45 font-light leading-relaxed">
+                          <span className="text-[#0A1628]/65">{risk.trim()}</span>
                           {solution && (
                             <>
-                              <ArrowRight size={10} className="inline mx-1 text-white/20" />
-                              <span className="text-emerald-400/70">{solution.trim()}</span>
+                              <ArrowRight size={10} className="inline mx-1 text-[#0A1628]/20" />
+                              <span className="text-emerald-700/70">{solution.trim()}</span>
                             </>
                           )}
                         </span>
@@ -180,14 +181,14 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
               {/* Tips */}
               {country.tips.length > 0 && (
                 <div>
-                  <p className="text-[10px] text-white/30 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
+                  <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-3 font-medium flex items-center gap-1.5">
                     <Lightbulb size={10} />
                     İpuçları
                   </p>
                   <ul className="space-y-2">
                     {country.tips.map((tip, i) => (
-                      <li key={i} className="flex items-start gap-2 text-[12px] text-white/45 font-light leading-relaxed">
-                        <CheckCircle2 size={11} className="text-white/20 shrink-0 mt-0.5" />
+                      <li key={i} className="flex items-start gap-2 text-[12px] text-[#0A1628]/50 font-light leading-relaxed">
+                        <CheckCircle2 size={11} className="text-[#C9A84C]/60 shrink-0 mt-0.5" />
                         <span>{tip}</span>
                       </li>
                     ))}
@@ -197,11 +198,11 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
 
               {/* Centers */}
               <div>
-                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2 font-medium flex items-center gap-1.5">
+                <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-2 font-medium flex items-center gap-1.5">
                   <MapPin size={10} />
                   Başvuru Merkezleri
                 </p>
-                <p className="text-[12px] text-white/40 font-light">{country.centers.join(" · ")}</p>
+                <p className="text-[12px] text-[#0A1628]/45 font-light">{country.centers.join(" · ")}</p>
               </div>
 
               {/* Official link */}
@@ -252,21 +253,22 @@ function ApprovalRatesSection() {
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="mb-14 rounded-2xl border border-white/8 overflow-hidden"
+      className="mb-14 rounded-2xl border border-[#0A1628]/7 overflow-hidden bg-white"
+      style={{ boxShadow: "0 2px 16px rgba(10,22,40,0.05)" }}
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-emerald-500/8 to-blue-500/8 border-b border-white/6 px-8 py-6">
-        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 mb-4">
-          <span className="text-[10px] text-emerald-400 font-medium uppercase tracking-wider">2023 AB Schengen İstatistikleri</span>
+      <div className="bg-gradient-to-r from-emerald-50 to-sky-50 border-b border-[#0A1628]/6 px-8 py-6">
+        <div className="inline-flex items-center gap-2 bg-emerald-100 border border-emerald-200 rounded-full px-3 py-1 mb-4">
+          <span className="text-[10px] text-emerald-700 font-medium uppercase tracking-wider">2023 AB Schengen İstatistikleri</span>
         </div>
         <h3
-          className="text-2xl md:text-3xl font-light text-white tracking-tight leading-tight mb-2"
+          className="text-2xl md:text-3xl font-light text-[#0A1628] tracking-tight leading-tight mb-2"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
           Onay & Red Oranları
           <span className="italic ml-2">— Ülkelere Göre</span>
         </h3>
-        <p className="text-white/45 font-light text-sm leading-relaxed max-w-2xl">
+        <p className="text-[#0A1628]/45 font-light text-sm leading-relaxed max-w-2xl">
           Türkiye&apos;den yapılan Schengen vize başvurularında 2023 yılı AB verilerine göre ülke bazlı
           onay ve red oranları. Red oranı yüksek ülkeler CASCADE&apos;i en tutarlı uygulayan ülkelerdir.
         </p>
@@ -281,36 +283,36 @@ function ApprovalRatesSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: Math.min(i * 0.04, 0.3) }}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-white/[0.03] border border-white/6 rounded-xl hover:border-white/12 transition-all"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-[#FAF9F7] border border-[#0A1628]/6 rounded-xl hover:border-[#C9A84C]/25 transition-all"
             >
               {/* Flag + name */}
               <div className="flex items-center gap-2.5 shrink-0 w-36">
                 <span className="text-2xl">{item.flag}</span>
                 <div>
-                  <p className="text-sm font-medium text-white/85">{item.name}</p>
-                  <p className="text-[10px] text-white/30">{item.operator}</p>
+                  <p className="text-sm font-medium text-[#0A1628]/80">{item.name}</p>
+                  <p className="text-[10px] text-[#0A1628]/35">{item.operator}</p>
                 </div>
               </div>
 
               {/* Progress bar */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <div className="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
+                  <div className="flex-1 bg-[#0A1628]/6 rounded-full h-2 overflow-hidden">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-700"
                       style={{ width: `${item.approvalRate}%` }}
                     />
                   </div>
-                  <span className="text-xs font-semibold text-emerald-400 shrink-0 w-10 text-right">%{item.approvalRate}</span>
-                  <span className="text-xs text-red-400/70 shrink-0 w-10">-%{item.rejectionRate}</span>
+                  <span className="text-xs font-semibold text-emerald-700 shrink-0 w-10 text-right">%{item.approvalRate}</span>
+                  <span className="text-xs text-red-500/60 shrink-0 w-10">-%{item.rejectionRate}</span>
                 </div>
-                <p className="text-[11px] text-white/30 font-light leading-tight">{item.note}</p>
+                <p className="text-[11px] text-[#0A1628]/35 font-light leading-tight">{item.note}</p>
               </div>
             </motion.div>
           ))}
         </div>
 
-        <p className="mt-5 text-[11px] text-white/20 font-light text-center">
+        <p className="mt-5 text-[11px] text-[#0A1628]/25 font-light text-center">
           Kaynak: AB Schengen İstatistikleri 2023 · Oranlar Türkiye kaynaklı başvurular için yaklaşık değerlerdir
         </p>
       </div>
@@ -321,10 +323,10 @@ function ApprovalRatesSection() {
 // ── CASCADE rule visual ───────────────────────────────────────────────────────
 
 const CASCADE_STEPS = [
-  { step: "1.", label: "İlk Başvuru", sub: "Tek/çift girişli", note: "Seyahat süresi kadar", color: "text-white/60" },
-  { step: "2.", label: "1 Yıl Çok Girişli", sub: "İlk vizeni doğru kullandıysan", note: "Schengen'de serbestlik", color: "text-blue-400" },
-  { step: "3.", label: "2 Yıl Çok Girişli", sub: "1 yıllık vizeni doğru kullandıysan", note: "Uzun vadeli planlama", color: "text-violet-400" },
-  { step: "4.", label: "5 Yıl Çok Girişli", sub: "2 yıllık vizeni doğru kullandıysan", note: "Tam CASCADE avantajı", color: "text-amber-400" },
+  { step: "1.", label: "İlk Başvuru", sub: "Tek/çift girişli", note: "Seyahat süresi kadar", color: "text-[#0A1628]/55" },
+  { step: "2.", label: "1 Yıl Çok Girişli", sub: "İlk vizeni doğru kullandıysan", note: "Schengen'de serbestlik", color: "text-[#0077B6]" },
+  { step: "3.", label: "2 Yıl Çok Girişli", sub: "1 yıllık vizeni doğru kullandıysan", note: "Uzun vadeli planlama", color: "text-violet-600" },
+  { step: "4.", label: "5 Yıl Çok Girişli", sub: "2 yıllık vizeni doğru kullandıysan", note: "Tam CASCADE avantajı", color: "text-[#C9A84C]" },
 ];
 
 const CASCADE_RULES = [
@@ -350,21 +352,22 @@ function CascadeSection() {
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="mb-14 rounded-2xl border border-white/8 overflow-hidden"
+      className="mb-14 rounded-2xl border border-[#0A1628]/7 overflow-hidden bg-white"
+      style={{ boxShadow: "0 2px 16px rgba(10,22,40,0.05)" }}
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-amber-500/8 to-violet-500/8 border-b border-white/6 px-8 py-6">
-        <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1 mb-4">
-          <span className="text-[10px] text-amber-400 font-medium uppercase tracking-wider">2024–2026 AB Vize Kodu</span>
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-[#0A1628]/6 px-8 py-6">
+        <div className="inline-flex items-center gap-2 bg-amber-100 border border-amber-200 rounded-full px-3 py-1 mb-4">
+          <span className="text-[10px] text-amber-700 font-medium uppercase tracking-wider">2024–2026 AB Vize Kodu</span>
         </div>
         <h3
-          className="text-2xl md:text-3xl font-light text-white tracking-tight leading-tight mb-2"
+          className="text-2xl md:text-3xl font-light text-[#0A1628] tracking-tight leading-tight mb-2"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
           CASCADE Kuralı
           <span className="italic ml-2">— Vize Kademeleme Sistemi</span>
         </h3>
-        <p className="text-white/45 font-light text-sm leading-relaxed max-w-2xl">
+        <p className="text-[#0A1628]/45 font-light text-sm leading-relaxed max-w-2xl">
           AB Vize Kodu Madde 24/2 uyarınca: Schengen vizeni kurallara uygun her kullanımda
           bir üst basamağa geçersin. Doğru kullanım = uzun süreli çok girişli vize.
         </p>
@@ -373,20 +376,20 @@ function CascadeSection() {
       <div className="p-6 md:p-8 grid md:grid-cols-2 gap-8">
         {/* Step progression */}
         <div>
-          <p className="text-[11px] text-white/30 uppercase tracking-wider mb-5 font-medium">Kademeleme Basamakları</p>
+          <p className="text-[11px] text-[#0A1628]/35 uppercase tracking-wider mb-5 font-medium">Kademeleme Basamakları</p>
           <div className="space-y-3">
             {CASCADE_STEPS.map((s, i) => (
               <div key={i} className="flex items-start gap-4">
                 <div className="flex flex-col items-center shrink-0">
                   <span className={`text-lg font-bold ${s.color}`}>{s.step}</span>
                   {i < CASCADE_STEPS.length - 1 && (
-                    <div className="w-px h-6 bg-white/8 mt-1" />
+                    <div className="w-px h-6 bg-[#0A1628]/8 mt-1" />
                   )}
                 </div>
                 <div className="pb-1">
                   <p className={`text-base font-semibold ${s.color} leading-tight`}>{s.label}</p>
-                  <p className="text-[12px] text-white/35 font-light mt-0.5">{s.sub}</p>
-                  <p className="text-[11px] text-white/20 mt-0.5">{s.note}</p>
+                  <p className="text-[12px] text-[#0A1628]/40 font-light mt-0.5">{s.sub}</p>
+                  <p className="text-[11px] text-[#0A1628]/25 mt-0.5">{s.note}</p>
                 </div>
               </div>
             ))}
@@ -396,20 +399,20 @@ function CascadeSection() {
         {/* Rules + best countries */}
         <div className="space-y-6">
           <div>
-            <p className="text-[11px] text-white/30 uppercase tracking-wider mb-4 font-medium">CASCADE&apos;i Koruyan Prensipler</p>
+            <p className="text-[11px] text-[#0A1628]/35 uppercase tracking-wider mb-4 font-medium">CASCADE&apos;i Koruyan Prensipler</p>
             <ul className="space-y-2.5">
               {CASCADE_RULES.map((rule, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <CheckCircle2 size={13} className="text-emerald-400/60 shrink-0 mt-0.5" />
-                  <span className="text-[13px] text-white/55 font-light leading-relaxed">{rule}</span>
+                  <CheckCircle2 size={13} className="text-emerald-600/60 shrink-0 mt-0.5" />
+                  <span className="text-[13px] text-[#0A1628]/55 font-light leading-relaxed">{rule}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p className="text-[11px] text-white/30 uppercase tracking-wider mb-4 font-medium">
-              <Star size={10} className="inline mr-1 text-amber-400" />
+            <p className="text-[11px] text-[#0A1628]/35 uppercase tracking-wider mb-4 font-medium">
+              <Star size={10} className="inline mr-1 text-[#C9A84C]" />
               CASCADE İçin En Uyumlu Ülkeler
             </p>
             <div className="space-y-2">
@@ -417,8 +420,8 @@ function CascadeSection() {
                 <div key={i} className="flex items-center gap-2.5">
                   <span className="text-lg">{c.flag}</span>
                   <div>
-                    <span className="text-sm text-white/70 font-medium">{c.name}</span>
-                    <span className="text-[11px] text-white/30 ml-2">{c.note}</span>
+                    <span className="text-sm text-[#0A1628]/70 font-medium">{c.name}</span>
+                    <span className="text-[11px] text-[#0A1628]/35 ml-2">{c.note}</span>
                   </div>
                 </div>
               ))}
@@ -464,35 +467,35 @@ function FirstTimerSection() {
       className="mb-14 grid md:grid-cols-2 gap-6"
     >
       {/* İlk başvuru panel */}
-      <div className="rounded-2xl border border-emerald-500/15 bg-emerald-500/[0.03] overflow-hidden">
-        <div className="px-6 py-5 border-b border-emerald-500/10">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 mb-3">
-            <span className="text-[10px] text-emerald-400 font-medium uppercase tracking-wider">İlk Schengen Başvurusu</span>
+      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 overflow-hidden">
+        <div className="px-6 py-5 border-b border-emerald-100">
+          <div className="inline-flex items-center gap-2 bg-emerald-100 border border-emerald-200 rounded-full px-3 py-1 mb-3">
+            <span className="text-[10px] text-emerald-700 font-medium uppercase tracking-wider">İlk Schengen Başvurusu</span>
           </div>
-          <h3 className="text-xl font-semibold text-white/90 mb-1">Nereden Başlamalı?</h3>
-          <p className="text-sm text-white/40 font-light leading-relaxed">
+          <h3 className="text-xl font-semibold text-[#0A1628]/85 mb-1">Nereden Başlamalı?</h3>
+          <p className="text-sm text-[#0A1628]/45 font-light leading-relaxed">
             İlk Schengen için randevu kolaylığı, hızlı işlem ve düşük red oranına sahip ülkeleri tercih et.
           </p>
         </div>
         <div className="p-6 space-y-5">
           <div>
-            <p className="text-[10px] text-white/25 uppercase tracking-wider mb-3">Önerilen Ülkeler (Kolaydan Zorluya)</p>
+            <p className="text-[10px] text-[#0A1628]/35 uppercase tracking-wider mb-3">Önerilen Ülkeler (Kolaydan Zorluya)</p>
             <div className="space-y-2.5">
               {FIRST_TIME_EASIEST.map((c, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <span className="text-xl shrink-0">{c.flag}</span>
                   <div>
-                    <span className="text-sm text-white/75 font-medium">{c.name}</span>
-                    <p className="text-[11px] text-white/35 font-light">{c.why}</p>
+                    <span className="text-sm text-[#0A1628]/75 font-medium">{c.name}</span>
+                    <p className="text-[11px] text-[#0A1628]/40 font-light">{c.why}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-amber-500/5 border border-amber-500/15 rounded-xl p-4">
-            <p className="text-[12px] text-amber-300/70 font-light leading-relaxed">
-              <span className="font-semibold text-amber-300/90">İpucu:</span> İlk vizende hedef ülkende en az
+          <div className="bg-amber-100 border border-amber-200 rounded-xl p-4">
+            <p className="text-[12px] text-amber-800/80 font-light leading-relaxed">
+              <span className="font-semibold text-amber-800">İpucu:</span> İlk vizende hedef ülkende en az
               3-4 gece konak planla. Kısa konaklamalar şüphe uyandırabilir.
             </p>
           </div>
@@ -500,23 +503,23 @@ function FirstTimerSection() {
       </div>
 
       {/* Belge kontrol listesi */}
-      <div className="rounded-2xl border border-white/8 bg-[#111111] overflow-hidden">
-        <div className="px-6 py-5 border-b border-white/6">
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1 mb-3">
-            <span className="text-[10px] text-white/50 font-medium uppercase tracking-wider">Belge Kontrol Listesi</span>
+      <div className="rounded-2xl border border-[#0A1628]/7 bg-white overflow-hidden" style={{ boxShadow: "0 1px 4px rgba(10,22,40,0.04)" }}>
+        <div className="px-6 py-5 border-b border-[#0A1628]/5 bg-[#FAF9F7]">
+          <div className="inline-flex items-center gap-2 bg-white border border-[#0A1628]/8 rounded-full px-3 py-1 mb-3">
+            <span className="text-[10px] text-[#0A1628]/50 font-medium uppercase tracking-wider">Belge Kontrol Listesi</span>
           </div>
-          <h3 className="text-xl font-semibold text-white/90 mb-1">Eksiksiz Başvuru</h3>
-          <p className="text-sm text-white/40 font-light">Yeşil = yapmalısın · Kırmızı = yapma</p>
+          <h3 className="text-xl font-semibold text-[#0A1628]/85 mb-1">Eksiksiz Başvuru</h3>
+          <p className="text-sm text-[#0A1628]/40 font-light">Yeşil = yapmalısın · Kırmızı = yapma</p>
         </div>
         <div className="p-6">
           <ul className="space-y-2.5">
             {FIRST_TIME_CHECKLIST.map((c, i) => (
               <li key={i} className="flex items-start gap-2.5">
                 {c.ok
-                  ? <CheckCircle2 size={13} className="text-emerald-400/70 shrink-0 mt-0.5" />
-                  : <XCircle size={13} className="text-red-400/70 shrink-0 mt-0.5" />
+                  ? <CheckCircle2 size={13} className="text-emerald-600/70 shrink-0 mt-0.5" />
+                  : <XCircle size={13} className="text-red-500/60 shrink-0 mt-0.5" />
                 }
-                <span className={`text-[12px] font-light leading-relaxed ${c.ok ? "text-white/60" : "text-red-300/60"}`}>
+                <span className={`text-[12px] font-light leading-relaxed ${c.ok ? "text-[#0A1628]/60" : "text-red-600/60"}`}>
                   {c.item}
                 </span>
               </li>
@@ -588,7 +591,7 @@ export default function CountryGuide() {
   }, {});
 
   return (
-    <section id="guide" className="py-24" style={{ background: "linear-gradient(to bottom, #020918, #030b14, #040d1a)" }}>
+    <section id="guide" className="py-24 section-white">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* ── Section header ── */}
@@ -598,31 +601,31 @@ export default function CountryGuide() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <div className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 mb-5">
-            <span className="text-xs text-white/40 font-light tracking-wider uppercase">Ülke Rehberi</span>
+          <div className="inline-flex items-center gap-2 border border-[#0A1628]/8 bg-[#FAF9F7] rounded-full px-4 py-1.5 mb-5">
+            <span className="text-xs text-[#0A1628]/40 font-light tracking-wider uppercase">Ülke Rehberi</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h2
-                className="text-4xl md:text-5xl font-light text-white tracking-tight leading-tight"
+                className="text-4xl md:text-5xl font-light text-[#0A1628] tracking-tight leading-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
                 Schengen Başvuru
                 <br />
                 <span className="italic">Rehberi 2026</span>
               </h2>
-              <p className="text-white/40 font-light text-base mt-4 max-w-lg leading-relaxed">
+              <p className="text-[#0A1628]/40 font-light text-base mt-4 max-w-lg leading-relaxed">
                 {COUNTRIES.length} ülke · CASCADE kuralı · Onay oranları · Banka gereksinimleri · VFS, iDATA, Kosmos, BLS, AS Visa Solutions
               </p>
             </div>
             <div className="relative shrink-0 w-full md:w-72">
-              <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
+              <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#0A1628]/30" />
               <input
                 type="text"
                 placeholder="Ülke ara..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full bg-white/[0.04] border border-white/8 rounded-full pl-9 pr-4 py-3 text-sm text-white/60 font-light placeholder-white/20 outline-none focus:border-white/20 transition-colors"
+                className="w-full bg-[#FAF9F7] border border-[#0A1628]/8 rounded-full pl-9 pr-4 py-3 text-sm text-[#0A1628]/65 font-light placeholder-[#0A1628]/25 outline-none focus:border-[#C9A84C]/40 transition-colors"
               />
             </div>
           </div>
@@ -645,8 +648,8 @@ export default function CountryGuide() {
           className="mb-14"
         >
           <div className="flex items-center gap-2 mb-6">
-            <Lightbulb size={15} className="text-amber-400/50" />
-            <span className="text-sm text-white/40 font-medium uppercase tracking-wider">2026 Genel İpuçları</span>
+            <Lightbulb size={15} className="text-[#C9A84C]/60" />
+            <span className="text-sm text-[#0A1628]/40 font-medium uppercase tracking-wider">2026 Genel İpuçları</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {GENERAL_TIPS_2026.map((t, i) => (
@@ -656,12 +659,13 @@ export default function CountryGuide() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="bg-[#161616] border border-white/8 rounded-2xl p-6 flex gap-4 hover:border-white/15 transition-colors"
+                className="bg-white border border-[#0A1628]/7 rounded-2xl p-6 flex gap-4 hover:border-[#C9A84C]/30 hover:shadow-sm transition-all"
+                style={{ boxShadow: "0 1px 4px rgba(10,22,40,0.04)" }}
               >
                 <span className="text-3xl shrink-0 mt-0.5">{t.emoji}</span>
                 <div>
-                  <p className="text-base font-semibold text-white/80 mb-2">{t.title}</p>
-                  <p className="text-sm text-white/40 font-light leading-relaxed">{t.tip}</p>
+                  <p className="text-base font-semibold text-[#0A1628]/80 mb-2">{t.title}</p>
+                  <p className="text-sm text-[#0A1628]/45 font-light leading-relaxed">{t.tip}</p>
                 </div>
               </motion.div>
             ))}
@@ -673,10 +677,10 @@ export default function CountryGuide() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="flex items-start gap-3 bg-white/[0.02] border border-white/6 rounded-xl px-5 py-4 mb-10 max-w-3xl"
+          className="flex items-start gap-3 bg-amber-50 border border-amber-200/60 rounded-xl px-5 py-4 mb-10 max-w-3xl"
         >
-          <AlertCircle size={14} className="text-white/25 shrink-0 mt-0.5" />
-          <p className="text-sm text-white/30 font-light leading-relaxed">
+          <AlertCircle size={14} className="text-amber-500/70 shrink-0 mt-0.5" />
+          <p className="text-sm text-[#0A1628]/45 font-light leading-relaxed">
             Bu rehberdeki bilgiler genel bilgilendirme amaçlıdır. Vize kuralları değişkendir —
             başvuru öncesi mutlaka ilgili konsolosluğun veya yetkili vize merkezinin resmi sitesini kontrol edin.
           </p>
@@ -699,8 +703,8 @@ export default function CountryGuide() {
                 onClick={() => setActiveOperator(op)}
                 className={`inline-flex items-center gap-1.5 text-sm rounded-full px-4 py-2 border transition-all duration-150 ${
                   isActive
-                    ? style ? style.filterActive : "bg-white/10 border-white/20 text-white/70"
-                    : "bg-white/[0.03] border-white/8 text-white/35 hover:border-white/15 hover:text-white/55"
+                    ? style ? style.filterActive : "bg-[#0A1628]/8 border-[#0A1628]/18 text-[#0A1628]/70"
+                    : "bg-white border-[#0A1628]/8 text-[#0A1628]/40 hover:border-[#C9A84C]/30 hover:text-[#0A1628]/65"
                 }`}
               >
                 {style && isActive && <span className={`w-1.5 h-1.5 rounded-full ${style.dot}`} />}
@@ -713,8 +717,8 @@ export default function CountryGuide() {
 
         {/* ── Country grid ── */}
         {filtered.length === 0 ? (
-          <div className="text-center py-16 border border-dashed border-white/8 rounded-2xl">
-            <p className="text-white/25 text-sm font-light">"{query}" için sonuç bulunamadı.</p>
+          <div className="text-center py-16 border border-dashed border-[#0A1628]/10 rounded-2xl">
+            <p className="text-[#0A1628]/30 text-sm font-light">&ldquo;{query}&rdquo; için sonuç bulunamadı.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -728,7 +732,7 @@ export default function CountryGuide() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-8 text-center text-xs text-white/15 font-light"
+          className="mt-8 text-center text-xs text-[#0A1628]/20 font-light"
         >
           {filtered.length} ülke gösteriliyor · İçerik elle küratörlenmiş ve güncel tutulmaktadır · Resmi kaynaklardan doğrulayın
         </motion.p>
