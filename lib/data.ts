@@ -24,66 +24,6 @@ export const COUNTRIES: Country[] = [
     avgWait: "45-60 gün",
   },
   {
-    code: "deu",
-    name: "Almanya",
-    flag: "🇩🇪",
-    popularCity: "Berlin",
-    destinationCode: "BER",
-    centers: ["İstanbul Şişli", "Ankara", "İzmir"],
-    centerOperator: "VFS Global",
-    centerUrl: "https://visa.vfsglobal.com/tur/en/deu/",
-    visible: false,
-    tips: [
-      "Almanya, belge incelemesinde en titiz Schengen ülkelerinden biridir; eksik belge reddine yol açar.",
-      "İş amaçlı seyahatte Alman iş ortağından davet mektubu şarttır.",
-      "Finansal yeterlilik için günlük 45–50€ karşılığı TL yeterli görülmelidir.",
-      "Banka hesabınızın en az 6 aylık geçmişi ile birlikte sunulması tavsiye edilir.",
-      "Randevu kıtlığı yoğun dönemlerde ciddi boyuta ulaşır; mümkün olan en erken tarihe başvurun.",
-    ],
-    requirements: ["Pasaport (seyahat sonrası 3 ay geçerli)", "2 biyometrik fotoğraf", "Başvuru formu", "Seyahat sigortası", "Uçuş & konaklama rezervasyonu", "Banka ekstresi (6 ay)", "Gelir belgesi / iş sözleşmesi", "Vergi levhası (serbest meslek)"],
-    processingTime: "10-15 iş günü",
-    avgWait: "40-70 gün",
-  },
-  {
-    code: "ita",
-    name: "İtalya",
-    flag: "🇮🇹",
-    popularCity: "Roma",
-    destinationCode: "FCO",
-    centers: ["İstanbul Şişli", "Ankara", "İzmir"],
-    centerOperator: "VFS Global",
-    centerUrl: "https://visa.vfsglobal.com/tur/en/ita/",
-    visible: false,
-    tips: [
-      "İtalya 2026'da vize kotasını artırdı; fuar dönemleri (Ocak, Şubat, Kasım) dışında randevu bulmak kolaylaştı.",
-      "Çok şehirli tur planlanıyorsa seyahat güzergahı belgesini detaylandırın.",
-      "Biyometrik parmak izi ilk başvuruda merkezde alınır.",
-      "Otel yerine Airbnb belgesi de konaklama kanıtı olarak kabul edilir.",
-    ],
-    requirements: ["Pasaport", "2 fotoğraf", "Sigorta (min. 30.000€)", "Konaklama belgesi", "Uçuş rezervasyonu", "Banka ekstresi", "Gelir belgesi"],
-    processingTime: "10-15 iş günü",
-    avgWait: "25-45 gün",
-  },
-  {
-    code: "prt",
-    name: "Portekiz",
-    flag: "🇵🇹",
-    popularCity: "Lizbon",
-    destinationCode: "LIS",
-    centers: ["İstanbul Şişli", "Ankara"],
-    centerOperator: "VFS Global",
-    centerUrl: "https://visa.vfsglobal.com/tur/en/prt/",
-    visible: false,
-    tips: [
-      "Portekiz, Türk başvuru sahiplerine karşı görece esnek bir değerlendirme politikası izlemektedir.",
-      "Lizbon dışında Porto veya Algarve planlanıyorsa bölgesel konaklama belgeleri eklenmelidir.",
-      "Güneş & plaj odaklı turlar için güzergah planı sunulması başvuruyu güçlendirir.",
-    ],
-    requirements: ["Pasaport", "Fotoğraf", "Sigorta", "Konaklama", "Uçuş rezervasyonu", "Banka ekstresi", "Gelir belgesi"],
-    processingTime: "10-15 iş günü",
-    avgWait: "20-35 gün",
-  },
-  {
     code: "che",
     name: "İsviçre",
     flag: "🇨🇭",
@@ -400,7 +340,7 @@ export const COUNTRIES: Country[] = [
   },
   {
     code: "cze",
-    name: "Çek Cumhuriyeti",
+    name: "Çekya",
     flag: "🇨🇿",
     popularCity: "Prag",
     destinationCode: "PRG",
@@ -434,8 +374,70 @@ export const COUNTRIES: Country[] = [
     processingTime: "10-15 iş günü",
     avgWait: "20-30 gün",
   },
+  {
+    code: "prt",
+    name: "Portekiz",
+    flag: "🇵🇹",
+    popularCity: "Lizbon",
+    destinationCode: "LIS",
+    centers: ["İstanbul Şişli", "Ankara"],
+    centerOperator: "VFS Global",
+    centerUrl: "https://visa.vfsglobal.com/tur/en/prt/",
+    visible: false,
+    tips: [
+      "Portekiz, Türk başvuru sahiplerine karşı görece esnek bir değerlendirme politikası izlemektedir.",
+      "Lizbon dışında Porto veya Algarve planlanıyorsa bölgesel konaklama belgeleri eklenmelidir.",
+    ],
+    requirements: ["Pasaport", "Fotoğraf", "Sigorta", "Konaklama", "Uçuş rezervasyonu", "Banka ekstresi", "Gelir belgesi"],
+    processingTime: "10-15 iş günü",
+    avgWait: "20-35 gün",
+  },
 
-  // ── Kosmos Visa Center ────────────────────────────────────
+  // ── iDATA ─────────────────────────────────────────────────
+  {
+    code: "deu",
+    name: "Almanya",
+    flag: "🇩🇪",
+    popularCity: "Berlin",
+    destinationCode: "BER",
+    centers: ["İstanbul Şişli", "İstanbul Anadolu", "Ankara", "İzmir", "Bursa", "Antalya"],
+    centerOperator: "iData",
+    centerUrl: "https://idata.com.tr/",
+    visible: false,
+    tips: [
+      "Almanya vizesi iDATA merkezleri üzerinden alınmaktadır; VFS Global ile karıştırmayın.",
+      "Belge incelemesinde en titiz Schengen ülkelerinden biridir; eksik belge reddine yol açar.",
+      "İş amaçlı seyahatte Alman iş ortağından davet mektubu şarttır.",
+      "Finansal yeterlilik için günlük 45–50€ karşılığı TL yeterli görülmelidir.",
+      "Banka hesabınızın en az 6 aylık geçmişini sunmanız tavsiye edilir.",
+    ],
+    requirements: ["Pasaport (seyahat sonrası 3 ay geçerli)", "2 biyometrik fotoğraf", "Başvuru formu", "Seyahat sigortası", "Uçuş & konaklama rezervasyonu", "Banka ekstresi (6 ay)", "Gelir belgesi / iş sözleşmesi", "Vergi levhası (serbest meslek)"],
+    processingTime: "10-15 iş günü",
+    avgWait: "40-70 gün",
+  },
+  {
+    code: "ita",
+    name: "İtalya",
+    flag: "🇮🇹",
+    popularCity: "Roma",
+    destinationCode: "FCO",
+    centers: ["İstanbul Şişli", "İstanbul Anadolu", "Ankara", "İzmir", "Antalya", "Bursa"],
+    centerOperator: "iData",
+    centerUrl: "https://idata.com.tr/",
+    visible: false,
+    tips: [
+      "İtalya vizesi iDATA merkezleri üzerinden alınmaktadır.",
+      "İtalya 2026'da vize kotasını artırdı; fuar dönemleri (Ocak, Şubat, Kasım) dışında randevu bulmak kolaylaştı.",
+      "Çok şehirli tur planlanıyorsa seyahat güzergahı belgesini detaylandırın.",
+      "Biyometrik parmak izi ilk başvuruda merkezde alınır.",
+      "Otel yerine Airbnb belgesi de konaklama kanıtı olarak kabul edilir.",
+    ],
+    requirements: ["Pasaport", "2 fotoğraf", "Sigorta (min. 30.000€)", "Konaklama belgesi", "Uçuş rezervasyonu", "Banka ekstresi", "Gelir belgesi"],
+    processingTime: "10-15 iş günü",
+    avgWait: "25-45 gün",
+  },
+
+  // ── Kosmos Vize ───────────────────────────────────────────
   {
     code: "grc",
     name: "Yunanistan",
@@ -448,7 +450,7 @@ export const COUNTRIES: Country[] = [
     visible: true,
     tips: [
       "Yunanistan, Schengen ülkeleri arasında randevu bulmayı en kolaylaştıranlardan biridir.",
-      "Kosmos Visa Center; İstanbul, Ankara, İzmir, Antalya ve Bursa'da hizmet verir.",
+      "Kosmos Vize; İstanbul, Ankara, İzmir, Antalya ve Bursa'da hizmet verir.",
       "Yaz sezonunda (Haziran–Ağustos) Ege adaları talebi yüksektir; önceden başvurun.",
       "Ada tatili planı varsa her ada için ayrı konaklama belgesi hazırlayın.",
       "Çok girişli (multiple-entry) vize için önceki vize geçmişinizi belgeleyin.",
@@ -480,20 +482,48 @@ export const COUNTRIES: Country[] = [
     processingTime: "10-15 iş günü",
     avgWait: "30-50 gün",
   },
+  {
+    code: "svk",
+    name: "Slovakya",
+    flag: "🇸🇰",
+    popularCity: "Bratislava",
+    destinationCode: "BTS",
+    centers: ["İstanbul", "Ankara"],
+    centerOperator: "BLS International",
+    centerUrl: "https://blsiber.com/tr/",
+    visible: true,
+    tips: [
+      "Slovakya vizesi BLS International merkezleri üzerinden alınmaktadır.",
+      "Bratislava, Viyana'ya yakınlığı nedeniyle çift şehir turları için idealdir.",
+      "Belge gereksinimleri diğer Schengen ülkeleriyle benzerdir; randevu bulma görece kolaydır.",
+    ],
+    requirements: ["Pasaport", "Fotoğraf", "Sigorta", "Konaklama belgesi", "Uçuş rezervasyonu", "Finansal belgeler"],
+    processingTime: "7-10 iş günü",
+    avgWait: "10-20 gün",
+  },
+
+  // ── AS Visa Solutions ─────────────────────────────────────
+  {
+    code: "hun",
+    name: "Macaristan",
+    flag: "🇭🇺",
+    popularCity: "Budapeşte",
+    destinationCode: "BUD",
+    centers: ["İstanbul", "Ankara"],
+    centerOperator: "AS Visa Solutions",
+    centerUrl: "https://www.asvisasolutions.com/",
+    visible: true,
+    tips: [
+      "Macaristan vizesi AS Visa Solutions merkezleri aracılığıyla alınmaktadır.",
+      "Budapeşte'nin tarihi bölgeleri için güzergah planı eklenmesi başvuruyu güçlendirir.",
+      "Termal turizm (Szechenyi banyosu vb.) için aktivite planı eklenebilir.",
+      "Randevu bulmak diğer büyük Schengen ülkelerine kıyasla görece kolaydır.",
+    ],
+    requirements: ["Pasaport", "Fotoğraf", "Sigorta", "Konaklama belgesi", "Uçuş rezervasyonu", "Banka ekstresi", "Gelir belgesi"],
+    processingTime: "7-10 iş günü",
+    avgWait: "10-25 gün",
+  },
 ];
-
-export function getFlightLink(destinationCode: string, centerCity: string): string {
-  const originCode = centerCity.toLowerCase().includes("ankara") ? "esb" : "ist";
-  const oneMonthLater = new Date();
-  oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-  const dateStr = oneMonthLater.toISOString().split("T")[0].replace(/-/g, "");
-  return `https://www.skyscanner.net/transport/flights/${originCode}/${destinationCode.toLowerCase()}/${dateStr}/`;
-}
-
-export function getAccommodationLink(city: string): string {
-  const encoded = encodeURIComponent(city);
-  return `https://www.booking.com/searchresults.html?ss=${encoded}&lang=tr`;
-}
 
 export function formatTimeAgo(isoString: string): string {
   const diff = Date.now() - new Date(isoString).getTime();

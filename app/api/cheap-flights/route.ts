@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { detectCheapFlights } from "@/lib/flightAnalysis";
 
-// Revalidate every 24 hours (ISR)
-export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   const token = process.env.TRAVELPAYOUTS_TOKEN;

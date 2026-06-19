@@ -1,4 +1,4 @@
-export type CenterOperator = "VFS Global" | "BLS International" | "Kosmos" | "iData" | "Konsolosluk";
+export type CenterOperator = "VFS Global" | "BLS International" | "Kosmos" | "iData" | "AS Visa Solutions" | "Konsolosluk";
 
 export interface Country {
   code: string;
