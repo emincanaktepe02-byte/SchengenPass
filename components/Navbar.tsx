@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const NAV_LINKS = [
-  { href: "#appointments", label: "Randevu Paylaşımları" },
+  { href: "#appointments", label: "Randevular" },
   { href: "#flights", label: "Uçuş Fırsatları" },
   { href: "#guide", label: "Ülke Rehberi" },
   { href: "#blog", label: "Blog" },
@@ -24,37 +24,31 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 h-16 px-5 flex items-center justify-between transition-all duration-500 ${
-        scrolled ? "bg-black/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 h-16 px-6 flex items-center justify-between transition-all duration-500 ${
+        scrolled ? "glass border-b border-white/5" : "bg-transparent"
       }`}
     >
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          {!logoError ? (
-            <Image
-              src="/logo.png"
-              alt="SchengenPass"
-              width={28}
-              height={28}
-              className="object-contain"
-              onError={() => setLogoError(true)}
-              priority
-            />
-          ) : (
-            <div className="w-7 h-7 rounded-full border border-white/30 flex items-center justify-center">
-              <span className="text-[10px] font-medium text-white">S</span>
-            </div>
-          )}
-          <span className="font-light text-white tracking-tight text-base">
-            Schengen<span className="font-medium">Pass</span>
-          </span>
-        </div>
-        <div className="hidden sm:flex items-center gap-[3px] opacity-40">
-          <span className="w-[1.5px] h-3 bg-white rounded-full" />
-          <span className="w-[1.5px] h-3 bg-white rounded-full" />
-          <span className="w-[1.5px] h-3 bg-white rounded-full" />
-        </div>
+      <Link href="/" className="flex items-center gap-2.5 group">
+        {!logoError ? (
+          <Image
+            src="/logo.png"
+            alt="SchengenPass"
+            width={26}
+            height={26}
+            className="object-contain"
+            onError={() => setLogoError(true)}
+            priority
+          />
+        ) : (
+          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center">
+            <span className="text-[10px] font-bold text-white">SP</span>
+          </div>
+        )}
+        <span className="font-light text-white text-base tracking-tight">
+          Schengen
+          <span className="font-semibold gradient-text-cyan-violet">Pass</span>
+        </span>
       </Link>
 
       {/* Desktop Nav */}
@@ -63,7 +57,7 @@ export default function Navbar() {
           <Link
             key={l.href}
             href={l.href}
-            className="text-sm text-white/60 hover:text-white transition-colors font-light tracking-tight"
+            className="text-sm text-white/45 hover:text-white transition-colors font-light tracking-tight"
           >
             {l.label}
           </Link>
@@ -71,14 +65,14 @@ export default function Navbar() {
       </div>
 
       {/* Status badge */}
-      <div className="hidden md:flex items-center gap-2 border border-white/10 rounded-full px-3 py-1.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-        <span className="text-xs text-white/50 font-light">Aktif</span>
+      <div className="hidden md:flex items-center gap-2 glass rounded-full px-4 py-2">
+        <div className="w-1.5 h-1.5 rounded-full bg-[#00ff87] animate-pulse" />
+        <span className="text-xs text-white/45 font-light">Aktif</span>
       </div>
 
       {/* Mobile menu button */}
       <button
-        className="md:hidden text-white/70 hover:text-white"
+        className="md:hidden text-white/70 hover:text-white transition-colors"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -86,12 +80,12 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-black/95 backdrop-blur-md border-b border-white/10 p-6 flex flex-col gap-4 md:hidden">
+        <div className="absolute top-16 left-0 right-0 glass border-b border-white/5 p-6 flex flex-col gap-4 md:hidden">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-white/70 hover:text-white text-sm font-light"
+              className="text-white/65 hover:text-white text-sm font-light transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               {l.label}

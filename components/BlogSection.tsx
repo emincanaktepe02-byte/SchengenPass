@@ -56,7 +56,7 @@ Birden fazla Schengen ülkesi planlanıyorsa, en uzun konaklama yapılacak ülke
 
 **Önemli Bilgiler:**
 
-İlk Schengen başvurusu için Yunanistan, Malta veya Estonya gibi randevusu kolay ve işlemi hızlı ülkeler önerilir. Doğru kullanılan her vize, sonraki başvuruda daha uzun süreli çok girişli vize kapısı açar (Kaskad Kuralı).
+İlk Schengen başvurusu için Yunanistan, Malta veya Estonya gibi randevusu kolay ve işlemi hızlı ülkeler önerilir. Doğru kullanılan her vize, sonraki başvuruda daha uzun süreli çok girişli vize kapısı açar (CASCADE Kuralı).
     `,
   },
   {
@@ -439,7 +439,7 @@ export default function BlogSection() {
   const [featured, ...rest] = ARTICLES;
 
   return (
-    <section id="blog" className="py-24 bg-[#080808]">
+    <section id="blog" className="py-24" style={{ background: "linear-gradient(to bottom, #030b14, #020918)" }}>
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}

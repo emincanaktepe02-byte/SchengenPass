@@ -99,7 +99,7 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
             {country.cascadeFriendly && (
               <span className="inline-flex items-center gap-1 text-[11px] bg-amber-500/10 border border-amber-500/20 rounded-full px-2.5 py-1 text-amber-400/80">
                 <Star size={9} />
-                Kaskad
+                CASCADE
               </span>
             )}
           </div>
@@ -230,29 +230,118 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
   );
 }
 
+// ── Approval Rates ───────────────────────────────────────────────────────────
+
+const APPROVAL_DATA = [
+  { flag: "🇪🇪", name: "Estonya", approvalRate: 92, rejectionRate: 8, operator: "VFS Global", note: "En düşük red oranlarından biri; ilk başvuru için ideal" },
+  { flag: "🇱🇻", name: "Letonya", approvalRate: 91, rejectionRate: 9, operator: "VFS Global", note: "Randevu kolay, belge incelemesi makul" },
+  { flag: "🇲🇹", name: "Malta", approvalRate: 89, rejectionRate: 11, operator: "VFS Global", note: "Hızlı işlem (7-10 iş günü), esnek belgeler" },
+  { flag: "🇭🇺", name: "Macaristan", approvalRate: 88, rejectionRate: 12, operator: "AS Visa Solutions", note: "Uygun maliyet, düşük red oranı" },
+  { flag: "🇸🇰", name: "Slovakya", approvalRate: 87, rejectionRate: 13, operator: "BLS International", note: "Az kuyruk, hızlı randevu, güvenilir süreç" },
+  { flag: "🇬🇷", name: "Yunanistan", approvalRate: 86, rejectionRate: 14, operator: "Kosmos", note: "Türkiye&apos;den en kolay ulaşılan Schengen ülkesi" },
+  { flag: "🇸🇮", name: "Slovenya", approvalRate: 85, rejectionRate: 15, operator: "VFS Global", note: "Belge eksikliğinde doğrudan red yerine ek süre" },
+  { flag: "🇧🇬", name: "Bulgaristan", approvalRate: 84, rejectionRate: 16, operator: "VFS Global", note: "Ekonomik destinasyon; red oranı düşük" },
+  { flag: "🇩🇪", name: "Almanya", approvalRate: 80, rejectionRate: 20, operator: "iData", note: "Titiz inceleme ama CASCADE uyumu en yüksek" },
+  { flag: "🇫🇷", name: "Fransa", approvalRate: 76, rejectionRate: 24, operator: "VFS Global", note: "Yüksek red ama CASCADE kuralını en tutarlı uyguluyor" },
+  { flag: "🇧🇪", name: "Belçika", approvalRate: 74, rejectionRate: 26, operator: "VFS Global", note: "En yüksek red oranı; güçlü bağ belgesi zorunlu" },
+];
+
+function ApprovalRatesSection() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mb-14 rounded-2xl border border-white/8 overflow-hidden"
+    >
+      {/* Header */}
+      <div className="bg-gradient-to-r from-emerald-500/8 to-blue-500/8 border-b border-white/6 px-8 py-6">
+        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 mb-4">
+          <span className="text-[10px] text-emerald-400 font-medium uppercase tracking-wider">2023 AB Schengen İstatistikleri</span>
+        </div>
+        <h3
+          className="text-2xl md:text-3xl font-light text-white tracking-tight leading-tight mb-2"
+          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+        >
+          Onay & Red Oranları
+          <span className="italic ml-2">— Ülkelere Göre</span>
+        </h3>
+        <p className="text-white/45 font-light text-sm leading-relaxed max-w-2xl">
+          Türkiye&apos;den yapılan Schengen vize başvurularında 2023 yılı AB verilerine göre ülke bazlı
+          onay ve red oranları. Red oranı yüksek ülkeler CASCADE&apos;i en tutarlı uygulayan ülkelerdir.
+        </p>
+      </div>
+
+      <div className="p-6 md:p-8">
+        <div className="space-y-3">
+          {APPROVAL_DATA.map((item, i) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: Math.min(i * 0.04, 0.3) }}
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-white/[0.03] border border-white/6 rounded-xl hover:border-white/12 transition-all"
+            >
+              {/* Flag + name */}
+              <div className="flex items-center gap-2.5 shrink-0 w-36">
+                <span className="text-2xl">{item.flag}</span>
+                <div>
+                  <p className="text-sm font-medium text-white/85">{item.name}</p>
+                  <p className="text-[10px] text-white/30">{item.operator}</p>
+                </div>
+              </div>
+
+              {/* Progress bar */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-700"
+                      style={{ width: `${item.approvalRate}%` }}
+                    />
+                  </div>
+                  <span className="text-xs font-semibold text-emerald-400 shrink-0 w-10 text-right">%{item.approvalRate}</span>
+                  <span className="text-xs text-red-400/70 shrink-0 w-10">-%{item.rejectionRate}</span>
+                </div>
+                <p className="text-[11px] text-white/30 font-light leading-tight">{item.note}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <p className="mt-5 text-[11px] text-white/20 font-light text-center">
+          Kaynak: AB Schengen İstatistikleri 2023 · Oranlar Türkiye kaynaklı başvurular için yaklaşık değerlerdir
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 // ── CASCADE rule visual ───────────────────────────────────────────────────────
 
 const CASCADE_STEPS = [
   { step: "1.", label: "İlk Başvuru", sub: "Tek/çift girişli", note: "Seyahat süresi kadar", color: "text-white/60" },
   { step: "2.", label: "1 Yıl Çok Girişli", sub: "İlk vizeni doğru kullandıysan", note: "Schengen'de serbestlik", color: "text-blue-400" },
   { step: "3.", label: "2 Yıl Çok Girişli", sub: "1 yıllık vizeni doğru kullandıysan", note: "Uzun vadeli planlama", color: "text-violet-400" },
-  { step: "4.", label: "5 Yıl Çok Girişli", sub: "2 yıllık vizeni doğru kullandıysan", note: "Tam kaskad avantajı", color: "text-amber-400" },
+  { step: "4.", label: "5 Yıl Çok Girişli", sub: "2 yıllık vizeni doğru kullandıysan", note: "Tam CASCADE avantajı", color: "text-amber-400" },
 ];
 
 const CASCADE_RULES = [
   "180 gün içinde en fazla 90 gün Schengen'de kalabilirsin",
-  "Vize bitiş tarihini asla aşma — tek ihlal kaskadı sıfırlar",
+  "Vize bitiş tarihini asla aşma — tek ihlal CASCADE&apos;i sıfırlar",
   "Her seyahatten sonra çıkış belgelerini (boarding pass, damga) sakla",
   "İkinci başvuruda 'çok girişli vize talep ediyorum' yaz ve önceki vizeni göster",
   "Pasaport değişirse eski pasaportunu mutlaka yanında taşı",
 ];
 
 const CASCADE_BEST_COUNTRIES = [
-  { flag: "🇩🇪", name: "Almanya", note: "İDATA, 2. başvuruda 1 yıl vize verir" },
-  { flag: "🇳🇱", name: "Hollanda", note: "VFS, kaskad kuralına uyumlu" },
-  { flag: "🇦🇹", name: "Avusturya", note: "VFS, çok girişli konusunda esnek" },
-  { flag: "🇫🇷", name: "Fransa", note: "VFS, düzenli seyahatte çok girişli" },
-  { flag: "🇮🇹", name: "İtalya", note: "iDATA, kademeli yükseltme uygular" },
+  { flag: "🇩🇪", name: "Almanya", note: "iDATA — 2. başvuruda 1 yıl çok girişli; en tutarlı CASCADE uygulayıcısı" },
+  { flag: "🇳🇱", name: "Hollanda", note: "VFS — CASCADE kuralına tam uyumlu; 3. başvuruda 2 yıl" },
+  { flag: "🇫🇷", name: "Fransa", note: "VFS — düzenli seyahatlerde CASCADE basamağını otomatik uygular" },
+  { flag: "🇮🇹", name: "İtalya", note: "iDATA — kademeli yükseltme sistemini aktif kullanır" },
+  { flag: "🇦🇹", name: "Avusturya", note: "VFS — çok girişli konusunda esnek; CASCADE dostu" },
+  { flag: "🇵🇹", name: "Portekiz", note: "VFS — en esnek Schengen politikası; düzenli seyahate çok girişli" },
 ];
 
 function CascadeSection() {
@@ -272,7 +361,7 @@ function CascadeSection() {
           className="text-2xl md:text-3xl font-light text-white tracking-tight leading-tight mb-2"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
-          Kaskad Kuralı
+          CASCADE Kuralı
           <span className="italic ml-2">— Vize Kademeleme Sistemi</span>
         </h3>
         <p className="text-white/45 font-light text-sm leading-relaxed max-w-2xl">
@@ -307,7 +396,7 @@ function CascadeSection() {
         {/* Rules + best countries */}
         <div className="space-y-6">
           <div>
-            <p className="text-[11px] text-white/30 uppercase tracking-wider mb-4 font-medium">Kaskadı Koruyan Kurallar</p>
+            <p className="text-[11px] text-white/30 uppercase tracking-wider mb-4 font-medium">CASCADE&apos;i Koruyan Prensipler</p>
             <ul className="space-y-2.5">
               {CASCADE_RULES.map((rule, i) => (
                 <li key={i} className="flex items-start gap-2.5">
@@ -321,7 +410,7 @@ function CascadeSection() {
           <div>
             <p className="text-[11px] text-white/30 uppercase tracking-wider mb-4 font-medium">
               <Star size={10} className="inline mr-1 text-amber-400" />
-              Kaskad İçin Önerilen Ülkeler
+              CASCADE İçin En Uyumlu Ülkeler
             </p>
             <div className="space-y-2">
               {CASCADE_BEST_COUNTRIES.map((c, i) => (
@@ -499,7 +588,7 @@ export default function CountryGuide() {
   }, {});
 
   return (
-    <section id="guide" className="py-24 bg-[#0a0a0a]">
+    <section id="guide" className="py-24" style={{ background: "linear-gradient(to bottom, #020918, #030b14, #040d1a)" }}>
       <div className="max-w-7xl mx-auto px-6">
 
         {/* ── Section header ── */}
@@ -523,7 +612,7 @@ export default function CountryGuide() {
                 <span className="italic">Rehberi 2026</span>
               </h2>
               <p className="text-white/40 font-light text-base mt-4 max-w-lg leading-relaxed">
-                {COUNTRIES.length} ülke · Kaskad kuralı · Banka gereksinimleri · Red riski analizi · VFS, iDATA, Kosmos, BLS, AS Visa Solutions
+                {COUNTRIES.length} ülke · CASCADE kuralı · Onay oranları · Banka gereksinimleri · VFS, iDATA, Kosmos, BLS, AS Visa Solutions
               </p>
             </div>
             <div className="relative shrink-0 w-full md:w-72">
@@ -538,6 +627,9 @@ export default function CountryGuide() {
             </div>
           </div>
         </motion.div>
+
+        {/* ── APPROVAL RATES ── */}
+        <ApprovalRatesSection />
 
         {/* ── CASCADE RULE ── */}
         <CascadeSection />

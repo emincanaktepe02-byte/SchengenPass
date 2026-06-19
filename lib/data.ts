@@ -392,7 +392,7 @@ export const COUNTRIES: Country[] = [
     requirements: ["Pasaport", "Sigorta", "Konaklama belgesi", "Banka ekstresi", "Uçuş rezervasyonu"],
     processingTime: "10-15 iş günü",
     avgWait: "30-45 gün",
-    bankRequirements: "Son 3 aylık banka özeti. Viyana konaklaması pahalı olabilir; günlük 80-100€ karşılığı bakiye önerilir. Kaskad vize için uygun bir ülke — 2. başvuruda çok girişli talep edilebilir.",
+    bankRequirements: "Son 3 aylık banka özeti. Viyana konaklaması pahalı olabilir; günlük 80-100€ karşılığı bakiye önerilir. CASCADE kuralı için uygun bir ülke — 2. başvuruda çok girişli talep edilebilir.",
     rejectionReasons: [
       "Anmeldung (kayıt) belgesi sunulmadı → Konakladığınız adresin kaydını sunun",
       "Seyahat güzergahı belirsiz → Viyana dışı destinasyonlar için ayrı plan ekleyin",

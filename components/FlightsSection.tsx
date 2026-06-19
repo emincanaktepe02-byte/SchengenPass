@@ -1,133 +1,92 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plane, ExternalLink, Search, Calendar, MapPin } from "lucide-react";
-import autoDeals from "@/content/flights.json";
+import { Plane, ExternalLink, RefreshCw, Calendar } from "lucide-react";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-
-interface CountryDeal {
-  country: string;
-  flag: string;
-  coverGradient: [string, string];
-  city: string;
-  destinationCode: string;
-  originCity: string;
+interface FlightDeal {
   originCode: string;
+  originCity: string;
+  destinationCode: string;
+  destinationCity: string;
+  destinationCountry: string;
+  destinationFlag: string;
   price: number;
   departDate: string;
-  airline?: string | null;
-  bookingLink: string;
+  airline: string | null;
+  bookingUrl: string;
 }
 
-// ── Skyscanner fallback data ──────────────────────────────────────────────────
+// ── Flight ticket card ────────────────────────────────────────────────────────
 
-const ORIGINS = [
-  { code: "IST", label: "İstanbul (IST)" },
-  { code: "SAW", label: "Sabiha Gökçen (SAW)" },
-  { code: "ESB", label: "Ankara (ESB)" },
-  { code: "ADB", label: "İzmir (ADB)" },
-] as const;
-
-const FALLBACK_ROUTES = [
-  { code: "ATH", city: "Atina", country: "Yunanistan", flag: "🇬🇷", gradient: ["#0D5EAF","#FFFFFF"] },
-  { code: "CDG", city: "Paris", country: "Fransa", flag: "🇫🇷", gradient: ["#002395","#ED2939"] },
-  { code: "FCO", city: "Roma", country: "İtalya", flag: "🇮🇹", gradient: ["#009246","#CE2B37"] },
-  { code: "MAD", city: "Madrid", country: "İspanya", flag: "🇪🇸", gradient: ["#AA151B","#F1BF00"] },
-  { code: "BCN", city: "Barselona", country: "İspanya", flag: "🇪🇸", gradient: ["#AA151B","#F1BF00"] },
-  { code: "AMS", city: "Amsterdam", country: "Hollanda", flag: "🇳🇱", gradient: ["#AE1C28","#21468B"] },
-  { code: "BER", city: "Berlin", country: "Almanya", flag: "🇩🇪", gradient: ["#000000","#DD0000"] },
-  { code: "VIE", city: "Viyana", country: "Avusturya", flag: "🇦🇹", gradient: ["#ED2939","#FFFFFF"] },
-  { code: "PRG", city: "Prag", country: "Çekya", flag: "🇨🇿", gradient: ["#D7141A","#11457E"] },
-  { code: "BUD", city: "Budapeşte", country: "Macaristan", flag: "🇭🇺", gradient: ["#CE2939","#436F4D"] },
-  { code: "LIS", city: "Lizbon", country: "Portekiz", flag: "🇵🇹", gradient: ["#006600","#FF0000"] },
-  { code: "DBV", city: "Dubrovnik", country: "Hırvatistan", flag: "🇭🇷", gradient: ["#FF0000","#0055A4"] },
-  { code: "MLA", city: "Malta", country: "Malta", flag: "🇲🇹", gradient: ["#CF142B","#FFFFFF"] },
-  { code: "SOF", city: "Sofya", country: "Bulgaristan", flag: "🇧🇬", gradient: ["#00966E","#D62612"] },
-  { code: "WAW", city: "Varşova", country: "Polonya", flag: "🇵🇱", gradient: ["#DC143C","#FFFFFF"] },
-  { code: "BTS", city: "Bratislava", country: "Slovakya", flag: "🇸🇰", gradient: ["#FFFFFF","#0B4EA2"] },
-  { code: "TLL", city: "Tallinn", country: "Estonya", flag: "🇪🇪", gradient: ["#0072CE","#1B4F91"] },
-  { code: "ZRH", city: "Zürih", country: "İsviçre", flag: "🇨🇭", gradient: ["#CC0000","#FFFFFF"] },
-  { code: "CPH", city: "Kopenhag", country: "Danimarka", flag: "🇩🇰", gradient: ["#C60C30","#FFFFFF"] },
-  { code: "ARN", city: "Stockholm", country: "İsveç", flag: "🇸🇪", gradient: ["#006AA7","#FECC02"] },
-] as const;
-
-type OriginCode = typeof ORIGINS[number]["code"];
-
-function skyscannerUrl(from: string, to: string) {
-  return `https://www.skyscanner.com.tr/transport/flights/${from.toLowerCase()}/${to.toLowerCase()}/`;
-}
-
-// ── Big deal card (when real data available) ───────────────────────────────────
-
-function DealCard({ deal, index }: { deal: CountryDeal; index: number }) {
-  const [g1, g2] = deal.coverGradient;
-  const dateLabel = new Date(deal.departDate).toLocaleDateString("tr-TR", {
+function FlightCard({ deal, index }: { deal: FlightDeal; index: number }) {
+  const d = new Date(deal.departDate);
+  const dateStr = d.toLocaleDateString("tr-TR", {
+    weekday: "short",
     day: "numeric",
     month: "long",
-    weekday: "short",
+    year: "numeric",
   });
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: Math.min(index * 0.04, 0.3) }}
-      className="group relative rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-300"
-      style={{ background: `linear-gradient(135deg, ${g1}45 0%, #0e0e0e 55%, ${g2}25 100%)` }}
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: Math.min(index * 0.05, 0.4) }}
+      className="group glass rounded-2xl overflow-hidden hover:bg-white/[0.07] hover:border-white/15 transition-all duration-300"
     >
-      {/* Decorative giant flag */}
-      <span
-        className="absolute right-5 top-1/2 -translate-y-1/2 text-[140px] leading-none select-none pointer-events-none"
-        style={{ opacity: 0.07, filter: "blur(2px)" }}
-      >
-        {deal.flag}
-      </span>
+      {/* Gradient strip at top */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-[#00d4ff] via-[#7b2ff7] to-[#00ff87]" />
 
-      <div className="relative z-10 p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
-        {/* Left: destination info */}
-        <div className="flex items-center gap-4 flex-1">
-          <span className="text-5xl md:text-6xl leading-none shrink-0">{deal.flag}</span>
-          <div>
-            <p className="text-xs text-white/35 font-light uppercase tracking-wider mb-1">{deal.country}</p>
-            <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-none">
-              {deal.city}
-            </h3>
-            <div className="flex items-center gap-3 mt-2 flex-wrap">
-              <span className="flex items-center gap-1.5 text-xs text-white/40 font-light">
-                <MapPin size={11} className="text-white/25" />
-                {deal.originCity} ({deal.originCode}) → {deal.destinationCode}
+      <div className="p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        {/* Flag + route info */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="text-4xl shrink-0 leading-none">{deal.destinationFlag}</span>
+          <div className="min-w-0">
+            {/* IATA codes */}
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <span className="text-[11px] font-mono font-semibold text-[#00d4ff] bg-[#00d4ff]/10 border border-[#00d4ff]/20 px-2 py-0.5 rounded-md">
+                {deal.originCode}
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-white/40 font-light">
-                <Calendar size={11} className="text-white/25" />
-                {dateLabel}
+              <Plane size={9} className="text-white/30 shrink-0" />
+              <span className="text-[11px] font-mono font-semibold text-[#7b2ff7] bg-[#7b2ff7]/10 border border-[#7b2ff7]/20 px-2 py-0.5 rounded-md">
+                {deal.destinationCode}
               </span>
               {deal.airline && (
-                <span className="text-xs text-white/30 font-light">{deal.airline}</span>
+                <span className="text-[10px] text-white/25 font-light ml-1">{deal.airline}</span>
               )}
             </div>
+            {/* City names */}
+            <p className="text-base font-semibold text-white/90 truncate leading-tight">
+              {deal.originCity} → {deal.destinationCity}
+            </p>
+            <p className="text-xs text-white/35 font-light">{deal.destinationCountry}</p>
           </div>
         </div>
 
-        {/* Right: price + CTA */}
-        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 shrink-0">
+        {/* Date */}
+        <div className="flex items-center gap-1.5 text-xs text-white/35 font-light shrink-0 glass rounded-full px-3 py-1.5">
+          <Calendar size={10} className="text-white/25 shrink-0" />
+          <span>{dateStr}</span>
+        </div>
+
+        {/* Price + CTA */}
+        <div className="flex items-center gap-3 shrink-0 ml-auto">
           <div className="text-right">
-            <div className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-none">
+            <div className="text-2xl font-bold text-white leading-none">
               {deal.price.toLocaleString("tr-TR")}
-              <span className="text-2xl md:text-3xl ml-1 font-light text-white/70">₺</span>
+              <span className="text-lg font-light text-[#00d4ff] ml-1">₺</span>
             </div>
-            <p className="text-xs text-white/30 mt-1">Gidiş · En ucuz 40 gün</p>
+            <p className="text-[10px] text-white/25 font-light mt-0.5">gidiş · tek yön</p>
           </div>
           <a
-            href={deal.bookingLink}
+            href={deal.bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-white text-black text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/90 active:scale-95 transition-all duration-150 shrink-0 whitespace-nowrap"
+            className="flex items-center gap-1.5 bg-gradient-to-r from-[#00d4ff] to-[#7b2ff7] text-white text-xs font-semibold px-4 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all whitespace-nowrap glow-cyan"
           >
-            <Plane size={14} />
-            Skyscanner&apos;da Satın Al
-            <ExternalLink size={12} />
+            <Plane size={11} />
+            Satın Al
+            <ExternalLink size={9} />
           </a>
         </div>
       </div>
@@ -135,51 +94,85 @@ function DealCard({ deal, index }: { deal: CountryDeal; index: number }) {
   );
 }
 
-// ── Fallback route card (when no token) ──────────────────────────────────────
+// ── Loading skeleton ──────────────────────────────────────────────────────────
 
-function FallbackCard({ route, origin, index }: {
-  route: typeof FALLBACK_ROUTES[number];
-  origin: OriginCode;
-  index: number;
-}) {
-  const [g1, g2] = route.gradient;
+function SkeletonCard({ i }: { i: number }) {
   return (
-    <motion.a
-      href={skyscannerUrl(origin, route.code)}
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: Math.min(index * 0.03, 0.25) }}
-      className="group relative rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-200 flex items-center gap-4 p-5"
-      style={{ background: `linear-gradient(135deg, ${g1}30 0%, #111111 70%, ${g2}15 100%)` }}
+    <div
+      key={i}
+      className="glass rounded-2xl overflow-hidden"
+      style={{ opacity: 1 - i * 0.15 }}
     >
-      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-6xl leading-none opacity-[0.06] pointer-events-none">{route.flag}</span>
-      <span className="text-3xl leading-none z-10">{route.flag}</span>
-      <div className="z-10 flex-1">
-        <p className="text-base font-semibold text-white/85 group-hover:text-white transition-colors">{route.city}</p>
-        <p className="text-xs text-white/35 font-light">{route.country}</p>
+      <div className="h-[2px] w-full bg-gradient-to-r from-white/10 via-white/5 to-white/10" />
+      <div className="p-5 flex items-center gap-4 animate-pulse">
+        <div className="w-10 h-10 rounded-full bg-white/5 shrink-0" />
+        <div className="flex-1 space-y-2">
+          <div className="h-3 bg-white/5 rounded w-24" />
+          <div className="h-4 bg-white/8 rounded w-44" />
+          <div className="h-3 bg-white/5 rounded w-20" />
+        </div>
+        <div className="h-8 bg-white/5 rounded-full w-28 shrink-0" />
+        <div className="h-9 bg-white/5 rounded-full w-20 shrink-0" />
       </div>
-      <div className="z-10 flex items-center gap-1 text-xs text-white/30 group-hover:text-white/60 transition-colors shrink-0">
-        <Search size={11} />
-        <span>Ara</span>
-        <ExternalLink size={10} />
-      </div>
-    </motion.a>
+    </div>
   );
 }
+
+// ── Fallback grid (when API has no data) ─────────────────────────────────────
+
+const FALLBACK_ROUTES = [
+  { code: "ATH", city: "Atina", country: "Yunanistan", flag: "🇬🇷" },
+  { code: "CDG", city: "Paris", country: "Fransa", flag: "🇫🇷" },
+  { code: "FCO", city: "Roma", country: "İtalya", flag: "🇮🇹" },
+  { code: "MAD", city: "Madrid", country: "İspanya", flag: "🇪🇸" },
+  { code: "AMS", city: "Amsterdam", country: "Hollanda", flag: "🇳🇱" },
+  { code: "BER", city: "Berlin", country: "Almanya", flag: "🇩🇪" },
+  { code: "VIE", city: "Viyana", country: "Avusturya", flag: "🇦🇹" },
+  { code: "PRG", city: "Prag", country: "Çekya", flag: "🇨🇿" },
+  { code: "BUD", city: "Budapeşte", country: "Macaristan", flag: "🇭🇺" },
+  { code: "LIS", city: "Lizbon", country: "Portekiz", flag: "🇵🇹" },
+  { code: "BTS", city: "Bratislava", country: "Slovakya", flag: "🇸🇰" },
+  { code: "TLL", city: "Tallinn", country: "Estonya", flag: "🇪🇪" },
+] as const;
+
+const ORIGINS_LABELS = ["IST", "SAW", "ESB", "ADB"] as const;
+type OriginCode = typeof ORIGINS_LABELS[number];
 
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function FlightsSection() {
+  const [deals, setDeals] = useState<FlightDeal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [activeOrigin, setActiveOrigin] = useState<OriginCode>("IST");
-  const deals = autoDeals as CountryDeal[];
-  const hasDeals = deals.length > 0;
+
+  useEffect(() => {
+    fetch("/api/cheap-flights")
+      .then((r) => r.json())
+      .then((data: { deals: FlightDeal[]; updatedAt?: string }) => {
+        setDeals(data.deals ?? []);
+        setUpdatedAt(data.updatedAt ?? null);
+      })
+      .catch(() => setDeals([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const originCounts = ORIGINS_LABELS.reduce<Record<string, number>>((acc, o) => {
+    acc[o] = deals.filter((d) => d.originCode === o).length;
+    return acc;
+  }, {});
+
+  const hasDeals = !loading && deals.length > 0;
+  const filteredDeals = deals.filter((d) => d.originCode === activeOrigin);
+  const showFiltered = hasDeals && filteredDeals.length > 0;
 
   return (
-    <section id="flights" className="py-24 bg-black">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      id="flights"
+      className="py-24"
+      style={{ background: "linear-gradient(to bottom, #030b14, #020918, #040d1a)" }}
+    >
+      <div className="max-w-5xl mx-auto px-6">
 
         {/* Header */}
         <motion.div
@@ -188,9 +181,11 @@ export default function FlightsSection() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <div className="inline-flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 mb-5">
-            <Plane size={11} className="text-white/40" />
-            <span className="text-xs text-white/40 font-light tracking-wider uppercase">Uçuş Fırsatları</span>
+          <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-5">
+            <Plane size={11} className="text-[#00d4ff]" />
+            <span className="text-xs text-white/40 font-light tracking-wider uppercase">
+              Uçuş Fırsatları
+            </span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -198,75 +193,130 @@ export default function FlightsSection() {
                 className="text-4xl md:text-5xl font-light text-white tracking-tight leading-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                Sonraki 40 Gün
+                Güncel
                 <br />
-                <span className="italic">En Ucuz Uçuşlar</span>
+                <span className="italic gradient-text">Uçuş Fiyatları</span>
               </h2>
               <p className="text-white/35 font-light text-sm mt-3 max-w-lg leading-relaxed">
-                IST, SAW, ESB ve ADB kalkışlı Schengen ülkelerinin en popüler şehirlerine
-                sonraki 40 gün içindeki en ucuz bilet fiyatları.
+                Travelpayouts API ile gerçek zamanlı güncellenen bilet fiyatları.
+                IST, SAW, ESB ve ADB kalkışlı Schengen destinasyonlarına en ucuz biletler.
               </p>
             </div>
-            <a
-              href="https://www.skyscanner.com.tr/ucak-bileti"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white border border-white/10 hover:border-white/30 rounded-full px-5 py-2.5 transition-all shrink-0"
-            >
-              Tüm Uçuşlar
-              <ExternalLink size={13} />
-            </a>
+            {updatedAt && (
+              <div className="flex items-center gap-1.5 text-xs text-white/25 font-light shrink-0">
+                <RefreshCw size={10} />
+                Güncellendi:{" "}
+                {new Date(updatedAt).toLocaleTimeString("tr-TR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
+            )}
           </div>
         </motion.div>
 
-        {/* ── Real deals (build-time fetch) ── */}
-        {hasDeals ? (
-          <div className="flex flex-col gap-4">
-            {deals.map((deal, i) => (
-              <DealCard
+        {/* Origin selector (only when we have deals) */}
+        {(hasDeals || loading) && (
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {ORIGINS_LABELS.map((o) => {
+              const count = originCounts[o] ?? 0;
+              if (!loading && count === 0) return null;
+              return (
+                <button
+                  key={o}
+                  onClick={() => setActiveOrigin(o)}
+                  className={`px-4 py-2 rounded-full text-sm font-light transition-all duration-200 ${
+                    activeOrigin === o
+                      ? "bg-gradient-to-r from-[#00d4ff] to-[#7b2ff7] text-white font-medium"
+                      : "glass text-white/40 hover:text-white/70 hover:bg-white/[0.07]"
+                  }`}
+                >
+                  {o}
+                  {!loading && count > 0 && (
+                    <span className="ml-1.5 text-xs opacity-50">({count})</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Content area */}
+        {loading ? (
+          <div className="space-y-3">
+            {[...Array(5)].map((_, i) => <SkeletonCard key={i} i={i} />)}
+          </div>
+        ) : showFiltered ? (
+          <div className="space-y-3">
+            {filteredDeals.map((deal, i) => (
+              <FlightCard
                 key={`${deal.originCode}-${deal.destinationCode}-${deal.departDate}`}
                 deal={deal}
                 index={i}
               />
             ))}
-            <p className="text-xs text-white/20 text-center mt-2 font-light">
-              Fiyatlar değişkendir · Satın almadan önce Skyscanner&apos;dan doğrulayın · SchengenPass bilet satışı yapmaz
+            <p className="text-xs text-white/20 text-center mt-4 font-light">
+              Fiyatlar Travelpayouts üzerinden alınmış olup değişkendir ·
+              Satın almadan önce doğrulayın · SchengenPass bilet satışı yapmaz
             </p>
           </div>
         ) : (
-          /* ── Fallback: Skyscanner search by origin ── */
-          <div>
-            <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-              <p className="text-sm text-white/40 font-light">
-                Kalkış noktasını seçin ve Schengen&apos;e ara:
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                {ORIGINS.map((o) => (
-                  <button
-                    key={o.code}
-                    onClick={() => setActiveOrigin(o.code)}
-                    className={`text-sm rounded-full px-4 py-2 border transition-all duration-150 ${
-                      activeOrigin === o.code
-                        ? "bg-white/10 border-white/25 text-white font-medium"
-                        : "bg-white/[0.03] border-white/8 text-white/35 hover:border-white/18 hover:text-white/60"
-                    }`}
-                  >
-                    {o.code}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-              {FALLBACK_ROUTES.map((route, i) => (
-                <FallbackCard key={route.code} route={route} origin={activeOrigin} index={i} />
+          /* Fallback: Quick Skyscanner links */
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <div className="flex gap-2 mb-6 flex-wrap">
+              {ORIGINS_LABELS.map((o) => (
+                <button
+                  key={o}
+                  onClick={() => setActiveOrigin(o)}
+                  className={`px-4 py-2 rounded-full text-sm font-light transition-all ${
+                    activeOrigin === o
+                      ? "bg-gradient-to-r from-[#00d4ff] to-[#7b2ff7] text-white"
+                      : "glass text-white/40 hover:text-white/70"
+                  }`}
+                >
+                  {o}
+                </button>
               ))}
             </div>
 
-            <p className="mt-5 text-xs text-white/20 font-light text-center">
-              TRAVELPAYOUTS_TOKEN ayarlandığında otomatik fiyat tespiti devreye girer
+            <p className="text-sm text-white/35 font-light mb-5">
+              Schengen&apos;e uçuş ara — kalkış noktanı seç:
             </p>
-          </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {FALLBACK_ROUTES.map((route, i) => (
+                <motion.a
+                  key={route.code}
+                  href={`https://www.skyscanner.com.tr/transport/flights/${activeOrigin.toLowerCase()}/${route.code.toLowerCase()}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                  className="group glass rounded-xl p-4 hover:bg-white/[0.07] hover:border-white/15 transition-all flex flex-col items-center gap-2 text-center"
+                >
+                  <span className="text-3xl leading-none">{route.flag}</span>
+                  <div>
+                    <p className="text-sm font-medium text-white/80 group-hover:text-white transition-colors">
+                      {route.city}
+                    </p>
+                    <p className="text-[11px] text-white/30">{route.country}</p>
+                  </div>
+                  <div className="text-[10px] text-[#00d4ff]/50 group-hover:text-[#00d4ff] transition-colors flex items-center gap-1">
+                    <ExternalLink size={9} />
+                    Skyscanner&apos;da Ara
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+
+            <p className="mt-6 text-xs text-white/15 font-light text-center">
+              Anlık fiyat verisi için Travelpayouts API bağlantısı aktif · Veri yüklenemezse Skyscanner linkleri gösterilir
+            </p>
+          </motion.div>
         )}
       </div>
     </section>

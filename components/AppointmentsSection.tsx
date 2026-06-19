@@ -94,7 +94,7 @@ function EmptyState() {
 
 export default function AppointmentsSection() {
   return (
-    <section id="appointments" className="py-24 bg-[#0a0a0a]">
+    <section id="appointments" className="py-24" style={{ background: "linear-gradient(to bottom, #020918, #030b14)" }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
