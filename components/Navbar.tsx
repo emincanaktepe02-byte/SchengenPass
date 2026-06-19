@@ -6,8 +6,9 @@ import Image from "next/image";
 
 const NAV_LINKS = [
   { href: "#appointments", label: "Randevu Paylaşımları" },
-  { href: "#flights", label: "Uygun Uçuşlar" },
+  { href: "#flights", label: "Uçuş Fırsatları" },
   { href: "#guide", label: "Ülke Rehberi" },
+  { href: "#blog", label: "Blog" },
 ];
 
 export default function Navbar() {
@@ -69,10 +70,10 @@ export default function Navbar() {
         ))}
       </div>
 
-      {/* Ücretsiz badge */}
+      {/* Status badge */}
       <div className="hidden md:flex items-center gap-2 border border-white/10 rounded-full px-3 py-1.5">
-        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-        <span className="text-xs text-white/50 font-light">Ücretsiz</span>
+        <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+        <span className="text-xs text-white/50 font-light">Aktif</span>
       </div>
 
       {/* Mobile menu button */}

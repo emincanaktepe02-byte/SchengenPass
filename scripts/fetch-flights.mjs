@@ -1,10 +1,8 @@
 /**
- * Prebuild script: fetches cheap Schengen flight deals from Travelpayouts API
- * (which provides Skyscanner-affiliate pricing data) and writes them to
- * content/flights.json so the site always reflects the latest deals.
- *
- * Run automatically via `npm run build` or `npm run dev` (see package.json).
- * Requires TRAVELPAYOUTS_TOKEN env var; writes an empty array if not set.
+ * Prebuild/predev script — sonraki 40 gün içindeki ucuz Schengen uçuşlarını
+ * Travelpayouts (Skyscanner affiliate) API'den çeker ve content/flights.json'a yazar.
+ * Her ülkenin en çok turist çeken 2 şehri için en ucuz uçuşu bulur.
+ * npm run dev / npm run build sırasında otomatik çalışır.
  */
 
 import { writeFileSync } from "node:fs";
@@ -17,57 +15,92 @@ const OUT = join(__dirname, "../content/flights.json");
 const token = process.env.TRAVELPAYOUTS_TOKEN;
 
 if (!token) {
-  console.log("⚠  TRAVELPAYOUTS_TOKEN not set — skipping flight fetch, writing []");
+  console.log("⚠  TRAVELPAYOUTS_TOKEN not set — writing []");
   writeFileSync(OUT, "[]", "utf-8");
   process.exit(0);
 }
 
 const ORIGINS = [
   { code: "IST", city: "İstanbul" },
-  { code: "SAW", city: "İstanbul (SAW)" },
+  { code: "SAW", city: "Sabiha Gökçen" },
   { code: "ESB", city: "Ankara" },
   { code: "ADB", city: "İzmir" },
 ];
 
-const DESTINATIONS = [
-  { code: "ATH", city: "Atina", country: "Yunanistan" },
-  { code: "AMS", city: "Amsterdam", country: "Hollanda" },
-  { code: "CDG", city: "Paris", country: "Fransa" },
-  { code: "FCO", city: "Roma", country: "İtalya" },
-  { code: "MAD", city: "Madrid", country: "İspanya" },
-  { code: "BCN", city: "Barselona", country: "İspanya" },
-  { code: "VIE", city: "Viyana", country: "Avusturya" },
-  { code: "ZRH", city: "Zürih", country: "İsviçre" },
-  { code: "BER", city: "Berlin", country: "Almanya" },
-  { code: "MUC", city: "Münih", country: "Almanya" },
-  { code: "PRG", city: "Prag", country: "Çekya" },
-  { code: "WAW", city: "Varşova", country: "Polonya" },
-  { code: "BRU", city: "Brüksel", country: "Belçika" },
-  { code: "LIS", city: "Lizbon", country: "Portekiz" },
-  { code: "CPH", city: "Kopenhag", country: "Danimarka" },
-  { code: "OSL", city: "Oslo", country: "Norveç" },
-  { code: "ARN", city: "Stockholm", country: "İsveç" },
-  { code: "HEL", city: "Helsinki", country: "Finlandiya" },
-  { code: "BUD", city: "Budapeşte", country: "Macaristan" },
-  { code: "BTS", city: "Bratislava", country: "Slovakya" },
-  { code: "TLL", city: "Tallinn", country: "Estonya" },
-  { code: "RIX", city: "Riga", country: "Letonya" },
-  { code: "VNO", city: "Vilnius", country: "Litvanya" },
-  { code: "LJU", city: "Ljubljana", country: "Slovenya" },
-  { code: "ZAG", city: "Zagreb", country: "Hırvatistan" },
-  { code: "SOF", city: "Sofya", country: "Bulgaristan" },
-  { code: "OTP", city: "Bükreş", country: "Romanya" },
-  { code: "MLA", city: "Malta", country: "Malta" },
+// En çok turist çeken 2 şehir per takip edilen ülke
+const COUNTRY_DESTINATIONS = [
+  { country: "Yunanistan", flag: "🇬🇷", gradient: ["#0D5EAF", "#FFFFFF"],
+    cities: [{ code: "ATH", name: "Atina" }, { code: "SKG", name: "Selanik" }] },
+  { country: "Fransa", flag: "🇫🇷", gradient: ["#002395", "#ED2939"],
+    cities: [{ code: "CDG", name: "Paris" }, { code: "NCE", name: "Nice" }] },
+  { country: "İtalya", flag: "🇮🇹", gradient: ["#009246", "#CE2B37"],
+    cities: [{ code: "FCO", name: "Roma" }, { code: "MXP", name: "Milano" }] },
+  { country: "İspanya", flag: "🇪🇸", gradient: ["#AA151B", "#F1BF00"],
+    cities: [{ code: "MAD", name: "Madrid" }, { code: "BCN", name: "Barselona" }] },
+  { country: "Almanya", flag: "🇩🇪", gradient: ["#000000", "#DD0000"],
+    cities: [{ code: "BER", name: "Berlin" }, { code: "MUC", name: "Münih" }] },
+  { country: "Hollanda", flag: "🇳🇱", gradient: ["#AE1C28", "#21468B"],
+    cities: [{ code: "AMS", name: "Amsterdam" }] },
+  { country: "Avusturya", flag: "🇦🇹", gradient: ["#ED2939", "#FFFFFF"],
+    cities: [{ code: "VIE", name: "Viyana" }] },
+  { country: "Portekiz", flag: "🇵🇹", gradient: ["#006600", "#FF0000"],
+    cities: [{ code: "LIS", name: "Lizbon" }, { code: "OPO", name: "Porto" }] },
+  { country: "Hırvatistan", flag: "🇭🇷", gradient: ["#FF0000", "#0055A4"],
+    cities: [{ code: "DBV", name: "Dubrovnik" }, { code: "ZAG", name: "Zagreb" }] },
+  { country: "Çekya", flag: "🇨🇿", gradient: ["#D7141A", "#11457E"],
+    cities: [{ code: "PRG", name: "Prag" }] },
+  { country: "Macaristan", flag: "🇭🇺", gradient: ["#CE2939", "#436F4D"],
+    cities: [{ code: "BUD", name: "Budapeşte" }] },
+  { country: "Polonya", flag: "🇵🇱", gradient: ["#DC143C", "#FFFFFF"],
+    cities: [{ code: "WAW", name: "Varşova" }, { code: "KRK", name: "Kraków" }] },
+  { country: "İsviçre", flag: "🇨🇭", gradient: ["#CC0000", "#FFFFFF"],
+    cities: [{ code: "ZRH", name: "Zürih" }, { code: "GVA", name: "Cenevre" }] },
+  { country: "Belçika", flag: "🇧🇪", gradient: ["#000000", "#F9CC12"],
+    cities: [{ code: "BRU", name: "Brüksel" }] },
+  { country: "Malta", flag: "🇲🇹", gradient: ["#CF142B", "#FFFFFF"],
+    cities: [{ code: "MLA", name: "Malta" }] },
+  { country: "Bulgaristan", flag: "🇧🇬", gradient: ["#00966E", "#D62612"],
+    cities: [{ code: "SOF", name: "Sofya" }, { code: "VAR", name: "Varna" }] },
+  { country: "Romanya", flag: "🇷🇴", gradient: ["#002B7F", "#CE1126"],
+    cities: [{ code: "OTP", name: "Bükreş" }] },
+  { country: "Norveç", flag: "🇳🇴", gradient: ["#EF2B2D", "#003680"],
+    cities: [{ code: "OSL", name: "Oslo" }, { code: "BGO", name: "Bergen" }] },
+  { country: "İsveç", flag: "🇸🇪", gradient: ["#006AA7", "#FECC02"],
+    cities: [{ code: "ARN", name: "Stockholm" }, { code: "GOT", name: "Göteborg" }] },
+  { country: "Danimarka", flag: "🇩🇰", gradient: ["#C60C30", "#FFFFFF"],
+    cities: [{ code: "CPH", name: "Kopenhag" }] },
+  { country: "Finlandiya", flag: "🇫🇮", gradient: ["#003580", "#FFFFFF"],
+    cities: [{ code: "HEL", name: "Helsinki" }] },
+  { country: "Slovakya", flag: "🇸🇰", gradient: ["#FFFFFF", "#0B4EA2"],
+    cities: [{ code: "BTS", name: "Bratislava" }] },
+  { country: "Estonya", flag: "🇪🇪", gradient: ["#0072CE", "#1B4F91"],
+    cities: [{ code: "TLL", name: "Tallinn" }] },
+  { country: "Letonya", flag: "🇱🇻", gradient: ["#9E3039", "#FFFFFF"],
+    cities: [{ code: "RIX", name: "Riga" }] },
+  { country: "Litvanya", flag: "🇱🇹", gradient: ["#FDB913", "#006A44"],
+    cities: [{ code: "VNO", name: "Vilnius" }] },
+  { country: "Slovenya", flag: "🇸🇮", gradient: ["#003DA5", "#00A651"],
+    cities: [{ code: "LJU", name: "Ljubljana" }] },
+  { country: "Lüksemburg", flag: "🇱🇺", gradient: ["#EF3340", "#00A3E0"],
+    cities: [{ code: "LUX", name: "Lüksemburg" }] },
 ];
 
-function nextMonths(n) {
-  const months = [];
+// Sonraki 40 günün tarihlerini üret
+function next40Days() {
+  const dates = [];
   const now = new Date();
-  for (let i = 0; i < n; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-    months.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+  for (let i = 1; i <= 40; i++) {
+    const d = new Date(now);
+    d.setDate(now.getDate() + i);
+    dates.push(d.toISOString().split("T")[0]);
   }
-  return months;
+  return dates;
+}
+
+// Ay bazında tarih grupla (API month-matrix için)
+function monthsFromDates(dates) {
+  const set = new Set(dates.map((d) => d.slice(0, 7)));
+  return [...set];
 }
 
 async function fetchMonthPrices(origin, destination, month) {
@@ -75,7 +108,6 @@ async function fetchMonthPrices(origin, destination, month) {
     `https://api.travelpayouts.com/v2/prices/month-matrix` +
     `?origin=${origin}&destination=${destination}&month=${month}` +
     `&currency=try&show_to_affiliates=true&token=${token}`;
-
   try {
     const res = await fetch(url);
     if (!res.ok) return [];
@@ -84,65 +116,60 @@ async function fetchMonthPrices(origin, destination, month) {
     return Object.entries(json.data)
       .map(([date, info]) => ({ date, price: info.price ?? 0, airline: info.airline }))
       .filter((d) => d.price > 0);
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 }
 
-function groupByWeek(prices) {
-  const weeks = new Map();
-  for (const p of prices) {
-    const d = new Date(p.date);
-    const day = d.getDay() || 7;
-    const monday = new Date(d);
-    monday.setDate(d.getDate() - (day - 1));
-    const key = monday.toISOString().split("T")[0];
-    if (!weeks.has(key)) weeks.set(key, []);
-    weeks.get(key).push(p);
-  }
-  return weeks;
-}
+console.log("✈  Fetching cheapest Schengen flights for next 40 days...");
 
-console.log("✈  Fetching Schengen flight deals from Travelpayouts (Skyscanner affiliate)...");
-const months = nextMonths(6);
+const targetDates = new Set(next40Days());
+const months = monthsFromDates([...targetDates]);
 const deals = [];
 
-for (const origin of ORIGINS) {
-  for (const dest of DESTINATIONS) {
-    const allPrices = [];
-    for (const month of months) {
-      const prices = await fetchMonthPrices(origin.code, dest.code, month);
-      allPrices.push(...prices);
-    }
-    if (allPrices.length < 8) continue;
+for (const countryDest of COUNTRY_DESTINATIONS) {
+  for (const city of countryDest.cities) {
+    let best = null; // { price, origin, originCity, departDate, airline }
 
-    const avg = allPrices.reduce((s, p) => s + p.price, 0) / allPrices.length;
-    const weeks = groupByWeek(allPrices);
-
-    for (const [weekStart, weekPrices] of weeks) {
-      const min = weekPrices.reduce((a, b) => (a.price < b.price ? a : b));
-      const savings = Math.round((1 - min.price / avg) * 100);
-      if (savings >= 35) {
-        deals.push({
-          id: `${origin.code}-${dest.code}-${weekStart}`,
-          origin: origin.code,
-          originCity: origin.city,
-          destination: dest.code,
-          destinationCity: dest.city,
-          destinationCountry: dest.country,
-          departDate: weekStart,
-          price: min.price,
-          currency: "TRY",
-          sixMonthAvg: Math.round(avg),
-          savingsPercent: savings,
-          airline: min.airline ?? null,
-          bookingLink: `https://www.skyscanner.com.tr/transport/flights/${origin.code.toLowerCase()}/${dest.code.toLowerCase()}/${weekStart.replace(/-/g, "")}/`,
-        });
+    for (const origin of ORIGINS) {
+      const allPrices = [];
+      for (const month of months) {
+        const prices = await fetchMonthPrices(origin.code, city.code, month);
+        allPrices.push(...prices);
       }
+      // Only keep prices within next 40 days
+      const filtered = allPrices.filter((p) => targetDates.has(p.date));
+      if (filtered.length === 0) continue;
+
+      const cheapest = filtered.reduce((a, b) => (a.price < b.price ? a : b));
+      if (!best || cheapest.price < best.price) {
+        best = {
+          price: cheapest.price,
+          originCode: origin.code,
+          originCity: origin.city,
+          departDate: cheapest.date,
+          airline: cheapest.airline ?? null,
+        };
+      }
+    }
+
+    if (best) {
+      deals.push({
+        country: countryDest.country,
+        flag: countryDest.flag,
+        coverGradient: countryDest.gradient,
+        city: city.name,
+        destinationCode: city.code,
+        originCity: best.originCity,
+        originCode: best.originCode,
+        price: best.price,
+        departDate: best.departDate,
+        airline: best.airline,
+        bookingLink: `https://www.skyscanner.com.tr/transport/flights/${best.originCode.toLowerCase()}/${city.code.toLowerCase()}/${best.departDate.replace(/-/g, "")}/`,
+      });
     }
   }
 }
 
-const sorted = deals.sort((a, b) => b.savingsPercent - a.savingsPercent).slice(0, 48);
+// Fiyata göre sırala
+const sorted = deals.sort((a, b) => a.price - b.price);
 writeFileSync(OUT, JSON.stringify(sorted, null, 2), "utf-8");
-console.log(`✅  Wrote ${sorted.length} deals to content/flights.json`);
+console.log(`✅  Wrote ${sorted.length} country deals to content/flights.json`);

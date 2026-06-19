@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, ExternalLink } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -17,8 +17,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-white/30 text-sm font-light leading-relaxed max-w-xs">
-              Türkiye'den Schengen vize başvurusu yapacaklar için ücretsiz, topluluk temelli
-              bir rehber. Scraping yok, bot yok, ücret yok.
+              Türkiye'den Schengen vize başvurusu yapacaklar için topluluk temelli
+              bir rehber. Scraping yok, bot yok, doğrulanmış bilgi.
             </p>
 
             {/* Contact */}
@@ -28,30 +28,6 @@ export default function Footer() {
                 info@schengenpass.com
               </a>
             </div>
-
-            {/* Inspiration sources */}
-            <div className="mt-6">
-              <p className="text-white/20 text-[11px] font-light mb-2 uppercase tracking-wider">İlham Aldığımız Kaynaklar</p>
-              <div className="flex flex-col gap-1.5">
-                {[
-                  { label: "@gokdenizgok", href: "https://www.instagram.com/gokdenizgok" },
-                  { label: "@ucuzarota", href: "https://www.instagram.com/ucuzarota" },
-                  { label: "@ucuza.ucak", href: "https://www.instagram.com/ucuza.ucak" },
-                  { label: "ucuzaucak.net", href: "https://ucuzaucak.net" },
-                ].map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-white/25 text-xs hover:text-white/50 transition-colors"
-                  >
-                    <ExternalLink size={11} />
-                    {s.label}
-                  </a>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Links */}
@@ -60,8 +36,9 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 { href: "#appointments", label: "Randevu Paylaşımları" },
-                { href: "#flights", label: "Uygun Uçuşlar" },
+                { href: "#flights", label: "Uçuş Fırsatları" },
                 { href: "#guide", label: "Ülke Rehberi" },
+                { href: "#blog", label: "Blog" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-white/25 text-xs font-light hover:text-white/50 transition-colors">

@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import AppointmentsSection from "@/components/AppointmentsSection";
 import FlightsSection from "@/components/FlightsSection";
 import CountryGuide from "@/components/CountryGuide";
-import AntiExploitation from "@/components/AntiExploitation";
+import BlogSection from "@/components/BlogSection";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
@@ -15,7 +15,7 @@ export default function Home() {
       <AppointmentsSection />
       <FlightsSection />
       <CountryGuide />
-      <AntiExploitation />
+      <BlogSection />
       <FAQ />
       <Footer />
     </main>

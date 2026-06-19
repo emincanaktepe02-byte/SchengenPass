@@ -32,8 +32,8 @@ const SLIDES = [
 ];
 
 const STATS = [
-  { value: "26", label: "Schengen ülkesi" },
-  { value: "€0", label: "Tamamen ücretsiz" },
+  { value: "26+", label: "Schengen ülkesi rehberi" },
+  { value: "5+", label: "Vize merkezi partneri" },
   { value: "Elle", label: "Küratörlenmiş içerik" },
   { value: "Sıfır", label: "Bot veya scraping" },
 ];
@@ -106,7 +106,7 @@ export default function Hero() {
         >
           <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
           <span className="text-xs text-white/70 font-light tracking-wider uppercase">
-            Ücretsiz · Küratörlü · Scraping Yok
+            Küratörlü · Şeffaf · Güvenilir
           </span>
         </motion.div>
 
@@ -130,7 +130,7 @@ export default function Hero() {
           transition={{ delay: 0.5 }}
           className="text-base sm:text-lg text-white/50 font-light max-w-xl mx-auto mb-4 leading-relaxed"
         >
-          Topluluk temelli, ücretsiz bir Schengen vize rehberi. Boş randevu paylaşımları,
+          Topluluk temelli Schengen vize rehberi. Boş randevu paylaşımları,
           uygun uçuş fırsatları ve detaylı ülke başvuru rehberleri.
         </motion.p>
 
@@ -140,7 +140,7 @@ export default function Hero() {
           transition={{ delay: 0.6 }}
           className="text-sm text-white/30 font-light mb-10"
         >
-          Bot yok. Scraping yok. Ücret yok. Sadece bilgi.
+          Bot yok. Scraping yok. Sadece güvenilir bilgi.
         </motion.p>
 
         {/* CTA Buttons */}
