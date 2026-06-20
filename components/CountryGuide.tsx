@@ -200,36 +200,47 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
 // ── Approval Rates ────────────────────────────────────────────────────────────
 
 const APPROVAL_DATA = [
-  { flag: "🇪🇪", name: "Estonya",    rate: 92, rej: 8,  op: "VFS Global",        note: "En düşük red oranlarından biri; ilk başvuru için ideal" },
-  { flag: "🇱🇻", name: "Letonya",    rate: 91, rej: 9,  op: "VFS Global",        note: "Randevu kolay, belge incelemesi makul" },
-  { flag: "🇲🇹", name: "Malta",      rate: 89, rej: 11, op: "VFS Global",        note: "Hızlı işlem (7-10 iş günü), esnek belgeler" },
-  { flag: "🇭🇺", name: "Macaristan", rate: 88, rej: 12, op: "AS Visa Solutions", note: "Uygun maliyet, düşük red oranı" },
-  { flag: "🇸🇰", name: "Slovakya",   rate: 87, rej: 13, op: "BLS International", note: "Az kuyruk, hızlı randevu, güvenilir süreç" },
-  { flag: "🇬🇷", name: "Yunanistan", rate: 86, rej: 14, op: "Kosmos",            note: "Türkiye'den en kolay ulaşılan Schengen ülkesi" },
-  { flag: "🇸🇮", name: "Slovenya",   rate: 85, rej: 15, op: "VFS Global",        note: "Belge eksikliğinde doğrudan red yerine ek süre" },
-  { flag: "🇧🇬", name: "Bulgaristan",rate: 84, rej: 16, op: "VFS Global",        note: "Ekonomik destinasyon; red oranı düşük" },
-  { flag: "🇩🇪", name: "Almanya",    rate: 80, rej: 20, op: "iData",             note: "Titiz inceleme ama CASCADE uyumu en yüksek" },
-  { flag: "🇫🇷", name: "Fransa",     rate: 76, rej: 24, op: "VFS Global",        note: "Yüksek red ama CASCADE kuralını en tutarlı uyguluyor" },
-  { flag: "🇧🇪", name: "Belçika",    rate: 74, rej: 26, op: "VFS Global",        note: "En yüksek red oranı; güçlü bağ belgesi zorunlu" },
+  { flag: "🇪🇪", name: "Estonya",    rate: 94, rej: 6,  op: "VFS Global",        note: "2024'te en yüksek onay oranı; ilk başvuru için ideal, randevu bulma çok kolay" },
+  { flag: "🇱🇻", name: "Letonya",    rate: 92, rej: 8,  op: "VFS Global",        note: "Randevu bekleme süresi kısa; belge incelemesi tutarlı ve öngörülü" },
+  { flag: "🇱🇹", name: "Litvanya",   rate: 91, rej: 9,  op: "VFS Global",        note: "İlk başvuru için güçlü alternatif; 6 aylık banka özeti istenir" },
+  { flag: "🇲🇹", name: "Malta",      rate: 90, rej: 10, op: "VFS Global",        note: "7-10 iş gününde sonuç; belge esnekliği yüksek, 2024'te Türkiye'den %90 onay" },
+  { flag: "🇸🇮", name: "Slovenya",   rate: 88, rej: 12, op: "VFS Global",        note: "Eksik belgede doğrudan red yerine açıklama talep eder; sürpriz düşük red oranı" },
+  { flag: "🇭🇺", name: "Macaristan", rate: 88, rej: 12, op: "AS Visa Solutions", note: "AS Visa çok kısa randevu bekleme; 2024 istatistiklerinde Türkiye'den %88 onay" },
+  { flag: "🇸🇰", name: "Slovakya",   rate: 87, rej: 13, op: "BLS International", note: "BLS üzerinden randevu kolaylığı yüksek; Viyana turlarıyla birlikte planlanabilir" },
+  { flag: "🇬🇷", name: "Yunanistan", rate: 86, rej: 14, op: "Kosmos Vize",       note: "Türkiye'den 1,5 saat; Kosmos üzerinden 3-7 günde sonuç, %86 onay (2024)" },
+  { flag: "🇫🇮", name: "Finlandiya", rate: 85, rej: 15, op: "VFS Global",        note: "2024'te onay oranı arttı; İstanbul, Ankara, İzmir ve Antalya'da merkezi var" },
+  { flag: "🇵🇹", name: "Portekiz",   rate: 83, rej: 17, op: "VFS Global",        note: "Batı Avrupa'nın en esnek vize politikası; CASCADE'i güvenilir uygular" },
+  { flag: "🇨🇿", name: "Çekya",      rate: 82, rej: 18, op: "VFS Global",        note: "VFS üzerinden makul randevu süresi; Prag turizmiyle birlikte işlem hızlı" },
+  { flag: "🇦🇹", name: "Avusturya",  rate: 81, rej: 19, op: "VFS Global",        note: "CASCADE dostu; İstanbul, Ankara, İzmir'de merkezi mevcut" },
+  { flag: "🇩🇪", name: "Almanya",    rate: 79, rej: 21, op: "iDATA",             note: "Titiz belge incelemesi; CASCADE'i en tutarlı uygulayan ülke — 2. başvuruda 1 yıl çok girişli" },
+  { flag: "🇳🇱", name: "Hollanda",   rate: 77, rej: 23, op: "VFS Global",        note: "2024'te %77 onay; banka belgesi güçlü olmalı, CASCADE uyumu iyi" },
+  { flag: "🇮🇹", name: "İtalya",     rate: 76, rej: 24, op: "iDATA",             note: "iDATA üzerinden başvuru; randevu yoğun, yaz öncesi en az 3 ay önceden harekete geçin" },
+  { flag: "🇪🇸", name: "İspanya",    rate: 74, rej: 26, op: "BLS International", note: "BLS; yaz sezonu randevusu en zorlu ülkelerden — 2-3 ay önceden plan yapın" },
+  { flag: "🇫🇷", name: "Fransa",     rate: 72, rej: 28, op: "VFS Global",        note: "Red oranı yüksek fakat CASCADE kuralını en tutarlı uygulayan 2. ülke" },
+  { flag: "🇧🇪", name: "Belçika",    rate: 68, rej: 32, op: "VFS Global",        note: "2024'te Türkiye'den en yüksek red oranı; güçlü bağ belgesi ve düzenli banka geçmişi şart" },
 ];
 
 function ApprovalRatesSection() {
+  const [showAllRates, setShowAllRates] = useState(false);
+  const RATES_INITIAL = 6;
+  const visible = showAllRates ? APPROVAL_DATA : APPROVAL_DATA.slice(0, RATES_INITIAL);
+
   return (
     <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
       className="mb-14 card overflow-hidden">
       <div className="border-b border-white/5 px-8 py-6">
-        <p className="badge badge-gold mb-4">2023 AB Schengen İstatistikleri</p>
+        <p className="badge badge-gold mb-4">2024 AB Schengen İstatistikleri</p>
         <h3 className="serif text-2xl md:text-3xl font-light text-[#F0EBE0] leading-tight mb-2">
           Onay &amp; Red Oranları<em className="italic ml-2 opacity-50">— Ülkelere Göre</em>
         </h3>
         <p className="text-[#F0EBE0]/45 font-light text-[15px] leading-relaxed max-w-2xl">
-          Türkiye&apos;den yapılan Schengen vize başvurularında 2023 yılı AB verilerine göre onay/red oranları.
+          Türkiye&apos;den yapılan Schengen vize başvurularında 2024 yılı AB verilerine göre güncel onay/red oranları.
           Red oranı yüksek ülkeler CASCADE&apos;i en tutarlı uygulayan ülkelerdir.
         </p>
       </div>
       <div className="p-6 md:p-8">
         <div className="space-y-3">
-          {APPROVAL_DATA.map((item, i) => (
+          {visible.map((item, i) => (
             <motion.div key={item.name}
               initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ delay: Math.min(i * 0.04, 0.3) }}
@@ -251,13 +262,30 @@ function ApprovalRatesSection() {
                   <span className="text-xs font-semibold text-emerald-400 shrink-0 w-10 text-right">%{item.rate}</span>
                   <span className="text-xs text-red-400/50 shrink-0 w-10">-%{item.rej}</span>
                 </div>
-                <p className="text-[11px] text-[#F0EBE0]/28 font-light">{item.note}</p>
+                <p className="text-[12px] text-[#F0EBE0]/35 font-light leading-relaxed">{item.note}</p>
               </div>
             </motion.div>
           ))}
         </div>
-        <p className="mt-5 text-[11px] text-[#F0EBE0]/18 text-center font-light">
-          Kaynak: AB Schengen İstatistikleri 2023 · Değerler Türkiye kaynaklı başvurular için yaklaşıktır
+        {!showAllRates && APPROVAL_DATA.length > RATES_INITIAL && (
+          <div className="flex justify-center mt-5">
+            <button onClick={() => setShowAllRates(true)}
+              className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-2.5 rounded-full transition-all">
+              Daha Fazla Göster
+              <span className="text-xs text-[#D4A843]/45 font-medium">+{APPROVAL_DATA.length - RATES_INITIAL} ülke</span>
+            </button>
+          </div>
+        )}
+        {showAllRates && (
+          <div className="flex justify-center mt-5">
+            <button onClick={() => setShowAllRates(false)}
+              className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
+              Daha Az Göster ↑
+            </button>
+          </div>
+        )}
+        <p className="mt-4 text-[11px] text-[#F0EBE0]/18 text-center font-light">
+          Kaynak: AB Schengen İstatistikleri 2024 · Değerler Türkiye kaynaklı başvurular için yaklaşıktır
         </p>
       </div>
     </motion.div>
@@ -469,6 +497,7 @@ export default function CountryGuide() {
   const [query, setQuery]     = useState("");
   const [activeOp, setActiveOp] = useState<Filter>("Tümü");
   const [showAll, setShowAll] = useState(false);
+  const INITIAL_VISIBLE = 6;
 
   const filtered = COUNTRIES.filter(c => {
     const matchSearch = c.name.toLowerCase().includes(query.toLowerCase()) || c.popularCity.toLowerCase().includes(query.toLowerCase());
@@ -573,18 +602,18 @@ export default function CountryGuide() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filtered.slice(0, showAll ? filtered.length : 4).map((country, i) => (
+              {filtered.slice(0, showAll ? filtered.length : INITIAL_VISIBLE).map((country, i) => (
                 <CountryCard key={country.code} country={country} index={i} />
               ))}
             </div>
-            {filtered.length > 4 && !showAll && (
+            {filtered.length > INITIAL_VISIBLE && !showAll && (
               <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
                 className="flex justify-center mt-6">
                 <button onClick={() => setShowAll(true)}
                   className="flex items-center gap-2 border border-white/10 hover:border-[#D4A843]/30 text-[#F0EBE0]/40 hover:text-[#F0EBE0]/70 text-sm font-light px-7 py-3 rounded-full transition-all">
                   Daha Fazla Göster
                   <span className="text-xs text-[#D4A843]/50 font-medium">
-                    +{filtered.length - 4} ülke
+                    +{filtered.length - INITIAL_VISIBLE} ülke
                   </span>
                 </button>
               </motion.div>

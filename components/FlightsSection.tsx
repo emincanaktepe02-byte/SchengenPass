@@ -154,6 +154,8 @@ export default function FlightsSection() {
   const [deals,   setDeals]   = useState<FlightDeal[]>([]);
   const [loading, setLoading] = useState(true);
   const [origin,  setOrigin]  = useState<Origin>("IST");
+  const [showAll, setShowAll] = useState(false);
+  const FLIGHTS_INITIAL = 6;
 
   useEffect(() => {
     fetch("/api/cheap-flights")
@@ -165,6 +167,8 @@ export default function FlightsSection() {
 
   const groups = groupDeals(deals, origin);
   const hasDeals = !loading && groups.length > 0;
+  const visibleGroups = showAll ? groups : groups.slice(0, FLIGHTS_INITIAL);
+  const visibleFallback = showAll ? [...FALLBACK] : [...FALLBACK].slice(0, FLIGHTS_INITIAL);
 
   return (
     <section id="flights" className="section-ink3 py-28">
@@ -189,7 +193,7 @@ export default function FlightsSection() {
         {/* Origin tabs */}
         <div className="flex gap-2 mb-8 flex-wrap">
           {ORIGINS.map(o => (
-            <button key={o} onClick={() => setOrigin(o)}
+            <button key={o} onClick={() => { setOrigin(o); setShowAll(false); }}
               className={`px-4 py-2 rounded-full text-sm transition-all ${
                 o === origin
                   ? "bg-[#D4A843] text-[#111111] font-semibold"
@@ -205,8 +209,25 @@ export default function FlightsSection() {
           <div className="space-y-3">{[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}</div>
         ) : hasDeals ? (
           <div className="space-y-3">
-            {groups.map(g => <CountryCard key={g.country} group={g} origin={origin} />)}
-            <p className="text-[11px] text-[#F0EBE0]/15 text-center mt-5 font-light">
+            {visibleGroups.map(g => <CountryCard key={g.country} group={g} origin={origin} />)}
+            {!showAll && groups.length > FLIGHTS_INITIAL && (
+              <div className="flex justify-center pt-2">
+                <button onClick={() => setShowAll(true)}
+                  className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
+                  Daha Fazla Göster
+                  <span className="text-xs text-[#D4A843]/45 font-medium">+{groups.length - FLIGHTS_INITIAL} destinasyon</span>
+                </button>
+              </div>
+            )}
+            {showAll && groups.length > FLIGHTS_INITIAL && (
+              <div className="flex justify-center pt-2">
+                <button onClick={() => setShowAll(false)}
+                  className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
+                  Daha Az Göster ↑
+                </button>
+              </div>
+            )}
+            <p className="text-[11px] text-[#F0EBE0]/15 text-center mt-3 font-light">
               Fiyatlar Travelpayouts üzerinden alınmış olup değişkendir · Satın almadan önce doğrulayın
             </p>
           </div>
@@ -216,7 +237,7 @@ export default function FlightsSection() {
               {origin} kalkışlı Schengen uçuşları — destinasyon seç:
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {FALLBACK.map((r, i) => (
+              {visibleFallback.map((r, i) => (
                 <motion.a key={r.code}
                   href={`https://www.skyscanner.com.tr/transport/flights/${origin.toLowerCase()}/${r.code.toLowerCase()}/`}
                   target="_blank" rel="noopener noreferrer"
@@ -234,6 +255,23 @@ export default function FlightsSection() {
                 </motion.a>
               ))}
             </div>
+            {!showAll && FALLBACK.length > FLIGHTS_INITIAL && (
+              <div className="flex justify-center mt-5">
+                <button onClick={() => setShowAll(true)}
+                  className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
+                  Daha Fazla Göster
+                  <span className="text-xs text-[#D4A843]/45 font-medium">+{FALLBACK.length - FLIGHTS_INITIAL} destinasyon</span>
+                </button>
+              </div>
+            )}
+            {showAll && FALLBACK.length > FLIGHTS_INITIAL && (
+              <div className="flex justify-center mt-5">
+                <button onClick={() => setShowAll(false)}
+                  className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
+                  Daha Az Göster ↑
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

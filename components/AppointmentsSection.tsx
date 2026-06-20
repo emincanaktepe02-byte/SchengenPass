@@ -313,11 +313,15 @@ export default function AppointmentsSection() {
     ? `${selCountry.flag} ${selCountry.name} (${selCountry.center}) — ${[...selDates].sort().map(friendlyDate).join(", ")} tarihlerinde boş randevu slotu tespit edildi. Portal'dan kontrol ederek doğrulayın.`
     : "";
 
+  const [showAllBulletins, setShowAllBulletins] = useState(false);
+  const BULLETINS_INITIAL = 6;
+
   // Unique countries in bulletins for filter chips
   const bulletinCountries = [...new Set(BULLETINS.map(b => b.country))];
   const filteredBulletins = filterCountry
     ? BULLETINS.filter(b => b.country === filterCountry)
     : BULLETINS;
+  const visibleBulletins = showAllBulletins ? filteredBulletins : filteredBulletins.slice(0, BULLETINS_INITIAL);
 
   return (
     <section id="appointments" className="section-ink2 py-28">
@@ -555,14 +559,14 @@ export default function AppointmentsSection() {
 
         {/* ── Bulletin filter chips ── */}
         <div className="flex gap-2 mb-6 flex-wrap">
-          <button onClick={() => setFilterCountry(null)}
+          <button onClick={() => { setFilterCountry(null); setShowAllBulletins(false); }}
             className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
               !filterCountry ? "bg-[#D4A843] text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
             }`}>
             Tümü
           </button>
           {bulletinCountries.map(c => (
-            <button key={c} onClick={() => setFilterCountry(filterCountry === c ? null : c)}
+            <button key={c} onClick={() => { setFilterCountry(filterCountry === c ? null : c); setShowAllBulletins(false); }}
               className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
                 filterCountry === c ? "bg-[#D4A843]/90 text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
               }`}>
@@ -572,11 +576,29 @@ export default function AppointmentsSection() {
         </div>
 
         {/* ── Bulletin grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
-          {filteredBulletins.map((b, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {visibleBulletins.map((b, i) => (
             <BulletinCard key={i} b={b} index={i} />
           ))}
         </div>
+        {!showAllBulletins && filteredBulletins.length > BULLETINS_INITIAL && (
+          <div className="flex justify-center mb-14">
+            <button onClick={() => setShowAllBulletins(true)}
+              className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
+              Daha Fazla Göster
+              <span className="text-xs text-[#D4A843]/45 font-medium">+{filteredBulletins.length - BULLETINS_INITIAL} duyuru</span>
+            </button>
+          </div>
+        )}
+        {showAllBulletins && (
+          <div className="flex justify-center mb-14">
+            <button onClick={() => setShowAllBulletins(false)}
+              className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
+              Daha Az Göster ↑
+            </button>
+          </div>
+        )}
+        {showAllBulletins || filteredBulletins.length <= BULLETINS_INITIAL ? <div className="mb-14" /> : null}
 
         {/* ── Community submissions ── */}
         {apts.length > 0 && (
