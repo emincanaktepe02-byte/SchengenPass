@@ -31,9 +31,6 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-6 h-6 rounded-sm bg-[#D4A843] flex items-center justify-center">
-            <span className="text-[9px] font-bold text-[#111111] leading-none">SP</span>
-          </div>
           <span
             className="text-[#F0EBE0] text-sm font-light tracking-wide"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -53,12 +50,6 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-        </div>
-
-        {/* Right pill */}
-        <div className="hidden md:flex items-center gap-2 border border-white/8 rounded-full px-4 py-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[11px] text-[#F0EBE0]/35 font-light tracking-wide">2026 Güncel</span>
         </div>
 
         {/* Mobile toggle */}

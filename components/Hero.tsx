@@ -87,7 +87,7 @@ export default function Hero() {
           </p>
 
           <h1
-            className="text-[clamp(2.8rem,8vw,6.5rem)] font-light text-[#F0EBE0] leading-[1.04] tracking-tight"
+            className="text-[clamp(3.6rem,9.5vw,8rem)] font-light text-[#F0EBE0] leading-[1.04] tracking-tight"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Schengen
@@ -99,7 +99,7 @@ export default function Hero() {
             <span className="font-light italic opacity-80">Rehberiniz</span>
           </h1>
 
-          <p className="mt-7 text-[#F0EBE0]/45 text-base font-light max-w-md leading-relaxed">
+          <p className="mt-8 text-[#F0EBE0]/55 text-lg font-light max-w-lg leading-relaxed">
             26 ülke · Onay oranları · CASCADE kademeleme · Anlık uçuş fiyatları
           </p>
         </motion.div>

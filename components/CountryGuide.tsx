@@ -117,7 +117,7 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
                 <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <CreditCard size={10} />Banka &amp; Finansal Gereksinimler
                 </p>
-                <p className="text-[13px] text-[#F0EBE0]/45 font-light leading-relaxed">{country.bankRequirements}</p>
+                <p className="text-[14px] text-[#F0EBE0]/50 font-light leading-relaxed">{country.bankRequirements}</p>
               </div>
 
               {/* Rejection risks */}
@@ -215,7 +215,7 @@ function ApprovalRatesSection() {
         <h3 className="serif text-2xl md:text-3xl font-light text-[#F0EBE0] leading-tight mb-2">
           Onay &amp; Red Oranları<em className="italic ml-2 opacity-50">— Ülkelere Göre</em>
         </h3>
-        <p className="text-[#F0EBE0]/35 font-light text-sm leading-relaxed max-w-2xl">
+        <p className="text-[#F0EBE0]/45 font-light text-[15px] leading-relaxed max-w-2xl">
           Türkiye&apos;den yapılan Schengen vize başvurularında 2023 yılı AB verilerine göre onay/red oranları.
           Red oranı yüksek ülkeler CASCADE&apos;i en tutarlı uygulayan ülkelerdir.
         </p>
@@ -292,7 +292,7 @@ function CascadeSection() {
         <h3 className="serif text-2xl md:text-3xl font-light text-[#F0EBE0] leading-tight mb-2">
           CASCADE Kuralı<em className="italic ml-2 opacity-50">— Vize Kademeleme Sistemi</em>
         </h3>
-        <p className="text-[#F0EBE0]/35 font-light text-sm leading-relaxed max-w-2xl">
+        <p className="text-[#F0EBE0]/45 font-light text-[15px] leading-relaxed max-w-2xl">
           Schengen vizeni kurallara uygun her kullanımda bir üst basamağa geçersin.
           Doğru kullanım = uzun süreli çok girişli vize.
         </p>
@@ -459,8 +459,9 @@ const ALL_OPERATORS = ["Tümü", "VFS Global", "iData", "Kosmos", "BLS Internati
 type Filter = typeof ALL_OPERATORS[number];
 
 export default function CountryGuide() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery]     = useState("");
   const [activeOp, setActiveOp] = useState<Filter>("Tümü");
+  const [showAll, setShowAll] = useState(false);
 
   const filtered = COUNTRIES.filter(c => {
     const matchSearch = c.name.toLowerCase().includes(query.toLowerCase()) || c.popularCity.toLowerCase().includes(query.toLowerCase());
@@ -485,7 +486,7 @@ export default function CountryGuide() {
                 Schengen Başvuru<br />
                 <em className="not-italic italic opacity-60">Rehberi 2026</em>
               </h2>
-              <p className="text-[#F0EBE0]/35 font-light text-[15px] mt-4 max-w-lg leading-relaxed">
+              <p className="text-[#F0EBE0]/45 font-light text-[16px] mt-4 max-w-lg leading-relaxed">
                 {COUNTRIES.length} ülke · CASCADE kuralı · Onay oranları · Banka gereksinimleri · VFS, iDATA, Kosmos, BLS, AS Visa Solutions
               </p>
             </div>
@@ -520,7 +521,7 @@ export default function CountryGuide() {
                 <span className="text-2xl shrink-0 mt-0.5">{t.emoji}</span>
                 <div>
                   <p className="text-[14px] font-semibold text-[#F0EBE0]/75 mb-1.5">{t.title}</p>
-                  <p className="text-[13px] text-[#F0EBE0]/38 font-light leading-relaxed">{t.tip}</p>
+                  <p className="text-[14px] text-[#F0EBE0]/45 font-light leading-relaxed">{t.tip}</p>
                 </div>
               </motion.div>
             ))}
@@ -531,7 +532,7 @@ export default function CountryGuide() {
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           className="flex items-start gap-3 bg-[#1E1A10] border border-[#D4A843]/12 rounded-xl px-5 py-4 mb-10 max-w-3xl">
           <AlertCircle size={14} className="text-[#D4A843]/40 shrink-0 mt-0.5" />
-          <p className="text-[13px] text-[#F0EBE0]/38 font-light leading-relaxed">
+          <p className="text-[14px] text-[#F0EBE0]/45 font-light leading-relaxed">
             Bu rehberdeki bilgiler genel bilgilendirme amaçlıdır. Vize kuralları değişkendir —
             başvuru öncesi mutlaka ilgili konsolosluğun veya yetkili vize merkezinin resmi sitesini kontrol edin.
           </p>
@@ -563,11 +564,33 @@ export default function CountryGuide() {
             <p className="text-[#F0EBE0]/25 text-sm font-light">&ldquo;{query}&rdquo; için sonuç bulunamadı.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((country, i) => (
-              <CountryCard key={country.code} country={country} index={i} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filtered.slice(0, showAll ? filtered.length : 4).map((country, i) => (
+                <CountryCard key={country.code} country={country} index={i} />
+              ))}
+            </div>
+            {filtered.length > 4 && !showAll && (
+              <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+                className="flex justify-center mt-6">
+                <button onClick={() => setShowAll(true)}
+                  className="flex items-center gap-2 border border-white/10 hover:border-[#D4A843]/30 text-[#F0EBE0]/40 hover:text-[#F0EBE0]/70 text-sm font-light px-7 py-3 rounded-full transition-all">
+                  Daha Fazla Göster
+                  <span className="text-xs text-[#D4A843]/50 font-medium">
+                    +{filtered.length - 4} ülke
+                  </span>
+                </button>
+              </motion.div>
+            )}
+            {showAll && (
+              <div className="flex justify-center mt-6">
+                <button onClick={() => setShowAll(false)}
+                  className="text-sm text-[#F0EBE0]/25 hover:text-[#F0EBE0]/50 font-light transition-colors">
+                  Daha Az Göster ↑
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
