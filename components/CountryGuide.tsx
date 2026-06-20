@@ -163,10 +163,17 @@ function CountryCard({ country, index }: { country: typeof COUNTRIES[0]; index: 
 
               {/* Centers */}
               <div>
-                <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <MapPin size={10} />Başvuru Merkezleri
+                <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                  <MapPin size={10} />Başvuru Merkezleri &amp; Yetki Alanları
                 </p>
-                <p className="text-[12px] text-[#F0EBE0]/35 font-light">{country.centers.join(" · ")}</p>
+                <div className="flex flex-wrap gap-2">
+                  {country.centers.map((c, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 text-[12px] bg-white/5 border border-white/8 rounded-full px-3 py-1.5 text-[#F0EBE0]/45">
+                      <MapPin size={9} className="text-[#D4A843]/40 shrink-0" />
+                      {c}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Official link */}

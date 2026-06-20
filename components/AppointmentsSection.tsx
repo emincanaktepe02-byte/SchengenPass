@@ -3,38 +3,40 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar, ChevronLeft, ChevronRight, Upload, X,
-  CheckCircle2, Plus, Image as ImageIcon,
+  CheckCircle2, Plus, Image as ImageIcon, MapPin,
+  ShieldCheck, Bell,
 } from "lucide-react";
+import { BULLETINS } from "@/lib/appointments-bulletin";
 
 // ── All 26 Schengen countries ─────────────────────────────────────────────────
 
 const SCHENGEN = [
-  { code: "DE", name: "Almanya",       flag: "🇩🇪", center: "iDATA"             },
-  { code: "AT", name: "Avusturya",     flag: "🇦🇹", center: "VFS Global"        },
-  { code: "BE", name: "Belçika",       flag: "🇧🇪", center: "VFS Global"        },
-  { code: "CZ", name: "Çekya",         flag: "🇨🇿", center: "BLS International" },
-  { code: "DK", name: "Danimarka",     flag: "🇩🇰", center: "VFS Global"        },
-  { code: "EE", name: "Estonya",       flag: "🇪🇪", center: "VFS Global"        },
-  { code: "FI", name: "Finlandiya",    flag: "🇫🇮", center: "VFS Global"        },
-  { code: "FR", name: "Fransa",        flag: "🇫🇷", center: "VFS Global"        },
-  { code: "NL", name: "Hollanda",      flag: "🇳🇱", center: "VFS Global"        },
-  { code: "IS", name: "İzlanda",       flag: "🇮🇸", center: "VFS Global"        },
-  { code: "ES", name: "İspanya",       flag: "🇪🇸", center: "VFS Global"        },
-  { code: "SE", name: "İsveç",         flag: "🇸🇪", center: "VFS Global"        },
-  { code: "CH", name: "İsviçre",       flag: "🇨🇭", center: "VFS Global"        },
-  { code: "IT", name: "İtalya",        flag: "🇮🇹", center: "iDATA"             },
-  { code: "LI", name: "Liechtenstein", flag: "🇱🇮", center: "Konsolosluk"       },
-  { code: "LT", name: "Litvanya",      flag: "🇱🇹", center: "VFS Global"        },
-  { code: "LV", name: "Letonya",       flag: "🇱🇻", center: "VFS Global"        },
-  { code: "LU", name: "Lüksemburg",    flag: "🇱🇺", center: "VFS Global"        },
-  { code: "HU", name: "Macaristan",    flag: "🇭🇺", center: "AS Visa Solutions" },
-  { code: "MT", name: "Malta",         flag: "🇲🇹", center: "VFS Global"        },
-  { code: "NO", name: "Norveç",        flag: "🇳🇴", center: "VFS Global"        },
-  { code: "PL", name: "Polonya",       flag: "🇵🇱", center: "VFS Global"        },
-  { code: "PT", name: "Portekiz",      flag: "🇵🇹", center: "VFS Global"        },
-  { code: "SK", name: "Slovakya",      flag: "🇸🇰", center: "BLS International" },
-  { code: "SI", name: "Slovenya",      flag: "🇸🇮", center: "VFS Global"        },
-  { code: "GR", name: "Yunanistan",    flag: "🇬🇷", center: "Kosmos Vize"       },
+  { code: "DE", name: "Almanya",       flag: "🇩🇪", center: "iDATA",             cities: "İstanbul · Ankara · İzmir · Bursa"                },
+  { code: "AT", name: "Avusturya",     flag: "🇦🇹", center: "VFS Global",        cities: "İstanbul · Ankara · İzmir"                        },
+  { code: "BE", name: "Belçika",       flag: "🇧🇪", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "CZ", name: "Çekya",         flag: "🇨🇿", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "DK", name: "Danimarka",     flag: "🇩🇰", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "EE", name: "Estonya",       flag: "🇪🇪", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "FI", name: "Finlandiya",    flag: "🇫🇮", center: "VFS Global",        cities: "İstanbul · Ankara · İzmir · Antalya"              },
+  { code: "FR", name: "Fransa",        flag: "🇫🇷", center: "VFS Global",        cities: "İst. Şişli · İst. Kadıköy · Ankara · İzmir"       },
+  { code: "NL", name: "Hollanda",      flag: "🇳🇱", center: "VFS Global",        cities: "İstanbul · Ankara · İzmir"                        },
+  { code: "IS", name: "İzlanda",       flag: "🇮🇸", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "ES", name: "İspanya",       flag: "🇪🇸", center: "BLS International", cities: "İstanbul (İzmir dahil) · Ankara"                  },
+  { code: "SE", name: "İsveç",         flag: "🇸🇪", center: "VFS Global",        cities: "İstanbul · Ankara · Antalya"                      },
+  { code: "CH", name: "İsviçre",       flag: "🇨🇭", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "IT", name: "İtalya",        flag: "🇮🇹", center: "iDATA",             cities: "İstanbul · Ankara · İzmir"                        },
+  { code: "LI", name: "Liechtenstein", flag: "🇱🇮", center: "Konsolosluk",       cities: "İstanbul (İsviçre Başkonsolosluğu)"               },
+  { code: "LT", name: "Litvanya",      flag: "🇱🇹", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "LV", name: "Letonya",       flag: "🇱🇻", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "LU", name: "Lüksemburg",    flag: "🇱🇺", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "HU", name: "Macaristan",    flag: "🇭🇺", center: "AS Visa Solutions", cities: "İstanbul · Ankara"                                },
+  { code: "MT", name: "Malta",         flag: "🇲🇹", center: "VFS Global",        cities: "İstanbul · Ankara · İzmir"                        },
+  { code: "NO", name: "Norveç",        flag: "🇳🇴", center: "VFS Global",        cities: "İstanbul · Ankara · İzmir · Antalya"              },
+  { code: "PL", name: "Polonya",       flag: "🇵🇱", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "PT", name: "Portekiz",      flag: "🇵🇹", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "SK", name: "Slovakya",      flag: "🇸🇰", center: "BLS International", cities: "İstanbul · Ankara"                                },
+  { code: "SI", name: "Slovenya",      flag: "🇸🇮", center: "VFS Global",        cities: "İstanbul · Ankara"                                },
+  { code: "GR", name: "Yunanistan",    flag: "🇬🇷", center: "Kosmos Vize",       cities: "İstanbul · Ankara · İzmir"                        },
 ] as const;
 
 type Country = typeof SCHENGEN[number];
@@ -74,6 +76,55 @@ function friendlyDay(iso: string) {
   return d.toLocaleDateString("tr-TR", { day: "numeric", month: "long" });
 }
 
+// ── Operator badge color ──────────────────────────────────────────────────────
+
+function operatorColor(op: string) {
+  if (op === "Kosmos") return "text-sky-300/70 bg-sky-900/30 border-sky-700/25";
+  if (op === "BLS")    return "text-orange-300/70 bg-orange-900/25 border-orange-700/20";
+  if (op === "iDATA")  return "text-violet-300/70 bg-violet-900/30 border-violet-700/25";
+  return "text-slate-300/60 bg-slate-800/40 border-slate-700/30"; // VFS
+}
+
+// ── Bulletin card ─────────────────────────────────────────────────────────────
+
+function BulletinCard({ b, index }: { b: typeof BULLETINS[0]; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }} transition={{ delay: Math.min(index * 0.05, 0.35) }}
+      className="card p-5 border-[#D4A843]/10 hover:border-[#D4A843]/22 transition-all flex flex-col gap-3"
+    >
+      {/* Top row */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="text-[2rem] leading-none shrink-0">{b.flag}</span>
+          <div>
+            <p className="text-[15px] font-semibold text-[#F0EBE0]/85 leading-tight">{b.country}</p>
+            <span className={`inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full border mt-1 ${operatorColor(b.operator)}`}>
+              {b.operator}
+            </span>
+          </div>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="text-[11px] text-[#F0EBE0]/35 font-light">{b.date}</p>
+          <p className="text-[11px] text-[#D4A843]/45 font-mono">{b.time}</p>
+        </div>
+      </div>
+
+      {/* Cities */}
+      <div className="flex items-center gap-1.5 text-[11px] text-[#F0EBE0]/30 font-light">
+        <MapPin size={10} className="shrink-0 text-[#F0EBE0]/20" />
+        {b.cities}
+      </div>
+
+      {/* Info */}
+      <p className="text-[13px] text-[#F0EBE0]/60 font-light leading-[1.65] border-l-2 border-[#D4A843]/20 pl-3">
+        {b.info}
+      </p>
+    </motion.div>
+  );
+}
+
 // ── Calendar picker ───────────────────────────────────────────────────────────
 
 function CalendarPicker({
@@ -90,7 +141,6 @@ function CalendarPicker({
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Monday-first: (Sun=0 → 6, Mon=1 → 0, ..., Sat=6 → 5)
   const firstDOW = (new Date(y, mi, 1).getDay() + 6) % 7;
   const daysInMonth = new Date(y, mi + 1, 0).getDate();
 
@@ -99,7 +149,6 @@ function CalendarPicker({
 
   return (
     <div className="select-none">
-      {/* Month nav */}
       <div className="flex items-center justify-between mb-4">
         <button onClick={() => setMonth(new Date(y, mi - 1, 1))}
           className="w-8 h-8 rounded-full hover:bg-white/8 flex items-center justify-center text-[#F0EBE0]/35 hover:text-[#F0EBE0]/70 transition-colors">
@@ -113,13 +162,11 @@ function CalendarPicker({
           <ChevronRight size={15} />
         </button>
       </div>
-      {/* Day headers */}
       <div className="grid grid-cols-7 mb-1.5">
         {TR_DAYS.map(d => (
           <div key={d} className="text-center text-[10px] text-[#F0EBE0]/22 py-1">{d}</div>
         ))}
       </div>
-      {/* Cells */}
       <div className="grid grid-cols-7 gap-0.5">
         {cells.map((day, i) => {
           if (!day) return <div key={i} />;
@@ -152,7 +199,6 @@ function SharedCard({ apt }: { apt: SharedAppointment }) {
   return (
     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
       className="card p-5 flex flex-col gap-3.5 border-[#D4A843]/12">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-3xl leading-none">{apt.flag}</span>
@@ -166,8 +212,6 @@ function SharedCard({ apt }: { apt: SharedAppointment }) {
           <p className="text-[11px] text-[#F0EBE0]/20 font-light">{friendlyTime(apt.submittedAt)}</p>
         </div>
       </div>
-
-      {/* Dates */}
       <div className="flex flex-wrap gap-2">
         {[...apt.dates].sort().map(d => (
           <span key={d}
@@ -177,15 +221,11 @@ function SharedCard({ apt }: { apt: SharedAppointment }) {
           </span>
         ))}
       </div>
-
-      {/* Note */}
       {apt.note && (
         <p className="text-[13px] text-[#F0EBE0]/38 font-light italic border-l-2 border-[#D4A843]/20 pl-3 leading-relaxed">
           &ldquo;{apt.note}&rdquo;
         </p>
       )}
-
-      {/* Screenshot */}
       {apt.screenshot && (
         <div>
           <button onClick={() => setShowImg(!showImg)}
@@ -212,17 +252,17 @@ function SharedCard({ apt }: { apt: SharedAppointment }) {
 const STORAGE_KEY = "sp_apts_v1";
 
 export default function AppointmentsSection() {
-  const [apts, setApts] = useState<SharedAppointment[]>([]);
+  const [apts, setApts]         = useState<SharedAppointment[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep]         = useState<1 | 2 | 3>(1);
+  const [filterCountry, setFilterCountry] = useState<string | null>(null);
 
-  // Form state
-  const [selCountry, setSelCountry]   = useState<Country | null>(null);
-  const [selDates, setSelDates]       = useState<string[]>([]);
-  const [note, setNote]               = useState("");
-  const [calMonth, setCalMonth]       = useState(new Date());
-  const [screenshot, setScreenshot]   = useState<string | null>(null);
-  const [success, setSuccess]         = useState(false);
+  const [selCountry, setSelCountry] = useState<Country | null>(null);
+  const [selDates, setSelDates]     = useState<string[]>([]);
+  const [note, setNote]             = useState("");
+  const [calMonth, setCalMonth]     = useState(new Date());
+  const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [success, setSuccess]       = useState(false);
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -254,12 +294,12 @@ export default function AppointmentsSection() {
     if (!selCountry || selDates.length === 0) return;
     const apt: SharedAppointment = {
       id: Date.now().toString(),
-      flag:       selCountry.flag,
-      country:    selCountry.name,
-      center:     selCountry.center,
-      dates:      [...selDates].sort(),
-      note:       note.trim() || undefined,
-      screenshot: screenshot ?? undefined,
+      flag:        selCountry.flag,
+      country:     selCountry.name,
+      center:      selCountry.center,
+      dates:       [...selDates].sort(),
+      note:        note.trim() || undefined,
+      screenshot:  screenshot ?? undefined,
       submittedAt: new Date().toISOString(),
     };
     persist([apt, ...apts]);
@@ -273,6 +313,12 @@ export default function AppointmentsSection() {
     ? `${selCountry.flag} ${selCountry.name} (${selCountry.center}) — ${[...selDates].sort().map(friendlyDate).join(", ")} tarihlerinde boş randevu slotu tespit edildi. Portal'dan kontrol ederek doğrulayın.`
     : "";
 
+  // Unique countries in bulletins for filter chips
+  const bulletinCountries = [...new Set(BULLETINS.map(b => b.country))];
+  const filteredBulletins = filterCountry
+    ? BULLETINS.filter(b => b.country === filterCountry)
+    : BULLETINS;
+
   return (
     <section id="appointments" className="section-ink2 py-28">
       <div className="max-w-5xl mx-auto px-6">
@@ -281,25 +327,32 @@ export default function AppointmentsSection() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-12">
           <p className="badge mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Topluluk Randevuları
+            <Bell size={10} className="text-[#D4A843]" />
+            Randevu Duyuruları
           </p>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h2 className="serif text-4xl md:text-5xl font-light text-[#F0EBE0] tracking-tight leading-[1.1]">
-                Topluluktan Randevu<br />
-                <em className="not-italic italic opacity-60">Paylaşımları</em>
+                Boş Schengen<br />
+                <em className="not-italic italic opacity-60">Randevuları</em>
               </h2>
               <p className="mt-5 text-[#F0EBE0]/60 font-light text-[17px] max-w-lg leading-[1.75]">
-                Kullanıcılarımızın yakaladığı boş Schengen vize randevularını buradan paylaşın ve takip edin.
+                Vize merkezlerinde tespit edilen boş randevu slotları burada paylaşılır.
+                Her duyuruda yetkili kuruluş ve şehir bilgisi yer alır.
               </p>
             </div>
-            <button onClick={() => { setShowForm(v => !v); if (showForm) resetForm(); }}
-              className="shrink-0 flex items-center gap-2 bg-[#D4A843] hover:bg-[#C89A35] text-[#111111] font-semibold text-sm px-6 py-3.5 rounded-full transition-colors"
-              style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.32)" }}>
-              {showForm ? <X size={15} /> : <Plus size={15} />}
-              {showForm ? "Formu Kapat" : "Randevu Paylaş"}
-            </button>
+            <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-900/25 border border-emerald-700/25 text-emerald-400/70 text-[11px] font-medium">
+                <ShieldCheck size={11} />
+                Editör doğrulamalı
+              </div>
+              <button onClick={() => { setShowForm(v => !v); if (showForm) resetForm(); }}
+                className="flex items-center gap-2 bg-[#D4A843] hover:bg-[#C89A35] text-[#111111] font-semibold text-sm px-5 py-3 rounded-full transition-colors"
+                style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.28)" }}>
+                {showForm ? <X size={14} /> : <Plus size={14} />}
+                {showForm ? "Kapat" : "Siz de Paylaşın"}
+              </button>
+            </div>
           </div>
         </motion.div>
 
@@ -309,19 +362,17 @@ export default function AppointmentsSection() {
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               className="flex items-center gap-2.5 bg-emerald-900/30 border border-emerald-500/20 rounded-xl px-5 py-4 mb-8">
               <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
-              <p className="text-[15px] text-emerald-300/80 font-light">Randevunuz başarıyla paylaşıldı. Topluluğa katkın için teşekkürler!</p>
+              <p className="text-[15px] text-emerald-300/80 font-light">Paylaşımınız alındı. Teşekkürler!</p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* ── Form ── */}
+        {/* ── Community form ── */}
         <AnimatePresence>
           {showForm && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden mb-10">
               <div className="card p-6 md:p-8 border-[#D4A843]/14">
-
-                {/* Steps */}
                 <div className="flex items-center gap-2 mb-8">
                   {([1, 2, 3] as const).map(s => (
                     <div key={s} className="flex items-center gap-2">
@@ -344,7 +395,7 @@ export default function AppointmentsSection() {
                   </button>
                 </div>
 
-                {/* ── STEP 1: Country ── */}
+                {/* STEP 1: Country */}
                 {step === 1 && (
                   <div>
                     <p className="text-[#F0EBE0]/50 text-[15px] font-light mb-6 leading-relaxed">
@@ -361,11 +412,24 @@ export default function AppointmentsSection() {
                           <span className="text-xl shrink-0 leading-none">{c.flag}</span>
                           <div className="min-w-0">
                             <p className="text-[13px] font-medium truncate leading-tight">{c.name}</p>
-                            <p className="text-[10px] opacity-45 truncate mt-0.5">{c.center}</p>
+                            <p className="text-[10px] opacity-50 truncate mt-0.5">{c.center}</p>
+                            <p className="text-[9px] opacity-28 truncate mt-0.5 flex items-center gap-0.5">
+                              <MapPin size={7} className="shrink-0" />
+                              {c.cities}
+                            </p>
                           </div>
                         </button>
                       ))}
                     </div>
+                    {selCountry && (
+                      <div className="mb-5 p-3 bg-[#0F0F0F] border border-white/6 rounded-xl text-[12px] text-[#F0EBE0]/38 font-light flex items-start gap-2">
+                        <MapPin size={11} className="text-[#D4A843]/40 shrink-0 mt-0.5" />
+                        <span>
+                          <span className="text-[#F0EBE0]/55">{selCountry.center}</span>
+                          &nbsp;— Yetki alanı: {selCountry.cities}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-end">
                       <button disabled={!selCountry} onClick={() => setStep(2)}
                         className="px-7 py-2.5 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all">
@@ -375,7 +439,7 @@ export default function AppointmentsSection() {
                   </div>
                 )}
 
-                {/* ── STEP 2: Calendar ── */}
+                {/* STEP 2: Calendar */}
                 {step === 2 && (
                   <div className="grid md:grid-cols-2 gap-8">
                     <div>
@@ -431,7 +495,7 @@ export default function AppointmentsSection() {
                   </div>
                 )}
 
-                {/* ── STEP 3: Preview ── */}
+                {/* STEP 3: Preview */}
                 {step === 3 && (
                   <div className="space-y-6">
                     <div>
@@ -440,8 +504,6 @@ export default function AppointmentsSection() {
                         <p className="text-[15px] text-[#F0EBE0]/70 font-light leading-[1.7]">{autoText}</p>
                       </div>
                     </div>
-
-                    {/* Screenshot upload */}
                     <div>
                       <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-1">Ekran Görüntüsü</p>
                       <p className="text-[12px] text-[#F0EBE0]/25 font-light mb-3">
@@ -471,15 +533,15 @@ export default function AppointmentsSection() {
                         </div>
                       )}
                     </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
                       <button onClick={() => setStep(2)}
                         className="text-sm text-[#F0EBE0]/28 hover:text-[#F0EBE0]/60 transition-colors">
                         ← Geri
                       </button>
                       <button onClick={handleSubmit}
-                        className="flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] hover:bg-[#C89A35] transition-colors"
-                        style={{ boxShadow: "0 3px 16px rgba(212,168,67,0.35)" }}>
+                        disabled={selDates.length === 0}
+                        className="flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all"
+                        style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.3)" }}>
                         <CheckCircle2 size={14} />
                         Paylaş
                       </button>
@@ -491,21 +553,50 @@ export default function AppointmentsSection() {
           )}
         </AnimatePresence>
 
-        {/* ── Appointments list ── */}
-        {apts.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className="text-center py-24 border border-dashed border-white/7 rounded-2xl">
-            <div className="w-14 h-14 rounded-2xl border border-[#D4A843]/15 bg-[#D4A843]/5 flex items-center justify-center mx-auto mb-5">
-              <Calendar size={22} className="text-[#D4A843]/40" />
+        {/* ── Bulletin filter chips ── */}
+        <div className="flex gap-2 mb-6 flex-wrap">
+          <button onClick={() => setFilterCountry(null)}
+            className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
+              !filterCountry ? "bg-[#D4A843] text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
+            }`}>
+            Tümü
+          </button>
+          {bulletinCountries.map(c => (
+            <button key={c} onClick={() => setFilterCountry(filterCountry === c ? null : c)}
+              className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
+                filterCountry === c ? "bg-[#D4A843]/90 text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
+              }`}>
+              {BULLETINS.find(b => b.country === c)?.flag} {c}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Bulletin grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
+          {filteredBulletins.map((b, i) => (
+            <BulletinCard key={i} b={b} index={i} />
+          ))}
+        </div>
+
+        {/* ── Community submissions ── */}
+        {apts.length > 0 && (
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px flex-1 bg-white/5" />
+              <p className="text-[11px] text-[#F0EBE0]/22 uppercase tracking-widest font-light">Topluluk Paylaşımları</p>
+              <div className="h-px flex-1 bg-white/5" />
             </div>
-            <p className="text-[#F0EBE0]/40 text-lg font-light mb-2">Henüz randevu paylaşımı yok.</p>
-            <p className="text-[#F0EBE0]/20 text-sm font-light">
-              İlk paylaşımı siz yapın — topluluğa katkı sağlayın.
+            <div className="space-y-4">
+              {apts.map(apt => <SharedCard key={apt.id} apt={apt} />)}
+            </div>
+          </div>
+        )}
+
+        {apts.length === 0 && !showForm && (
+          <div className="text-center py-8">
+            <p className="text-[13px] text-[#F0EBE0]/20 font-light">
+              Siz de boş bir randevu slotu görürseniz &ldquo;Siz de Paylaşın&rdquo; butonu ile topluluğa bildirin.
             </p>
-          </motion.div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {apts.map(apt => <SharedCard key={apt.id} apt={apt} />)}
           </div>
         )}
       </div>
