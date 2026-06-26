@@ -252,53 +252,93 @@ function CommunityCard({ apt, onReport }: { apt: CommunityAppointment; onReport:
 }
 
 // ── Cloudflare Turnstile bileşeni ─────────────────────────────────────────────
-// Test sitekey (1x00000000000000000000AA) → her zaman geçer, üretimde gerçek key kullan.
 function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; onExpire: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref    = useRef<HTMLDivElement>(null);
+  const [wStatus, setWStatus] = useState<"loading" | "ok" | "error">("loading");
+  // Gerçek site key; eksikse Cloudflare'ın her zaman geçen test anahtarı kullanılır
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
 
   useEffect(() => {
     let widgetId: string | undefined;
+    let pollTimer: ReturnType<typeof setInterval> | undefined;
 
     const render = () => {
       if (!ref.current || !window.turnstile) return;
-      widgetId = window.turnstile.render(ref.current, {
-        sitekey:            siteKey,
-        callback:           onToken,
-        "expired-callback": onExpire,
-        theme:              "dark",
-        size:               "normal",
-      });
+      try {
+        widgetId = window.turnstile.render(ref.current, {
+          sitekey:            siteKey,
+          theme:              "dark",
+          size:               "normal",
+          callback: (token: string) => {
+            setWStatus("ok");
+            onToken(token);
+          },
+          "expired-callback": () => {
+            setWStatus("loading");
+            onExpire();
+          },
+          // Cloudflare tarafında sorun olursa kullanıcıya göster
+          // @ts-expect-error — error-callback is valid but missing from our minimal type
+          "error-callback": () => setWStatus("error"),
+        });
+      } catch {
+        setWStatus("error");
+      }
     };
 
-    if (window.turnstile) {
-      render();
-    } else {
+    const init = () => {
+      if (window.turnstile) {
+        render();
+        return;
+      }
       const existing = document.querySelector('script[data-turnstile]');
       if (!existing) {
-        const s = document.createElement("script");
-        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-        s.async = true;
+        const s    = document.createElement("script");
+        s.src      = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        s.async    = true;
         s.dataset.turnstile = "1";
-        s.onload = render;
+        s.onload   = render;
+        s.onerror  = () => setWStatus("error");
         document.head.appendChild(s);
       } else {
-        const interval = setInterval(() => {
-          if (window.turnstile) { clearInterval(interval); render(); }
-        }, 100);
-        return () => clearInterval(interval);
+        // Script eklendi ama henüz yüklenmedi — poll et
+        pollTimer = setInterval(() => {
+          if (window.turnstile) {
+            clearInterval(pollTimer);
+            render();
+          }
+        }, 80);
       }
-    }
+    };
+
+    init();
 
     return () => {
-      if (widgetId && window.turnstile) {
-        try { window.turnstile.remove(widgetId); } catch { /* ignore */ }
+      clearInterval(pollTimer);
+      if (widgetId) {
+        try { window.turnstile?.remove(widgetId); } catch { /* ignore */ }
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [siteKey]);
 
-  return <div ref={ref} className="mt-1" />;
+  return (
+    <div className="min-h-[68px]">
+      {wStatus === "loading" && (
+        <div className="flex items-center gap-2 py-4 text-[12px] text-[#F0EBE0]/22 font-light">
+          <span className="w-3 h-3 rounded-full border border-[#F0EBE0]/15 border-t-[#D4A843]/50 animate-spin shrink-0" />
+          Güvenlik doğrulaması yükleniyor…
+        </div>
+      )}
+      {wStatus === "error" && (
+        <div className="py-3 px-4 bg-red-900/20 border border-red-700/20 rounded-xl text-[12px] text-red-400/75 font-light">
+          Doğrulama yüklenemedi. Sayfayı yenileyip tekrar deneyin.
+        </div>
+      )}
+      {/* Widget her zaman DOM'da olmalı — Turnstile içeriği buraya render edilir */}
+      <div ref={ref} className={wStatus === "error" ? "hidden" : ""} />
+    </div>
+  );
 }
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
