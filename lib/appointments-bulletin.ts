@@ -12,6 +12,42 @@ export interface AppointmentBulletin {
 
 export const BULLETINS: AppointmentBulletin[] = [
   {
+    date: "26.06.2026", time: "18:10",
+    flag: "🇮🇹", country: "İtalya", operator: "iDATA",
+    cities: "İzmir",
+    info: "Temmuz ayı müsait tarihler mevcut.",
+  },
+  {
+    date: "25.06.2026", time: "18:00",
+    flag: "🇮🇹", country: "İtalya", operator: "iDATA",
+    cities: "İstanbul",
+    info: "Temmuz ayı müsait tarihler mevcut.",
+  },
+  {
+    date: "23.06.2026", time: "18:45",
+    flag: "🇮🇹", country: "İtalya", operator: "iDATA",
+    cities: "Ankara",
+    info: "Temmuz ayı müsait tarihler mevcut.",
+  },
+  {
+    date: "22.06.2026", time: "15:15",
+    flag: "🇭🇺", country: "Macaristan", operator: "AS Visa",
+    cities: "İstanbul",
+    info: "Temmuz ayı müsait tarihleri mevcut.",
+  },
+  {
+    date: "22.06.2026", time: "15:15",
+    flag: "🇵🇹", country: "Portekiz", operator: "AS Visa",
+    cities: "İstanbul",
+    info: "Temmuz ayı müsait tarihleri mevcut.",
+  },
+  {
+    date: "22.06.2026", time: "14:30",
+    flag: "🇫🇷", country: "Fransa", operator: "VFS",
+    cities: "İzmir · Ankara",
+    info: "Temmuz ayı müsait tarihleri mevcut.",
+  },
+  {
     date: "18.06.2026", time: "13:37",
     flag: "🇬🇷", country: "Yunanistan", operator: "Kosmos",
     cities: "İstanbul",
