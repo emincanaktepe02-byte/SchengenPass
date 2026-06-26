@@ -7,8 +7,9 @@ import {
 } from "lucide-react";
 import { BULLETINS } from "@/lib/appointments-bulletin";
 import type { CommunityAppointment } from "@/app/api/appointments/route";
+import SceneryBg from "@/components/SceneryBg";
 
-// ── Turnstile global tipi ─────────────────────────────────────────────────────
+// ── Cloudflare Turnstile global tipi ─────────────────────────────────────────
 declare global {
   interface Window {
     turnstile?: {
@@ -17,10 +18,13 @@ declare global {
         opts: {
           sitekey: string;
           callback: (token: string) => void;
-          "expired-callback": () => void;
+          "expired-callback"?: () => void;
+          theme?: "light" | "dark" | "auto";
+          size?: "normal" | "compact" | "flexible";
         }
       ) => string;
-      reset: (id: string) => void;
+      reset:  (widgetId: string) => void;
+      remove: (widgetId: string) => void;
     };
   }
 }
@@ -247,7 +251,8 @@ function CommunityCard({ apt, onReport }: { apt: CommunityAppointment; onReport:
   );
 }
 
-// ── Turnstile bileşeni ────────────────────────────────────────────────────────
+// ── Cloudflare Turnstile bileşeni ─────────────────────────────────────────────
+// Test sitekey (1x00000000000000000000AA) → her zaman geçer, üretimde gerçek key kullan.
 function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; onExpire: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
@@ -258,9 +263,11 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
     const render = () => {
       if (!ref.current || !window.turnstile) return;
       widgetId = window.turnstile.render(ref.current, {
-        sitekey: siteKey,
-        callback: onToken,
+        sitekey:            siteKey,
+        callback:           onToken,
         "expired-callback": onExpire,
+        theme:              "dark",
+        size:               "normal",
       });
     };
 
@@ -276,7 +283,6 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
         s.onload = render;
         document.head.appendChild(s);
       } else {
-        // Script yükleniyor olabilir, kısa bekle
         const interval = setInterval(() => {
           if (window.turnstile) { clearInterval(interval); render(); }
         }, 100);
@@ -286,7 +292,7 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
 
     return () => {
       if (widgetId && window.turnstile) {
-        try { window.turnstile.reset(widgetId); } catch { /* ignore */ }
+        try { window.turnstile.remove(widgetId); } catch { /* ignore */ }
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -297,6 +303,9 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 export default function AppointmentsSection() {
+  // Aktif sekme
+  const [activeTab, setActiveTab] = useState<"bulletins" | "community">("bulletins");
+
   // Editör bülten filtresi
   const [filterCountry, setFilterCountry]         = useState<string | null>(null);
   const [showAllBulletins, setShowAllBulletins]   = useState(false);
@@ -363,6 +372,7 @@ export default function AppointmentsSection() {
       resetForm(); setShowForm(false); setSuccess(true);
       setTimeout(() => setSuccess(false), 5000);
       fetchCommunity();
+      setActiveTab("community");
     } catch {
       setError("Bağlantı hatası. Lütfen tekrar deneyin.");
     } finally {
@@ -388,345 +398,379 @@ export default function AppointmentsSection() {
     : "";
 
   return (
-    <section id="appointments" className="section-ink2 py-28">
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="appointments" className="relative overflow-hidden py-28" style={{ background: "#1A1A1A" }}>
+      <SceneryBg
+        images={["/Paris.jpg", "/Barcelona.jpg", "/Amsterdam.jpg"]}
+        darkness={86}
+        interval={9}
+      />
+      <div className="relative z-10 max-w-5xl mx-auto px-6">
 
         {/* ── Başlık ── */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-12">
+          viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-10">
           <p className="badge mb-5">
             <Bell size={10} className="text-[#D4A843]" />
             Randevu Duyuruları
           </p>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h2 className="serif text-4xl md:text-5xl font-light text-[#F0EBE0] tracking-tight leading-[1.1]">
-                Boş Schengen<br />
-                <em className="not-italic italic opacity-60">Randevuları</em>
-              </h2>
-              <p className="mt-5 text-[#F0EBE0]/60 font-light text-[17px] max-w-lg leading-[1.75]">
-                Vize merkezlerinde tespit edilen boş randevu slotları burada paylaşılır.
-                Her duyuruda yetkili kuruluş ve şehir bilgisi yer alır.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-900/25 border border-emerald-700/25 text-emerald-400/70 text-[11px] font-medium">
-                <ShieldCheck size={11} />
-                Editör doğrulamalı
-              </div>
-              <button onClick={() => { setShowForm(v => !v); if (showForm) resetForm(); }}
-                className="flex items-center gap-2 bg-[#D4A843] hover:bg-[#C89A35] text-[#111111] font-semibold text-sm px-5 py-3 rounded-full transition-colors"
-                style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.28)" }}>
-                {showForm ? <X size={14} /> : <Plus size={14} />}
-                {showForm ? "Kapat" : "Siz de Paylaşın"}
-              </button>
-            </div>
-          </div>
+          <h2 className="serif text-4xl md:text-5xl font-light text-[#F0EBE0] tracking-tight leading-[1.1]">
+            Boş Schengen<br />
+            <em className="not-italic italic opacity-60">Randevuları</em>
+          </h2>
+          <p className="mt-4 text-[#F0EBE0]/55 font-light text-[16px] max-w-lg leading-[1.75]">
+            Vize merkezlerinde tespit edilen boş randevu slotları burada paylaşılır.
+          </p>
         </motion.div>
 
-        {/* ── Başarı banner ── */}
-        <AnimatePresence>
-          {success && (
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              className="flex items-center gap-2.5 bg-emerald-900/30 border border-emerald-500/20 rounded-xl px-5 py-4 mb-8">
-              <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
-              <p className="text-[15px] text-emerald-300/80 font-light">Paylaşımınız herkese açık olarak yayınlandı. Teşekkürler!</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ── Topluluk formu ── */}
-        <AnimatePresence>
-          {showForm && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden mb-10">
-              <div className="card p-6 md:p-8 border-[#D4A843]/14">
-
-                {/* Adım göstergesi */}
-                <div className="flex items-center gap-2 mb-8">
-                  {([1, 2, 3] as const).map(s => (
-                    <div key={s} className="flex items-center gap-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all ${
-                        step === s ? "bg-[#D4A843] text-[#111111]" :
-                        step > s  ? "bg-emerald-500/60 text-white"  :
-                                    "bg-white/8 text-[#F0EBE0]/25"
-                      }`}>
-                        {step > s ? "✓" : s}
-                      </div>
-                      {s < 3 && <div className={`h-px w-8 transition-colors ${step > s ? "bg-emerald-500/40" : "bg-white/8"}`} />}
-                    </div>
-                  ))}
-                  <span className="ml-3 text-xs text-[#F0EBE0]/28 font-light">
-                    {step === 1 ? "Ülke seç" : step === 2 ? "Şehir ve tarih" : "Önizle ve paylaş"}
-                  </span>
-                  <button onClick={() => { setShowForm(false); resetForm(); }}
-                    className="ml-auto text-[#F0EBE0]/20 hover:text-[#F0EBE0]/50 transition-colors">
-                    <X size={15} />
-                  </button>
-                </div>
-
-                {/* ADIM 1 — Ülke */}
-                {step === 1 && (
-                  <div>
-                    <p className="text-[#F0EBE0]/50 text-[15px] font-light mb-6 leading-relaxed">
-                      Boş randevu tespit ettiğiniz Schengen ülkesini seçin:
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-7">
-                      {SCHENGEN.map(c => (
-                        <button key={c.code} onClick={() => setSelCountry(c)}
-                          className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${
-                            selCountry?.code === c.code
-                              ? "border-[#D4A843]/50 bg-[#D4A843]/10 text-[#F0EBE0]/90"
-                              : "border-white/7 bg-white/3 text-[#F0EBE0]/40 hover:border-white/14 hover:text-[#F0EBE0]/65"
-                          }`}>
-                          <span className="text-xl shrink-0 leading-none">{c.flag}</span>
-                          <div className="min-w-0">
-                            <p className="text-[13px] font-medium truncate leading-tight">{c.name}</p>
-                            <p className="text-[10px] opacity-45 truncate mt-0.5">{c.center}</p>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                    {selCountry && (
-                      <div className="mb-5 p-3 bg-[#0F0F0F] border border-white/6 rounded-xl text-[12px] text-[#F0EBE0]/38 flex items-start gap-2">
-                        <MapPin size={11} className="text-[#D4A843]/40 shrink-0 mt-0.5" />
-                        <span>
-                          <span className="text-[#F0EBE0]/55">{selCountry.center}</span>
-                          &nbsp;— Yetki alanı: {selCountry.citiesStr}
-                        </span>
-                      </div>
+        {/* ── Tab switcher ── */}
+        <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} className="flex gap-1 mb-8 bg-[#0D0D0D]/60 backdrop-blur-sm rounded-2xl p-1 border border-white/6 w-fit">
+          {(["bulletins", "community"] as const).map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`relative px-5 py-2.5 rounded-xl text-sm font-light transition-all flex items-center gap-2 ${
+                activeTab === tab ? "text-[#F0EBE0]/90" : "text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
+              }`}
+            >
+              {activeTab === tab && (
+                <motion.span
+                  layoutId="apt-tab-bg"
+                  className="absolute inset-0 rounded-xl bg-white/8 border border-white/8"
+                  transition={{ type: "spring", bounce: 0.18, duration: 0.4 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-2">
+                {tab === "bulletins" ? (
+                  <><ShieldCheck size={12} className="text-[#D4A843]/70" />Editör Bültenleri</>
+                ) : (
+                  <>
+                    <Flag size={12} className="text-sky-400/70" />
+                    Kullanıcı Paylaşımları
+                    {communityApts.length > 0 && (
+                      <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-bold">
+                        {communityApts.length}
+                      </span>
                     )}
-                    <div className="flex justify-end">
-                      <button disabled={!selCountry} onClick={() => { setSelCities([]); setStep(2); }}
-                        className="px-7 py-2.5 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all">
-                        İleri →
-                      </button>
-                    </div>
-                  </div>
+                  </>
                 )}
-
-                {/* ADIM 2 — Şehir + Tarih */}
-                {step === 2 && selCountry && (
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div>
-                      <p className="text-[#F0EBE0]/50 text-[15px] font-light mb-4 leading-relaxed">
-                        {selCountry.flag} {selCountry.name} — Boş gördüğünüz tarihleri seçin:
-                      </p>
-                      <div className="bg-[#0F0F0F] border border-white/6 rounded-2xl p-5">
-                        <CalendarPicker selected={selDates} onChange={setSelDates}
-                          month={calMonth} setMonth={setCalMonth} />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-5">
-                      {/* Şehir seçimi */}
-                      <div>
-                        <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">
-                          Hangi merkezde?
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {countryCity(selCountry).map(city => (
-                            <button key={city} onClick={() =>
-                              setSelCities(prev =>
-                                prev.includes(city) ? prev.filter(c => c !== city) : [...prev, city]
-                              )}
-                              className={`flex items-center gap-1.5 text-[12px] px-3 py-1.5 rounded-full border transition-all ${
-                                selCities.includes(city)
-                                  ? "border-[#D4A843]/40 bg-[#D4A843]/10 text-[#F0EBE0]/80"
-                                  : "border-white/8 bg-white/3 text-[#F0EBE0]/35 hover:border-white/18 hover:text-[#F0EBE0]/60"
-                              }`}>
-                              <MapPin size={9} className="shrink-0" />
-                              {city}
-                            </button>
-                          ))}
-                        </div>
-                        {selCities.length === 0 && (
-                          <p className="text-[11px] text-[#F0EBE0]/18 mt-2 font-light">En az bir merkez seçin</p>
-                        )}
-                      </div>
-
-                      {/* Seçilen tarihler */}
-                      <div>
-                        <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">Seçilen Tarihler</p>
-                        {selDates.length === 0 ? (
-                          <p className="text-[#F0EBE0]/18 text-[13px] font-light">Takvimden tarih seçin</p>
-                        ) : (
-                          <div className="flex flex-wrap gap-2">
-                            {[...selDates].sort().map(d => (
-                              <span key={d} className="flex items-center gap-1.5 text-[12px] bg-[#D4A843]/10 border border-[#D4A843]/20 rounded-full px-3 py-1.5 text-[#D4A843]/80">
-                                <Calendar size={9} />
-                                {friendlyDate(d)}
-                                <button onClick={() => setSelDates(selDates.filter(s => s !== d))}
-                                  className="ml-0.5 opacity-50 hover:opacity-100 transition-opacity">
-                                  <X size={9} />
-                                </button>
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <button onClick={() => setStep(1)}
-                          className="text-sm text-[#F0EBE0]/28 hover:text-[#F0EBE0]/60 transition-colors">← Geri</button>
-                        <button
-                          disabled={selDates.length === 0 || selCities.length === 0}
-                          onClick={() => setStep(3)}
-                          className="px-7 py-2.5 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all">
-                          Önizle →
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ADIM 3 — Önizleme + Captcha */}
-                {step === 3 && (
-                  <div className="space-y-6">
-                    <div>
-                      <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">Paylaşım Önizlemesi</p>
-                      <div className="bg-[#0F0F0F] border border-white/6 rounded-xl p-5">
-                        <p className="text-[15px] text-[#F0EBE0]/70 font-light leading-[1.7]">{autoText}</p>
-                      </div>
-                    </div>
-
-                    {/* Captcha */}
-                    <div>
-                      <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-2">Doğrulama</p>
-                      <p className="text-[12px] text-[#F0EBE0]/25 font-light mb-3">
-                        Paylaşmadan önce kısa bir doğrulama tamamlayın.
-                      </p>
-                      <TurnstileWidget
-                        onToken={t => setTurnstileToken(t)}
-                        onExpire={() => setTurnstileToken(null)}
-                      />
-                    </div>
-
-                    {error && (
-                      <p className="text-[13px] text-red-400/70 font-light bg-red-900/15 border border-red-700/20 rounded-xl px-4 py-3">
-                        {error}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                      <button onClick={() => setStep(2)}
-                        className="text-sm text-[#F0EBE0]/28 hover:text-[#F0EBE0]/60 transition-colors">← Geri</button>
-                      <button onClick={handleSubmit}
-                        disabled={selDates.length === 0 || !turnstileToken || submitting}
-                        className="flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all"
-                        style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.3)" }}>
-                        {submitting ? (
-                          <span className="flex items-center gap-2">
-                            <span className="w-3 h-3 border-2 border-[#111]/30 border-t-[#111] rounded-full animate-spin" />
-                            Gönderiliyor…
-                          </span>
-                        ) : (
-                          <><CheckCircle2 size={14} /> Herkese Açık Paylaş</>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* ── Editör filtre chipleri ── */}
-        <div className="flex gap-2 mb-6 flex-wrap">
-          <button onClick={() => { setFilterCountry(null); setShowAllBulletins(false); }}
-            className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
-              !filterCountry ? "bg-[#D4A843] text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
-            }`}>
-            Tümü
-          </button>
-          {bulletinCountries.map(c => (
-            <button key={c} onClick={() => { setFilterCountry(filterCountry === c ? null : c); setShowAllBulletins(false); }}
-              className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
-                filterCountry === c ? "bg-[#D4A843]/90 text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
-              }`}>
-              {BULLETINS.find(b => b.country === c)?.flag} {c}
+              </span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* ── Editör bültenler ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-          {visibleBulletins.map((b, i) => <BulletinCard key={i} b={b} index={i} />)}
-        </div>
-        {!showAllBulletins && filteredBulletins.length > BULLETINS_INITIAL && (
-          <div className="flex justify-center mb-6">
-            <button onClick={() => setShowAllBulletins(true)}
-              className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
-              Daha Fazla Göster
-              <span className="text-xs text-[#D4A843]/45 font-medium">+{filteredBulletins.length - BULLETINS_INITIAL} duyuru</span>
-            </button>
-          </div>
-        )}
-        {showAllBulletins && (
-          <div className="flex justify-center mb-6">
-            <button onClick={() => setShowAllBulletins(false)}
-              className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
-              Daha Az Göster ↑
-            </button>
-          </div>
-        )}
+        {/* ── Tab içerikleri ── */}
+        <AnimatePresence mode="wait">
 
-        {/* ── Topluluk paylaşımları ── */}
-        {(communityLoading || communityApts.length > 0) && (
-          <div className="mt-10">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px flex-1 bg-white/5" />
-              <div className="flex items-center gap-2">
-                <Flag size={10} className="text-[#F0EBE0]/18" />
-                <p className="text-[11px] text-[#F0EBE0]/22 uppercase tracking-widest font-light">Topluluk Paylaşımları</p>
+          {/* ─────────────── SEKME 1: EDİTÖR BÜLTENLERİ ─────────────── */}
+          {activeTab === "bulletins" && (
+            <motion.div key="bulletins"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+
+              {/* Editör etiketi */}
+              <div className="flex items-center gap-2 mb-5">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-900/25 border border-emerald-700/25 text-emerald-400/70 text-[11px] font-medium">
+                  <ShieldCheck size={11} />Editör doğrulamalı · Resmi kanallardan derlenen duyurular
+                </div>
               </div>
-              <div className="h-px flex-1 bg-white/5" />
-            </div>
 
-            {communityLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="card p-5 animate-pulse space-y-3">
-                    <div className="flex gap-3">
-                      <div className="w-10 h-10 rounded-full bg-white/5" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-white/6 rounded w-28" />
-                        <div className="h-3 bg-white/4 rounded w-16" />
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="h-6 bg-[#D4A843]/8 rounded-full w-20" />
-                      <div className="h-6 bg-[#D4A843]/8 rounded-full w-20" />
-                    </div>
-                  </div>
+              {/* Filtre chipleri */}
+              <div className="flex gap-2 mb-6 flex-wrap">
+                <button onClick={() => { setFilterCountry(null); setShowAllBulletins(false); }}
+                  className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
+                    !filterCountry ? "bg-[#D4A843] text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
+                  }`}>
+                  Tümü
+                </button>
+                {bulletinCountries.map(c => (
+                  <button key={c} onClick={() => { setFilterCountry(filterCountry === c ? null : c); setShowAllBulletins(false); }}
+                    className={`px-4 py-1.5 rounded-full text-[12px] transition-all ${
+                      filterCountry === c ? "bg-[#D4A843]/90 text-[#111111] font-semibold" : "border border-white/8 text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
+                    }`}>
+                    {BULLETINS.find(b => b.country === c)?.flag} {c}
+                  </button>
                 ))}
               </div>
-            ) : (
-              <>
+
+              {/* Bülten kartları */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                {visibleBulletins.map((b, i) => <BulletinCard key={i} b={b} index={i} />)}
+              </div>
+              {!showAllBulletins && filteredBulletins.length > BULLETINS_INITIAL && (
+                <div className="flex justify-center mb-4">
+                  <button onClick={() => setShowAllBulletins(true)}
+                    className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
+                    Daha Fazla Göster
+                    <span className="text-xs text-[#D4A843]/45 font-medium">+{filteredBulletins.length - BULLETINS_INITIAL} duyuru</span>
+                  </button>
+                </div>
+              )}
+              {showAllBulletins && (
+                <div className="flex justify-center mb-4">
+                  <button onClick={() => setShowAllBulletins(false)}
+                    className="text-sm text-[#F0EBE0]/22 hover:text-[#F0EBE0]/50 font-light transition-colors">
+                    Daha Az Göster ↑
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* ─────────────── SEKME 2: KULLANICI PAYLAŞIMLARI ─────────────── */}
+          {activeTab === "community" && (
+            <motion.div key="community"
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+
+              {/* Başarı banner */}
+              <AnimatePresence>
+                {success && (
+                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                    className="flex items-center gap-2.5 bg-emerald-900/30 border border-emerald-500/20 rounded-xl px-5 py-4 mb-6">
+                    <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                    <p className="text-[15px] text-emerald-300/80 font-light">Paylaşımınız yayınlandı. Teşekkürler!</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* "Siz de Paylaşın" CTA */}
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-[13px] text-[#F0EBE0]/30 font-light">
+                  Son {communityApts.length > 0 ? communityApts.length : "—"} topluluk bildirimi
+                </p>
+                <button onClick={() => { setShowForm(v => !v); if (showForm) resetForm(); }}
+                  className="flex items-center gap-2 bg-[#D4A843] hover:bg-[#C89A35] text-[#111111] font-semibold text-sm px-5 py-2.5 rounded-full transition-colors"
+                  style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.28)" }}>
+                  {showForm ? <X size={13} /> : <Plus size={13} />}
+                  {showForm ? "Kapat" : "Siz de Paylaşın"}
+                </button>
+              </div>
+
+              {/* Form */}
+              <AnimatePresence>
+                {showForm && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden mb-8">
+                    <div className="card p-6 md:p-8 border-[#D4A843]/14">
+
+                      {/* Adım göstergesi */}
+                      <div className="flex items-center gap-2 mb-8">
+                        {([1, 2, 3] as const).map(s => (
+                          <div key={s} className="flex items-center gap-2">
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all ${
+                              step === s ? "bg-[#D4A843] text-[#111111]" :
+                              step > s  ? "bg-emerald-500/60 text-white"  :
+                                          "bg-white/8 text-[#F0EBE0]/25"
+                            }`}>
+                              {step > s ? "✓" : s}
+                            </div>
+                            {s < 3 && <div className={`h-px w-8 transition-colors ${step > s ? "bg-emerald-500/40" : "bg-white/8"}`} />}
+                          </div>
+                        ))}
+                        <span className="ml-3 text-xs text-[#F0EBE0]/28 font-light">
+                          {step === 1 ? "Ülke seç" : step === 2 ? "Şehir ve tarih" : "Önizle ve paylaş"}
+                        </span>
+                        <button onClick={() => { setShowForm(false); resetForm(); }}
+                          className="ml-auto text-[#F0EBE0]/20 hover:text-[#F0EBE0]/50 transition-colors">
+                          <X size={15} />
+                        </button>
+                      </div>
+
+                      {/* ADIM 1 */}
+                      {step === 1 && (
+                        <div>
+                          <p className="text-[#F0EBE0]/50 text-[15px] font-light mb-6 leading-relaxed">
+                            Boş randevu tespit ettiğiniz Schengen ülkesini seçin:
+                          </p>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-7">
+                            {SCHENGEN.map(c => (
+                              <button key={c.code} onClick={() => setSelCountry(c)}
+                                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${
+                                  selCountry?.code === c.code
+                                    ? "border-[#D4A843]/50 bg-[#D4A843]/10 text-[#F0EBE0]/90"
+                                    : "border-white/7 bg-white/3 text-[#F0EBE0]/40 hover:border-white/14 hover:text-[#F0EBE0]/65"
+                                }`}>
+                                <span className="text-xl shrink-0 leading-none">{c.flag}</span>
+                                <div className="min-w-0">
+                                  <p className="text-[13px] font-medium truncate leading-tight">{c.name}</p>
+                                  <p className="text-[10px] opacity-45 truncate mt-0.5">{c.center}</p>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                          {selCountry && (
+                            <div className="mb-5 p-3 bg-[#0F0F0F] border border-white/6 rounded-xl text-[12px] text-[#F0EBE0]/38 flex items-start gap-2">
+                              <MapPin size={11} className="text-[#D4A843]/40 shrink-0 mt-0.5" />
+                              <span>
+                                <span className="text-[#F0EBE0]/55">{selCountry.center}</span>
+                                &nbsp;— Yetki alanı: {selCountry.citiesStr}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex justify-end">
+                            <button disabled={!selCountry} onClick={() => { setSelCities([]); setStep(2); }}
+                              className="px-7 py-2.5 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all">
+                              İleri →
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ADIM 2 */}
+                      {step === 2 && selCountry && (
+                        <div className="grid md:grid-cols-2 gap-8">
+                          <div>
+                            <p className="text-[#F0EBE0]/50 text-[15px] font-light mb-4 leading-relaxed">
+                              {selCountry.flag} {selCountry.name} — Boş gördüğünüz tarihleri seçin:
+                            </p>
+                            <div className="bg-[#0F0F0F] border border-white/6 rounded-2xl p-5">
+                              <CalendarPicker selected={selDates} onChange={setSelDates}
+                                month={calMonth} setMonth={setCalMonth} />
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-5">
+                            <div>
+                              <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">Hangi merkezde?</p>
+                              <div className="flex flex-wrap gap-2">
+                                {countryCity(selCountry).map(city => (
+                                  <button key={city} onClick={() =>
+                                    setSelCities(prev =>
+                                      prev.includes(city) ? prev.filter(c => c !== city) : [...prev, city]
+                                    )}
+                                    className={`flex items-center gap-1.5 text-[12px] px-3 py-1.5 rounded-full border transition-all ${
+                                      selCities.includes(city)
+                                        ? "border-[#D4A843]/40 bg-[#D4A843]/10 text-[#F0EBE0]/80"
+                                        : "border-white/8 bg-white/3 text-[#F0EBE0]/35 hover:border-white/18 hover:text-[#F0EBE0]/60"
+                                    }`}>
+                                    <MapPin size={9} className="shrink-0" />{city}
+                                  </button>
+                                ))}
+                              </div>
+                              {selCities.length === 0 && (
+                                <p className="text-[11px] text-[#F0EBE0]/18 mt-2 font-light">En az bir merkez seçin</p>
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">Seçilen Tarihler</p>
+                              {selDates.length === 0 ? (
+                                <p className="text-[#F0EBE0]/18 text-[13px] font-light">Takvimden tarih seçin</p>
+                              ) : (
+                                <div className="flex flex-wrap gap-2">
+                                  {[...selDates].sort().map(d => (
+                                    <span key={d} className="flex items-center gap-1.5 text-[12px] bg-[#D4A843]/10 border border-[#D4A843]/20 rounded-full px-3 py-1.5 text-[#D4A843]/80">
+                                      <Calendar size={9} />{friendlyDate(d)}
+                                      <button onClick={() => setSelDates(selDates.filter(s => s !== d))}
+                                        className="ml-0.5 opacity-50 hover:opacity-100 transition-opacity"><X size={9} /></button>
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex items-center justify-between pt-1">
+                              <button onClick={() => setStep(1)}
+                                className="text-sm text-[#F0EBE0]/28 hover:text-[#F0EBE0]/60 transition-colors">← Geri</button>
+                              <button disabled={selDates.length === 0 || selCities.length === 0}
+                                onClick={() => setStep(3)}
+                                className="px-7 py-2.5 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all">
+                                Önizle →
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ADIM 3 */}
+                      {step === 3 && (
+                        <div className="space-y-6">
+                          <div>
+                            <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-3">Paylaşım Önizlemesi</p>
+                            <div className="bg-[#0F0F0F] border border-white/6 rounded-xl p-5">
+                              <p className="text-[15px] text-[#F0EBE0]/70 font-light leading-[1.7]">{autoText}</p>
+                            </div>
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-[#F0EBE0]/25 uppercase tracking-wider mb-2">Doğrulama</p>
+                            <p className="text-[12px] text-[#F0EBE0]/25 font-light mb-3">Paylaşmadan önce kısa bir doğrulama tamamlayın.</p>
+                            <TurnstileWidget onToken={(t: string) => setTurnstileToken(t)} onExpire={() => setTurnstileToken(null)} />
+                          </div>
+                          {error && (
+                            <p className="text-[13px] text-red-400/70 font-light bg-red-900/15 border border-red-700/20 rounded-xl px-4 py-3">{error}</p>
+                          )}
+                          <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                            <button onClick={() => setStep(2)}
+                              className="text-sm text-[#F0EBE0]/28 hover:text-[#F0EBE0]/60 transition-colors">← Geri</button>
+                            <button onClick={handleSubmit}
+                              disabled={selDates.length === 0 || !turnstileToken || submitting}
+                              className="flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold bg-[#D4A843] text-[#111111] disabled:opacity-25 disabled:cursor-not-allowed hover:bg-[#C89A35] transition-all"
+                              style={{ boxShadow: "0 3px 18px rgba(212,168,67,0.3)" }}>
+                              {submitting ? (
+                                <span className="flex items-center gap-2">
+                                  <span className="w-3 h-3 border-2 border-[#111]/30 border-t-[#111] rounded-full animate-spin" />
+                                  Gönderiliyor…
+                                </span>
+                              ) : (
+                                <><CheckCircle2 size={14} /> Herkese Açık Paylaş</>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Topluluk kartları */}
+              {communityLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {visibleCommunity.map(apt => (
-                    <CommunityCard key={apt.id} apt={apt} onReport={handleRemoveReported} />
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="card p-5 animate-pulse space-y-3">
+                      <div className="flex gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/5" />
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 bg-white/6 rounded w-28" />
+                          <div className="h-3 bg-white/4 rounded w-16" />
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="h-6 bg-[#D4A843]/8 rounded-full w-20" />
+                        <div className="h-6 bg-[#D4A843]/8 rounded-full w-20" />
+                      </div>
+                    </div>
                   ))}
                 </div>
-                {!showAllCommunity && communityApts.length > COMMUNITY_INITIAL && (
-                  <div className="flex justify-center mt-5">
-                    <button onClick={() => setShowAllCommunity(true)}
-                      className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
-                      Daha Fazla Göster
-                      <span className="text-xs text-[#D4A843]/45 font-medium">+{communityApts.length - COMMUNITY_INITIAL}</span>
-                    </button>
+              ) : communityApts.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {visibleCommunity.map(apt => (
+                      <CommunityCard key={apt.id} apt={apt} onReport={handleRemoveReported} />
+                    ))}
                   </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                  {!showAllCommunity && communityApts.length > COMMUNITY_INITIAL && (
+                    <div className="flex justify-center mt-5">
+                      <button onClick={() => setShowAllCommunity(true)}
+                        className="flex items-center gap-2 border border-white/8 hover:border-[#D4A843]/25 text-[#F0EBE0]/35 hover:text-[#F0EBE0]/65 text-sm font-light px-7 py-3 rounded-full transition-all">
+                        Daha Fazla Göster
+                        <span className="text-xs text-[#D4A843]/45 font-medium">+{communityApts.length - COMMUNITY_INITIAL}</span>
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                !showForm && (
+                  <div className="text-center py-16 border border-dashed border-white/6 rounded-2xl">
+                    <Flag size={20} className="text-[#F0EBE0]/12 mx-auto mb-3" />
+                    <p className="text-[13px] text-[#F0EBE0]/20 font-light">
+                      Henüz topluluk paylaşımı yok — boş randevu görürseniz yukarıdaki butonu kullanın.
+                    </p>
+                  </div>
+                )
+              )}
+            </motion.div>
+          )}
 
-        {!communityLoading && communityApts.length === 0 && !showForm && (
-          <p className="text-center text-[13px] text-[#F0EBE0]/18 font-light mt-8">
-            Henüz topluluk paylaşımı yok — boş bir randevu görürseniz &ldquo;Siz de Paylaşın&rdquo; butonunu kullanın.
-          </p>
-        )}
+        </AnimatePresence>
       </div>
     </section>
   );

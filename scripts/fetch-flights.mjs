@@ -85,14 +85,16 @@ const COUNTRY_DESTINATIONS = [
     cities: [{ code: "LUX", name: "Lüksemburg" }] },
 ];
 
-// Sonraki 40 günün tarihlerini üret
-function next40Days() {
+// Ay+fromMonth'tan ay+toMonth'a kadar tüm günleri üret
+function daysInMonthRange(fromMonth, toMonth) {
   const dates = [];
   const now = new Date();
-  for (let i = 1; i <= 40; i++) {
-    const d = new Date(now);
-    d.setDate(now.getDate() + i);
-    dates.push(d.toISOString().split("T")[0]);
+  for (let m = fromMonth; m <= toMonth; m++) {
+    const start = new Date(now.getFullYear(), now.getMonth() + m, 1);
+    const end   = new Date(now.getFullYear(), now.getMonth() + m + 1, 0);
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(d.toISOString().split("T")[0]);
+    }
   }
   return dates;
 }
@@ -119,9 +121,9 @@ async function fetchMonthPrices(origin, destination, month) {
   } catch { return []; }
 }
 
-console.log("✈  Fetching cheapest Schengen flights for next 40 days...");
+console.log("✈  Fetching cheapest Schengen flights for next 1-6 months...");
 
-const targetDates = new Set(next40Days());
+const targetDates = new Set(daysInMonthRange(1, 6));
 const months = monthsFromDates([...targetDates]);
 const deals = [];
 

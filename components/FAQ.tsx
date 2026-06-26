@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import SceneryBg from "@/components/SceneryBg";
 
 const FAQS = [
   { q: "Schengen vizesi ne kadar sürede çıkar?", a: "Schengen vizesi standart süre 15 iş günüdür (yaklaşık 3 hafta). Yunanistan ve Malta gibi ülkelerde Kosmos veya VFS üzerinden 3-7 iş gününde sonuçlanabilir. Almanya (iDATA) ve Belçika (VFS) süreçleri daha uzun sürebilir. Yoğun sezonda (Nisan–Eylül) bekleme süreleri uzayabilir." },
@@ -22,8 +23,13 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="section-ink3 py-28">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="relative overflow-hidden py-28" style={{ background: "#0D0D0D" }}>
+      <SceneryBg
+        images={["/Iskocya.jpg", "/Kopenhag.jpg", "/Koln.jpg"]}
+        darkness={90}
+        interval={11}
+      />
+      <div className="relative z-10 max-w-3xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} className="text-center mb-12">
           <p className="badge mx-auto mb-6">Sık Sorulan Sorular</p>

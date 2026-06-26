@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import CountryShowcase from "@/components/CountryShowcase";
 import AppointmentsSection from "@/components/AppointmentsSection";
 import FlightsSection from "@/components/FlightsSection";
 import CountryGuide from "@/components/CountryGuide";
@@ -12,6 +13,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#111111]">
       <Navbar />
       <Hero />
+      <CountryShowcase />
       <AppointmentsSection />
       <FlightsSection />
       <CountryGuide />

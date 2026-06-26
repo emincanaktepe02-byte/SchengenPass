@@ -186,7 +186,7 @@ export default function FlightsSection() {
             <em className="not-italic gold-text font-medium italic">Uçuş Fiyatları</em>
           </h2>
           <p className="mt-4 text-[#F0EBE0]/45 font-light text-[16px] max-w-lg leading-relaxed">
-            Travelpayouts API ile güncellenen bilet fiyatları. Kalkış noktanızı seçin, destinasyona göre en ucuz seçeneği bulun.
+            Önümüzdeki 1–6 ay içindeki en ucuz Schengen uçuşları. Kalkış noktanızı seçin, her destinasyon için en düşük fiyatı görün.
           </p>
         </motion.div>
 

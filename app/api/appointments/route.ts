@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +16,7 @@ export const dynamic = "force-dynamic";
 const KV_KEY   = "sp:community_apts";         // sorted set; score = epoch ms
 const REPORT_PREFIX = "sp:reports:";           // string counter per appointment id
 const REPORT_THRESHOLD = 3;                    // bu kadar bildirimde gizle/sil
-const EXPIRY_MS = 14 * 24 * 60 * 60 * 1000;   // 14 gün sonra otomatik temizle
+const EXPIRY_MS = 5 * 24 * 60 * 60 * 1000;    // 5 gün sonra otomatik temizle
 
 const VALID_COUNTRY_CODES = new Set([
   "DE","AT","BE","CZ","DK","EE","FI","FR","NL","IS",
@@ -31,58 +32,7 @@ function getRedis() {
   });
 }
 
-function getRatelimit(redis: Redis) {
-  return new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(5, "1 h"), // saatte 5 paylaşım per IP
-    prefix:  "sp:rl",
-  });
-}
-
-// ── Turnstile doğrulama ───────────────────────────────────────────────────────
-
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true; // dev modda geçilsin (secret yoksa)
-
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ secret, response: token, remoteip: ip }),
-  });
-  const data = (await res.json()) as { success: boolean };
-  return data.success === true;
-}
-
-// ── GET — listeyi döndür ──────────────────────────────────────────────────────
-
-export async function GET() {
-  const redis = getRedis();
-  if (!redis) return NextResponse.json({ appointments: [] });
-
-  try {
-    const cutoff = Date.now() - EXPIRY_MS;
-
-    // 14 günden eski kayıtları temizle
-    await redis.zremrangebyscore(KV_KEY, 0, cutoff);
-
-    // Kalanları yeniden eskiye sırala (son 50)
-    const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
-
-    const appointments = raw
-      .map(r => {
-        try { return JSON.parse(r); } catch { return null; }
-      })
-      .filter(Boolean)
-      .slice(0, 50);
-
-    return NextResponse.json({ appointments });
-  } catch {
-    return NextResponse.json({ appointments: [] });
-  }
-}
-
-// ── POST — yeni paylaşım ekle ─────────────────────────────────────────────────
+// ── Tip tanımı (GET + POST + cache tarafından paylaşılır) ───────────────────────
 
 export interface CommunityAppointment {
   id:          string;
@@ -94,6 +44,64 @@ export interface CommunityAppointment {
   dates:       string[];
   submittedAt: string;
 }
+
+// ── Cache ─────────────────────────────────────────────────────────────────────
+
+const APT_CACHE_TAG = "sp-community-apts";
+
+// 5 dakika cache — topluluk paylaşımları Redis'ten en fazla 5 dk'da bir çekilir.
+// POST başarıyla tamamlanınca revalidateTag() ile anında geçersiz kılınır.
+const getCachedAppointments = unstable_cache(
+  async (): Promise<CommunityAppointment[]> => {
+    const redis = getRedis();
+    if (!redis) return [];
+    const cutoff = Date.now() - EXPIRY_MS;
+    await redis.zremrangebyscore(KV_KEY, 0, cutoff);
+    const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
+    return raw
+      .map(r => { try { return JSON.parse(r) as CommunityAppointment; } catch { return null; } })
+      .filter((x): x is CommunityAppointment => x !== null)
+      .slice(0, 15);
+  },
+  [APT_CACHE_TAG],
+  { revalidate: 300, tags: [APT_CACHE_TAG] },
+);
+
+function getRatelimit(redis: Redis) {
+  return new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, "1 h"), // saatte 5 paylaşım per IP
+    prefix:  "sp:rl",
+  });
+}
+
+// ── Cloudflare Turnstile doğrulama ────────────────────────────────────────────
+
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true; // env yoksa dev modunda geç
+
+  const body = new URLSearchParams({ secret, response: token, remoteip: ip });
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body,
+  });
+  const data = (await res.json()) as { success: boolean };
+  return data.success === true;
+}
+
+// ── GET — listeyi döndür (5 dk. cache) ───────────────────────────────────────
+
+export async function GET() {
+  try {
+    const appointments = await getCachedAppointments();
+    return NextResponse.json({ appointments });
+  } catch {
+    return NextResponse.json({ appointments: [] });
+  }
+}
+
+// ── POST — yeni paylaşım ekle ─────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
   const redis = getRedis();
@@ -176,6 +184,9 @@ export async function POST(req: NextRequest) {
   };
 
   await redis.zadd(KV_KEY, { score: now, member: JSON.stringify(apt) });
+
+  // Yeni paylaşım eklendi — cache'i hemen geçersiz kıl (Next.js 16: profile zorunlu)
+  revalidateTag(APT_CACHE_TAG, {});
 
   return NextResponse.json({ ok: true, appointment: apt }, { status: 201 });
 }

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { COUNTRIES } from "@/lib/data";
 import type { CenterOperator } from "@/lib/types";
+import SceneryBg from "@/components/SceneryBg";
 
 // ── Operator styling (dark theme) ────────────────────────────────────────────
 
@@ -510,8 +511,13 @@ export default function CountryGuide() {
   }, {});
 
   return (
-    <section id="guide" className="section-ink2 py-28">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="guide" className="relative overflow-hidden py-28" style={{ background: "#1A1A1A" }}>
+      <SceneryBg
+        images={["/Venedik.jpg", "/Prag.jpg", "/Atina.jpg"]}
+        darkness={88}
+        interval={10}
+      />
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12">
