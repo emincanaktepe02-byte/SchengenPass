@@ -14,7 +14,7 @@ export default function Footer() {
               </div>
               <span className="font-light text-[#F0EBE0] text-base tracking-tight"
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
-                Schengen<span className="font-semibold" style={{ color: "#D4A843" }}>Pass</span>
+                schengenim<span className="font-semibold" style={{ color: "#D4A843" }}>.com</span>
               </span>
             </div>
             <p className="text-[#F0EBE0]/22 text-[13px] font-light leading-relaxed max-w-xs">
@@ -22,10 +22,10 @@ export default function Footer() {
               bir rehber. Scraping yok, bot yok, doğrulanmış bilgi.
             </p>
             <div className="flex flex-col gap-2 mt-6">
-              <a href="mailto:info@schengenpass.com"
+              <a href="mailto:info@schengenim.com"
                 className="flex items-center gap-2 text-[#F0EBE0]/20 text-xs hover:text-[#D4A843] transition-colors">
                 <Mail size={12} />
-                info@schengenpass.com
+                info@schengenim.com
               </a>
             </div>
           </div>
@@ -80,10 +80,10 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[#F0EBE0]/12 font-light">
-            © 2026 SchengenPass. Tüm hakları saklıdır.
+            © 2026 schengenim.com. Tüm hakları saklıdır.
           </p>
           <p className="text-xs text-[#F0EBE0]/10 font-light text-center md:text-right max-w-sm">
-            SchengenPass, VFS Global veya herhangi bir konsolosluğun resmi temsilcisi değildir.
+            schengenim.com, VFS Global veya herhangi bir konsolosluğun resmi temsilcisi değildir.
             Sunulan bilgiler bilgilendirme amaçlıdır.
           </p>
         </div>

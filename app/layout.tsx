@@ -4,13 +4,13 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SchengenPass — Ücretsiz Schengen Vize Rehberi",
+  title: "schengenim.com — Artık Schengen'im var.",
   description:
-    "Schengen vize başvurusu için ücretsiz rehber. Randevu paylaşımları, uygun uçuş fırsatları ve 25 ülke için detaylı başvuru bilgileri. Bot yok, scraping yok.",
-  keywords: "schengen vize, schengen vize rehberi, vfs global türkiye, fransa vize, yunanistan vize randevu, uygun uçuş",
+    "Schengen vize başvurusu için ücretsiz rehber. Artık Schengen'im var. Randevu paylaşımları, uygun uçuş fırsatları ve 26 ülke için detaylı başvuru bilgileri. Bot yok, scraping yok.",
+  keywords: "schengen vize, schengen vize rehberi, schengenim, vfs global türkiye, fransa vize, yunanistan vize randevu, uygun uçuş",
   openGraph: {
-    title: "SchengenPass — Ücretsiz Schengen Vize Rehberi",
-    description: "Randevu paylaşımları, ucuz uçuşlar ve 25 ülke başvuru rehberi. Tamamen ücretsiz.",
+    title: "schengenim.com — Artık Schengen'im var.",
+    description: "Randevu paylaşımları, ucuz uçuşlar ve 26 ülke başvuru rehberi. Tamamen ücretsiz.",
     type: "website",
   },
 };

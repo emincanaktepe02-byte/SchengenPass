@@ -87,19 +87,20 @@ export default function Hero() {
           </p>
 
           <h1
-            className="text-[clamp(3.6rem,9.5vw,8rem)] font-light text-[#F0EBE0] leading-[1.04] tracking-tight"
+            className="text-[clamp(3.2rem,9vw,7.5rem)] font-light text-[#F0EBE0] leading-[1.05] tracking-tight"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            Schengen
+            <span className="font-light italic opacity-75">Artık</span>
             <br />
-            <em className="not-italic font-medium" style={{ color: "#D4A843" }}>
-              Vizesi İçin
-            </em>
+            <span className="font-light">
+              Schengen
+              <em className="not-italic font-semibold" style={{ color: "#D4A843" }}>im</em>
+            </span>
             <br />
-            <span className="font-light italic opacity-80">Rehberiniz</span>
+            <span className="font-light italic opacity-80">var.</span>
           </h1>
 
-          <p className="mt-8 text-[#F0EBE0]/55 text-lg font-light max-w-lg leading-relaxed">
+          <p className="mt-8 text-[#F0EBE0]/50 text-lg font-light max-w-lg leading-relaxed">
             26 ülke · Onay oranları · CASCADE kademeleme · Anlık uçuş fiyatları
           </p>
         </motion.div>
