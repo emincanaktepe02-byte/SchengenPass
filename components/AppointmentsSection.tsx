@@ -376,7 +376,7 @@ export default function AppointmentsSection() {
   const fetchCommunity = async () => {
     try {
       setCommunityLoading(true);
-      const res = await fetch("/api/appointments");
+      const res = await fetch("/api/appointments", { cache: "no-store" });
       const data = await res.json() as { appointments: CommunityAppointment[] };
       setCommunityApts(data.appointments ?? []);
     } catch { /* yok sayılır */ } finally {
