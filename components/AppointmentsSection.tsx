@@ -115,12 +115,12 @@ function CalendarPicker({
   return (
     <div className="select-none">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={() => setMonth(new Date(y, mi - 1, 1))}
+        <button aria-label="Önceki ay" onClick={() => setMonth(new Date(y, mi - 1, 1))}
           className="w-8 h-8 rounded-full hover:bg-white/8 flex items-center justify-center text-[#F0EBE0]/35 hover:text-[#F0EBE0]/70 transition-colors">
           <ChevronLeft size={15} />
         </button>
         <span className="text-sm font-medium text-[#F0EBE0]/65">{TR_MONTHS[mi]} {y}</span>
-        <button onClick={() => setMonth(new Date(y, mi + 1, 1))}
+        <button aria-label="Sonraki ay" onClick={() => setMonth(new Date(y, mi + 1, 1))}
           className="w-8 h-8 rounded-full hover:bg-white/8 flex items-center justify-center text-[#F0EBE0]/35 hover:text-[#F0EBE0]/70 transition-colors">
           <ChevronRight size={15} />
         </button>
@@ -191,15 +191,18 @@ function CommunityCard({ apt, onReport }: { apt: CommunityAppointment; onReport:
 
   const handleReport = async () => {
     if (reported) return;
-    setReported(true);
+    setReported(true); // optimistik
     try {
-      await fetch("/api/appointments/report", {
+      const res = await fetch("/api/appointments/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: apt.id }),
       });
+      if (!res.ok) { setReported(false); return; } // geri al
       onReport(apt.id);
-    } catch { /* sessizce başarısız */ }
+    } catch {
+      setReported(false); // ağ hatasında geri al
+    }
   };
 
   return (
@@ -256,11 +259,15 @@ function CommunityCard({ apt, onReport }: { apt: CommunityAppointment; onReport:
 function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; onExpire: () => void }) {
   const ref    = useRef<HTMLDivElement>(null);
   const [wStatus, setWStatus] = useState<"loading" | "ok" | "error">("loading");
-  // Gerçek site key; eksikse Cloudflare'ın her zaman geçen test anahtarı kullanılır
-  // `||` hem undefined hem boş string fallback'i kapsar (Vercel boş string set etmiş olabilir)
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+  // Production'da gerçek anahtar zorunlu; dev'de test anahtarına geri dön
+  const siteKey: string =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+    (process.env.NODE_ENV !== "production" ? "1x00000000000000000000AA" : "");
 
   useEffect(() => {
+    // Anahtar yapılandırılmamışsa (production'da boş) — hata göster
+    if (!siteKey) { setWStatus("error"); return; }
+
     let widgetId: string | undefined;
     let pollTimer: ReturnType<typeof setInterval> | undefined;
 
@@ -355,8 +362,9 @@ export default function AppointmentsSection() {
   const BULLETINS_INITIAL = 6;
 
   // Topluluk paylaşımları (KV'den)
-  const [communityApts, setCommunityApts]   = useState<CommunityAppointment[]>([]);
+  const [communityApts, setCommunityApts]       = useState<CommunityAppointment[]>([]);
   const [communityLoading, setCommunityLoading] = useState(true);
+  const [communityError, setCommunityError]     = useState(false);
   const [showAllCommunity, setShowAllCommunity] = useState(false);
   const COMMUNITY_INITIAL = 6;
 
@@ -376,10 +384,14 @@ export default function AppointmentsSection() {
   const fetchCommunity = async () => {
     try {
       setCommunityLoading(true);
+      setCommunityError(false);
       const res = await fetch("/api/appointments", { cache: "no-store" });
+      if (!res.ok) throw new Error("fetch_failed");
       const data = await res.json() as { appointments: CommunityAppointment[] };
       setCommunityApts(data.appointments ?? []);
-    } catch { /* yok sayılır */ } finally {
+    } catch {
+      setCommunityError(true);
+    } finally {
       setCommunityLoading(false);
     }
   };
@@ -468,9 +480,12 @@ export default function AppointmentsSection() {
         {/* ── Tab switcher ── */}
         <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} className="flex gap-1 mb-8 bg-[#0D0D0D]/60 backdrop-blur-sm rounded-2xl p-1 border border-white/6 w-fit">
+          <div role="tablist" aria-label="Randevu görünümü" className="contents">
           {(["bulletins", "community"] as const).map(tab => (
             <button
               key={tab}
+              role="tab"
+              aria-selected={activeTab === tab}
               onClick={() => setActiveTab(tab)}
               className={`relative px-5 py-2.5 rounded-xl text-sm font-light transition-all flex items-center gap-2 ${
                 activeTab === tab ? "text-[#F0EBE0]/90" : "text-[#F0EBE0]/30 hover:text-[#F0EBE0]/60"
@@ -500,6 +515,7 @@ export default function AppointmentsSection() {
               </span>
             </button>
           ))}
+          </div>
         </motion.div>
 
         {/* ── Tab içerikleri ── */}
@@ -765,7 +781,17 @@ export default function AppointmentsSection() {
               </AnimatePresence>
 
               {/* Topluluk kartları */}
-              {communityLoading ? (
+              {communityError ? (
+                <div className="text-center py-12 border border-dashed border-red-700/20 rounded-2xl">
+                  <p className="text-[13px] text-[#F0EBE0]/30 font-light mb-3">
+                    Paylaşımlar yüklenemedi.
+                  </p>
+                  <button onClick={fetchCommunity}
+                    className="text-[12px] text-[#D4A843]/60 hover:text-[#D4A843] font-light transition-colors border border-[#D4A843]/20 hover:border-[#D4A843]/40 px-4 py-1.5 rounded-full">
+                    Tekrar Dene
+                  </button>
+                </div>
+              ) : communityLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {[...Array(3)].map((_, i) => (
                     <div key={i} className="card p-5 animate-pulse space-y-3">

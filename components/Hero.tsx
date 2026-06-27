@@ -3,17 +3,12 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-const IMAGES = [
-  { src: "/Paris.jpg",     name: "Paris",     flag: "🇫🇷", country: "Fransa"     },
-  { src: "/Roma.jpg",      name: "Roma",      flag: "🇮🇹", country: "İtalya"     },
-  { src: "/Amsterdam.jpg", name: "Amsterdam", flag: "🇳🇱", country: "Hollanda"   },
-  { src: "/Atina.jpg",     name: "Atina",     flag: "🇬🇷", country: "Yunanistan" },
-  { src: "/Barcelona.jpg", name: "Barcelona", flag: "🇪🇸", country: "İspanya"    },
-  { src: "/Venedik.jpg",   name: "Venedik",   flag: "🇮🇹", country: "İtalya"     },
-  { src: "/Prag.jpg",      name: "Prag",      flag: "🇨🇿", country: "Çekya"      },
-  { src: "/Kopenhag.jpg",  name: "Kopenhag",  flag: "🇩🇰", country: "Danimarka"  },
-];
+const GLSLHills = dynamic(
+  () => import("@/components/ui/glsl-hills").then((m) => m.GLSLHills),
+  { ssr: false }
+);
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,63 +18,44 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Title fades up and out
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
-  const titleY       = useTransform(scrollYProgress, [0, 0.28], [0, -50]);
-
-  // Grid scales up: starts at 0.64 (cropped, small gap visible), expands to 1.05 (edge bleed)
-  const gridScale = useTransform(scrollYProgress, [0, 0.88], [0.64, 1.05]);
-
-  // Dark overlay fades as grid expands
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.82], [0.62, 0]);
-
-  // Bottom CTA fades in at the end of the scroll
-  const ctaOpacity = useTransform(scrollYProgress, [0.58, 0.86], [0, 1]);
-  const ctaY       = useTransform(scrollYProgress, [0.58, 0.86], [20, 0]);
-
-  // Entire sticky section fades just before scroll ends
-  const sectionOpacity = useTransform(scrollYProgress, [0.92, 1], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.38], [1, 0]);
+  const contentY       = useTransform(scrollYProgress, [0, 0.38], [0, -60]);
+  const sectionOpacity = useTransform(scrollYProgress, [0.75, 1], [1, 0]);
+  const photoScale     = useTransform(scrollYProgress, [0, 1], [1.0, 1.12]);
 
   return (
-    <div ref={containerRef} className="relative" style={{ height: "290vh" }}>
+    <div ref={containerRef} className="relative" style={{ height: "200vh" }}>
       <motion.div
         style={{ opacity: sectionOpacity }}
         className="sticky top-0 h-screen overflow-hidden"
         aria-label="Ana Sayfa Hero"
       >
-        {/* ── IMAGE GRID ── */}
+        {/* ── LANDSCAPE PHOTO ── */}
         <motion.div
-          style={{ scale: gridScale }}
-          className="absolute inset-0 grid grid-cols-4 grid-rows-2"
+          style={{ scale: photoScale }}
+          className="absolute inset-0 z-0"
         >
-          {IMAGES.map((img, i) => (
-            <div key={i} className="relative overflow-hidden">
-              <Image
-                src={img.src}
-                alt={`${img.name}, ${img.country}`}
-                fill
-                className="object-cover"
-                priority={i < 4}
-                sizes="25vw"
-              />
-              {/* Per-image label (visible at 100% expansion) */}
-              <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                <p className="text-white text-xs font-light">{img.flag} {img.name}</p>
-              </div>
-            </div>
-          ))}
+          <Image
+            src="/Iskocya.jpg"
+            alt="Avrupa manzarası"
+            fill
+            className="object-cover"
+            priority
+          />
         </motion.div>
 
         {/* ── DARK OVERLAY ── */}
-        <motion.div
-          style={{ opacity: overlayOpacity }}
-          className="absolute inset-0 z-10 bg-[#111111] pointer-events-none"
-        />
+        <div className="absolute inset-0 z-[1] bg-[#111111]/72 pointer-events-none" />
 
-        {/* ── TITLE ── */}
+        {/* ── GLSL HILLS ANIMATION ── */}
+        <div className="absolute inset-0 z-[2] pointer-events-none">
+          <GLSLHills width="100%" height="100%" speed={0.4} cameraZ={125} planeSize={256} />
+        </div>
+
+        {/* ── CONTENT ── */}
         <motion.div
-          style={{ opacity: titleOpacity, y: titleY }}
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
+          style={{ opacity: contentOpacity, y: contentY }}
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
         >
           <p className="badge mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -103,17 +79,8 @@ export default function Hero() {
           <p className="mt-8 text-[#F0EBE0]/50 text-lg font-light max-w-lg leading-relaxed">
             26 ülke · Onay oranları · CASCADE kademeleme · Anlık uçuş fiyatları
           </p>
-        </motion.div>
 
-        {/* ── BOTTOM CTA (appears at end of scroll) ── */}
-        <motion.div
-          style={{ opacity: ctaOpacity, y: ctaY }}
-          className="absolute bottom-10 left-0 right-0 z-30 flex flex-col items-center gap-5 pointer-events-none"
-        >
-          <p className="text-[#F0EBE0]/55 text-sm font-light tracking-wide">
-            Başvuru rehberini incele
-          </p>
-          <div className="flex gap-3 pointer-events-auto">
+          <div className="flex gap-3 mt-10 pointer-events-auto">
             <Link
               href="#guide"
               className="px-7 py-3 rounded-full text-sm font-medium text-[#111111] bg-[#D4A843] hover:bg-[#C89A35] transition-colors shadow-lg"
@@ -128,13 +95,14 @@ export default function Hero() {
               ✈ Uçuş Fırsatları
             </Link>
           </div>
-          {/* Scroll indicator */}
-          <div className="flex items-center gap-2 text-[#F0EBE0]/20 text-xs tracking-widest uppercase mt-2">
-            <div className="w-6 h-px bg-[#F0EBE0]/15" />
-            keşfet
-            <div className="w-6 h-px bg-[#F0EBE0]/15" />
-          </div>
         </motion.div>
+
+        {/* ── SCROLL INDICATOR ── */}
+        <div className="absolute bottom-8 left-0 right-0 z-10 flex items-center justify-center gap-2 text-[#F0EBE0]/20 text-xs tracking-widest uppercase pointer-events-none select-none">
+          <div className="w-6 h-px bg-[#F0EBE0]/15" />
+          keşfet
+          <div className="w-6 h-px bg-[#F0EBE0]/15" />
+        </div>
       </motion.div>
     </div>
   );

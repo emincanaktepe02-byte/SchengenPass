@@ -153,17 +153,22 @@ function SkeletonCard() {
 export default function FlightsSection() {
   const [deals,   setDeals]   = useState<FlightDeal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [origin,  setOrigin]  = useState<Origin>("IST");
   const [showAll, setShowAll] = useState(false);
   const FLIGHTS_INITIAL = 6;
 
-  useEffect(() => {
+  const loadDeals = () => {
+    setLoading(true);
+    setFetchError(false);
     fetch("/api/cheap-flights")
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error("network"); return r.json(); })
       .then((d: { deals: FlightDeal[] }) => setDeals(d.deals ?? []))
-      .catch(() => setDeals([]))
+      .catch(() => setFetchError(true))
       .finally(() => setLoading(false));
-  }, []);
+  };
+
+  useEffect(() => { loadDeals(); }, []);
 
   const groups = groupDeals(deals, origin);
   const hasDeals = !loading && groups.length > 0;
@@ -191,9 +196,10 @@ export default function FlightsSection() {
         </motion.div>
 
         {/* Origin tabs */}
-        <div className="flex gap-2 mb-8 flex-wrap">
+        <div role="tablist" aria-label="Kalkış havalimanı" className="flex gap-2 mb-8 flex-wrap">
           {ORIGINS.map(o => (
-            <button key={o} onClick={() => { setOrigin(o); setShowAll(false); }}
+            <button key={o} role="tab" aria-selected={o === origin}
+              onClick={() => { setOrigin(o); setShowAll(false); }}
               className={`px-4 py-2 rounded-full text-sm transition-all ${
                 o === origin
                   ? "bg-[#D4A843] text-[#111111] font-semibold"
@@ -205,7 +211,15 @@ export default function FlightsSection() {
         </div>
 
         {/* Content */}
-        {loading ? (
+        {fetchError ? (
+          <div className="text-center py-16 border border-dashed border-red-700/20 rounded-2xl">
+            <p className="text-[14px] text-[#F0EBE0]/35 font-light mb-4">Uçuş fiyatları yüklenemedi.</p>
+            <button onClick={loadDeals}
+              className="text-[12px] text-[#D4A843]/60 hover:text-[#D4A843] font-light transition-colors border border-[#D4A843]/20 hover:border-[#D4A843]/40 px-5 py-2 rounded-full">
+              Tekrar Dene
+            </button>
+          </div>
+        ) : loading ? (
           <div className="space-y-3">{[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}</div>
         ) : hasDeals ? (
           <div className="space-y-3">

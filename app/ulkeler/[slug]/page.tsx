@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CountryPageClient from "@/components/CountryPageClient";
@@ -19,9 +17,26 @@ export async function generateMetadata({
   const { slug } = await params;
   const country = getCountryPage(slug);
   if (!country) return { title: "Bulunamadı" };
+  const title       = `${country.name} Vize & Seyahat Rehberi 2026 — schengenim.com`;
+  const description = `${country.name} Schengen vizesi için dikkat edilmesi gerekenler, onay oranı %${country.visa.approvalRate}, seyahat tavsiyeleri ve ${country.heroCity} rehberi.`;
+  const pageUrl     = `https://schengenim.com/ulkeler/${slug}`;
   return {
-    title: `${country.name} Vize & Seyahat Rehberi 2026 — schengenim.com`,
-    description: `${country.name} Schengen vizesi için dikkat edilmesi gerekenler, onay oranı %${country.visa.approvalRate}, seyahat tavsiyeleri ve ${country.heroCity} rehberi.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url:      pageUrl,
+      siteName: "schengenim.com",
+      type:     "article",
+      images:   [{ url: `/${country.heroImage}`, width: 1200, height: 630, alt: `${country.name} — ${country.heroCity}` }],
+    },
+    twitter: {
+      card:        "summary_large_image",
+      title,
+      description,
+      images:      [`/${country.heroImage}`],
+    },
   };
 }
 
