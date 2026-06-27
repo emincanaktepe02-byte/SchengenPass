@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
-import { unstable_cache, revalidateTag } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +15,7 @@ export const dynamic = "force-dynamic";
 const KV_KEY   = "sp:community_apts";         // sorted set; score = epoch ms
 const REPORT_PREFIX = "sp:reports:";           // string counter per appointment id
 const REPORT_THRESHOLD = 3;                    // bu kadar bildirimde gizle/sil
-const EXPIRY_MS = 5 * 24 * 60 * 60 * 1000;    // 5 gün sonra otomatik temizle
+const EXPIRY_MS = 10 * 24 * 60 * 60 * 1000;   // 10 gün sonra otomatik temizle
 
 const VALID_COUNTRY_CODES = new Set([
   "DE","AT","BE","CZ","DK","EE","FI","FR","NL","IS",
@@ -45,27 +44,19 @@ export interface CommunityAppointment {
   submittedAt: string;
 }
 
-// ── Cache ─────────────────────────────────────────────────────────────────────
+// ── Redis'ten topluluk paylaşımlarını çek ─────────────────────────────────────
 
-const APT_CACHE_TAG = "sp-community-apts";
-
-// 5 dakika cache — topluluk paylaşımları Redis'ten en fazla 5 dk'da bir çekilir.
-// POST başarıyla tamamlanınca revalidateTag() ile anında geçersiz kılınır.
-const getCachedAppointments = unstable_cache(
-  async (): Promise<CommunityAppointment[]> => {
-    const redis = getRedis();
-    if (!redis) return [];
-    const cutoff = Date.now() - EXPIRY_MS;
-    await redis.zremrangebyscore(KV_KEY, 0, cutoff);
-    const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
-    return raw
-      .map(r => { try { return JSON.parse(r) as CommunityAppointment; } catch { return null; } })
-      .filter((x): x is CommunityAppointment => x !== null)
-      .slice(0, 15);
-  },
-  [APT_CACHE_TAG],
-  { revalidate: 300, tags: [APT_CACHE_TAG] },
-);
+async function getAppointments(): Promise<CommunityAppointment[]> {
+  const redis = getRedis();
+  if (!redis) return [];
+  const cutoff = Date.now() - EXPIRY_MS;
+  await redis.zremrangebyscore(KV_KEY, 0, cutoff);
+  const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
+  return raw
+    .map(r => { try { return JSON.parse(r) as CommunityAppointment; } catch { return null; } })
+    .filter((x): x is CommunityAppointment => x !== null)
+    .slice(0, 15);
+}
 
 function getRatelimit(redis: Redis) {
   return new Ratelimit({
@@ -94,7 +85,7 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 
 export async function GET() {
   try {
-    const appointments = await getCachedAppointments();
+    const appointments = await getAppointments();
     return NextResponse.json({ appointments });
   } catch {
     return NextResponse.json({ appointments: [] });
@@ -184,9 +175,6 @@ export async function POST(req: NextRequest) {
   };
 
   await redis.zadd(KV_KEY, { score: now, member: JSON.stringify(apt) });
-
-  // Yeni paylaşım eklendi — cache'i hemen geçersiz kıl (Next.js 16: profile zorunlu)
-  revalidateTag(APT_CACHE_TAG, {});
 
   return NextResponse.json({ ok: true, appointment: apt }, { status: 201 });
 }
