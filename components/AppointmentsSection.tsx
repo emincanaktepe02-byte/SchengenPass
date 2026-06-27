@@ -17,10 +17,11 @@ declare global {
         el: HTMLElement,
         opts: {
           sitekey: string;
-          callback: (token: string) => void;
-          "expired-callback"?: () => void;
           theme?: "light" | "dark" | "auto";
           size?: "normal" | "compact" | "flexible";
+          callback?: (token: string) => void;
+          "expired-callback"?: () => void;
+          "error-callback"?: (code?: string | number) => void;
         }
       ) => string;
       reset:  (widgetId: string) => void;
@@ -256,7 +257,8 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
   const ref    = useRef<HTMLDivElement>(null);
   const [wStatus, setWStatus] = useState<"loading" | "ok" | "error">("loading");
   // Gerçek site key; eksikse Cloudflare'ın her zaman geçen test anahtarı kullanılır
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+  // `||` hem undefined hem boş string fallback'i kapsar (Vercel boş string set etmiş olabilir)
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
 
   useEffect(() => {
     let widgetId: string | undefined;
@@ -277,9 +279,10 @@ function TurnstileWidget({ onToken, onExpire }: { onToken: (t: string) => void; 
             setWStatus("loading");
             onExpire();
           },
-          // Cloudflare tarafında sorun olursa kullanıcıya göster
-          // @ts-expect-error — error-callback is valid but missing from our minimal type
-          "error-callback": () => setWStatus("error"),
+          "error-callback": (code?: string | number) => {
+            console.error("[Turnstile] error-callback fired, code:", code);
+            setWStatus("error");
+          },
         });
       } catch {
         setWStatus("error");
