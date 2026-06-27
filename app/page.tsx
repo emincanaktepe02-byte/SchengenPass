@@ -41,7 +41,7 @@ const HOWTO_SCHEMA = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#111111]">
+    <main className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(HOWTO_SCHEMA) }} />
       <Navbar />

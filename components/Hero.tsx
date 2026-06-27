@@ -1,109 +1,164 @@
 "use client";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
 
-const GLSLHills = dynamic(
-  () => import("@/components/ui/glsl-hills").then((m) => m.GLSLHills),
-  { ssr: false }
-);
+const STATS = [
+  { n: "26",        l: "ülke rehberi"   },
+  { n: "Ücretsiz",  l: "her zaman"      },
+  { n: "CASCADE",   l: "kademeleme"     },
+];
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.38], [1, 0]);
-  const contentY       = useTransform(scrollYProgress, [0, 0.38], [0, -60]);
-  const sectionOpacity = useTransform(scrollYProgress, [0.75, 1], [1, 0]);
-  const photoScale     = useTransform(scrollYProgress, [0, 1], [1.0, 1.12]);
-
   return (
-    <div ref={containerRef} className="relative" style={{ height: "200vh" }}>
-      <motion.div
-        style={{ opacity: sectionOpacity }}
-        className="sticky top-0 h-screen overflow-hidden"
-        aria-label="Ana Sayfa Hero"
-      >
-        {/* ── LANDSCAPE PHOTO ── */}
-        <motion.div
-          style={{ scale: photoScale }}
-          className="absolute inset-0 z-0"
-        >
-          <Image
-            src="/Iskocya.jpg"
-            alt="Avrupa manzarası"
-            fill
-            className="object-cover"
-            priority
-          />
-        </motion.div>
+    <section
+      className="bg-[#fffef0] min-h-screen flex items-center pt-16"
+      aria-label="Ana Sayfa Hero"
+    >
+      <div className="max-w-[1200px] mx-auto px-6 w-full py-24 lg:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-[60fr_40fr] gap-12 lg:gap-20 items-center">
 
-        {/* ── DARK OVERLAY ── */}
-        <div className="absolute inset-0 z-[1] bg-[#111111]/72 pointer-events-none" />
-
-        {/* ── GLSL HILLS ANIMATION ── */}
-        <div className="absolute inset-0 z-[2] pointer-events-none">
-          <GLSLHills width="100%" height="100%" speed={0.4} cameraZ={125} planeSize={256} />
-        </div>
-
-        {/* ── CONTENT ── */}
-        <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
-        >
-          <p className="badge mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            Türkiye&apos;nin Schengen Vize Rehberi · 2026
-          </p>
-
-          <h1
-            className="text-[clamp(3.2rem,9vw,7.5rem)] font-light text-[#F0EBE0] leading-[1.05] tracking-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          {/* ── LEFT: Content ── */}
+          <motion.div
+            className="flex flex-col gap-6"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE }}
           >
-            <span className="font-light italic opacity-75">Artık</span>
-            <br />
-            <span className="font-light">
-              Schengen
-              <em className="not-italic font-semibold" style={{ color: "#D4A843" }}>im</em>
-            </span>
-            <br />
-            <span className="font-light italic opacity-80">var.</span>
-          </h1>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-[#d7ffc2] text-[#004449] text-[11px] font-semibold tracking-[0.14em] uppercase px-4 py-2 rounded-full w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#004449] animate-pulse" />
+              Türkiye&apos;nin Schengen Vize Rehberi · 2026
+            </div>
 
-          <p className="mt-8 text-[#F0EBE0]/50 text-lg font-light max-w-lg leading-relaxed">
-            26 ülke · Onay oranları · CASCADE kademeleme · Anlık uçuş fiyatları
-          </p>
-
-          <div className="flex gap-3 mt-10 pointer-events-auto">
-            <Link
-              href="#guide"
-              className="px-7 py-3 rounded-full text-sm font-medium text-[#111111] bg-[#D4A843] hover:bg-[#C89A35] transition-colors shadow-lg"
-              style={{ boxShadow: "0 4px 20px rgba(212,168,67,0.4)" }}
+            {/* Display headline */}
+            <h1
+              className="font-semibold leading-[1.06] text-[#004449]"
+              style={{
+                fontFamily: "Inter, 'General Sans', sans-serif",
+                fontSize: "clamp(2.6rem, 6.5vw, 5rem)",
+                letterSpacing: "0.04em",
+              }}
             >
-              Ülke Rehberi →
-            </Link>
-            <Link
-              href="#flights"
-              className="px-7 py-3 rounded-full text-sm font-light text-[#F0EBE0]/70 border border-[#F0EBE0]/15 hover:border-[#F0EBE0]/35 hover:text-[#F0EBE0] transition-all"
-            >
-              ✈ Uçuş Fırsatları
-            </Link>
-          </div>
-        </motion.div>
+              <span className="block">Artık</span>
+              <span className="block">
+                Schengen
+                <span style={{ color: "#483cff" }}>im</span>
+              </span>
+              <span
+                className="block"
+                style={{ color: "rgba(0,68,73,0.45)", fontWeight: 400, fontStyle: "italic" }}
+              >
+                var.
+              </span>
+            </h1>
 
-        {/* ── SCROLL INDICATOR ── */}
-        <div className="absolute bottom-8 left-0 right-0 z-10 flex items-center justify-center gap-2 text-[#F0EBE0]/20 text-xs tracking-widest uppercase pointer-events-none select-none">
-          <div className="w-6 h-px bg-[#F0EBE0]/15" />
-          keşfet
-          <div className="w-6 h-px bg-[#F0EBE0]/15" />
+            {/* Subtitle */}
+            <p
+              className="text-[18px] text-[#004449]/55 font-normal leading-relaxed max-w-md"
+              style={{ fontFamily: "Inter, 'General Sans', sans-serif", letterSpacing: "0.02em" }}
+            >
+              26 Schengen ülkesi için vize rehberi, topluluk randevuları ve anlık uçuş fırsatları. Tamamen ücretsiz.
+            </p>
+
+            {/* CTA buttons */}
+            <div className="flex flex-wrap gap-3 pt-1">
+              <Link
+                href="#guide"
+                className="px-8 py-3.5 rounded-[900px] bg-[#483cff] text-white text-[13px] font-semibold tracking-[0.06em] transition-colors hover:bg-[#3b31e0]"
+                style={{ boxShadow: "0 4px 20px rgba(72,60,255,0.28)" }}
+              >
+                Ülke Rehberi →
+              </Link>
+              <Link
+                href="#flights"
+                className="px-8 py-3.5 rounded-[900px] border border-[#004449]/25 text-[#004449] text-[13px] font-semibold tracking-[0.06em] transition-all hover:border-[#004449]/55 hover:bg-[#004449]/5"
+              >
+                ✈ Uçuş Fırsatları
+              </Link>
+            </div>
+
+            {/* Stats row */}
+            <div
+              className="flex gap-8 pt-5 mt-1 border-t"
+              style={{ borderColor: "rgba(0,68,73,0.10)" }}
+            >
+              {STATS.map((s) => (
+                <div key={s.n}>
+                  <p
+                    className="text-[#004449] font-semibold text-sm"
+                    style={{ fontFamily: "Inter" }}
+                  >
+                    {s.n}
+                  </p>
+                  <p className="text-[#004449]/38 text-[11px] font-medium tracking-wide mt-0.5">
+                    {s.l}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── RIGHT: Photo ── */}
+          <motion.div
+            className="relative hidden lg:block"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+          >
+            {/* Main photo */}
+            <div
+              className="relative overflow-hidden"
+              style={{
+                aspectRatio: "4/5",
+                borderRadius: "24px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              }}
+            >
+              <Image
+                src="/Paris.jpg"
+                alt="Paris, Fransa"
+                fill
+                className="object-cover"
+                priority
+                sizes="40vw"
+              />
+            </div>
+
+            {/* Floating accent card — bottom-left */}
+            <div
+              className="absolute -bottom-5 -left-5 bg-[#fffef0] px-5 py-4"
+              style={{
+                borderRadius: "24px",
+                border: "1px solid rgba(0,0,0,0.07)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              }}
+            >
+              <p className="text-[#004449] text-xs font-semibold">
+                🏆 CASCADE Kademeleme
+              </p>
+              <p className="text-[#004449]/45 text-[11px] mt-0.5">
+                1 yıl → 2 yıl → 5 yıl çok girişli
+              </p>
+            </div>
+
+            {/* Floating mini card — top-right */}
+            <div
+              className="absolute -top-4 -right-4 bg-[#d7ffc2] px-4 py-3"
+              style={{
+                borderRadius: "24px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+              }}
+            >
+              <p className="text-[#004449] text-xs font-semibold">90/180 Gün Kuralı</p>
+              <p className="text-[#004449]/55 text-[11px] mt-0.5">Kalan günlerin hesabı →</p>
+            </div>
+          </motion.div>
+
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </section>
   );
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -11,8 +11,16 @@
   --color-gold2:  #B8922E;
   --color-muted:  rgba(240,235,224,0.45);
 
+  /* Going™ palette */
+  --color-parchment:  #fffef0;
+  --color-lagoon:     #004449;
+  --color-iris:       #483cff;
+  --color-mint:       #d7ffc2;
+  --color-lime:       #0bff80;
+
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans:  'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-inter: 'Inter', 'General Sans', system-ui, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

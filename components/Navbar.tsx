@@ -37,28 +37,28 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#111111]/95 backdrop-blur-md border-b border-white/6"
+          ? "bg-[#fffef0]/96 backdrop-blur-md border-b border-[#004449]/8"
           : "bg-transparent"
       }`}
+      style={{ fontFamily: "Inter, 'General Sans', sans-serif" }}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span
-            className="text-[#F0EBE0] text-sm font-light tracking-wide"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            schengenim<span className="font-semibold" style={{ color: "#D4A843" }}>.com</span>
+        <Link href="/" className="flex items-center gap-2">
+          <span className="text-[#004449] text-sm font-semibold tracking-wide">
+            schengenim
+            <span style={{ color: "#483cff" }}>.com</span>
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-7">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-[13px] text-[#F0EBE0]/40 hover:text-[#F0EBE0]/85 transition-colors font-light tracking-wide"
+              className="text-[13px] text-[#004449]/50 hover:text-[#004449] transition-colors font-medium tracking-wide"
             >
               {l.label}
             </Link>
@@ -68,7 +68,7 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdown(!dropdown)}
-              className="flex items-center gap-1 text-[13px] text-[#F0EBE0]/40 hover:text-[#F0EBE0]/85 transition-colors font-light tracking-wide"
+              className="flex items-center gap-1 text-[13px] text-[#004449]/50 hover:text-[#004449] transition-colors font-medium tracking-wide"
             >
               Ülkeler
               <ChevronDown
@@ -78,27 +78,35 @@ export default function Navbar() {
             </button>
 
             {dropdown && (
-              <div className="absolute right-0 top-full mt-2 w-52 bg-[#1A1A1A] border border-white/8 rounded-2xl overflow-hidden shadow-xl">
+              <div
+                className="absolute right-0 top-full mt-2 w-52 overflow-hidden"
+                style={{
+                  background: "#fffef0",
+                  border: "1px solid rgba(0,68,73,0.10)",
+                  borderRadius: "24px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                }}
+              >
                 <div className="p-2">
                   {COUNTRY_PAGES.map((c) => (
                     <Link
                       key={c.slug}
                       href={`/ulkeler/${c.slug}`}
                       onClick={() => setDropdown(false)}
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-[#F0EBE0]/55 hover:text-[#F0EBE0]/90 hover:bg-white/5 transition-all"
+                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-[14px] text-sm text-[#004449]/60 hover:text-[#004449] hover:bg-[#d7ffc2]/50 transition-all"
                     >
                       <span className="text-lg">{c.flag}</span>
                       <div>
-                        <p className="text-xs font-medium leading-tight">{c.name}</p>
-                        <p className="text-[10px] text-[#F0EBE0]/25 font-light">{c.heroCity}</p>
+                        <p className="text-xs font-semibold leading-tight">{c.name}</p>
+                        <p className="text-[10px] text-[#004449]/35 font-medium">{c.heroCity}</p>
                       </div>
                     </Link>
                   ))}
-                  <div className="border-t border-white/6 mt-2 pt-2">
+                  <div className="border-t mt-2 pt-2" style={{ borderColor: "rgba(0,68,73,0.08)" }}>
                     <Link
                       href="/ulkeler"
                       onClick={() => setDropdown(false)}
-                      className="flex items-center justify-center text-xs text-[#D4A843]/60 hover:text-[#D4A843] py-2 transition-colors font-medium"
+                      className="flex items-center justify-center text-xs text-[#483cff]/70 hover:text-[#483cff] py-2 transition-colors font-semibold"
                     >
                       Tüm Ülkeler →
                     </Link>
@@ -107,11 +115,20 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Primary CTA */}
+          <Link
+            href="#guide"
+            className="px-5 py-2 rounded-[900px] bg-[#483cff] text-white text-[12px] font-semibold tracking-[0.06em] hover:bg-[#3b31e0] transition-colors"
+            style={{ boxShadow: "0 2px 8px rgba(72,60,255,0.22)" }}
+          >
+            Rehbere Git
+          </Link>
         </div>
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-[#F0EBE0]/60 hover:text-[#F0EBE0] transition-colors"
+          className="md:hidden text-[#004449]/60 hover:text-[#004449] transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -120,19 +137,22 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#1A1A1A] border-b border-white/6 px-6 py-5 flex flex-col gap-1">
+        <div
+          className="md:hidden border-b px-6 py-5 flex flex-col gap-1"
+          style={{ background: "#fffef0", borderColor: "rgba(0,68,73,0.08)" }}
+        >
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#F0EBE0]/55 hover:text-[#F0EBE0] transition-colors font-light py-2"
+              className="text-sm text-[#004449]/60 hover:text-[#004449] transition-colors font-medium py-2"
               onClick={() => setMenuOpen(false)}
             >
               {l.label}
             </Link>
           ))}
-          <div className="border-t border-white/6 mt-2 pt-3">
-            <p className="text-[10px] text-[#F0EBE0]/20 uppercase tracking-wider font-light mb-2">
+          <div className="border-t mt-2 pt-3" style={{ borderColor: "rgba(0,68,73,0.08)" }}>
+            <p className="text-[10px] text-[#004449]/30 uppercase tracking-wider font-semibold mb-2">
               Ülke Rehberleri
             </p>
             {COUNTRY_PAGES.map((c) => (
@@ -140,10 +160,10 @@ export default function Navbar() {
                 key={c.slug}
                 href={`/ulkeler/${c.slug}`}
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 py-2 text-sm text-[#F0EBE0]/50 hover:text-[#F0EBE0] transition-colors"
+                className="flex items-center gap-2 py-2 text-sm text-[#004449]/55 hover:text-[#004449] transition-colors"
               >
                 <span>{c.flag}</span>
-                <span>{c.name}</span>
+                <span className="font-medium">{c.name}</span>
               </Link>
             ))}
           </div>
