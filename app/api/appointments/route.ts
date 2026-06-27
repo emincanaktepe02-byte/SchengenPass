@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
+import { promises as fs } from "fs";
+import path from "path";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,7 @@ const KV_KEY   = "sp:community_apts";         // sorted set; score = epoch ms
 const REPORT_PREFIX = "sp:reports:";           // string counter per appointment id
 const REPORT_THRESHOLD = 3;                    // bu kadar bildirimde gizle/sil
 const EXPIRY_MS = 10 * 24 * 60 * 60 * 1000;   // 10 gün sonra otomatik temizle
+const JSON_FILE_PATH = path.join(process.cwd(), "content/appointments.json");
 
 const VALID_COUNTRY_CODES = new Set([
   "DE","AT","BE","CZ","DK","EE","FI","FR","NL","IS",
@@ -44,18 +47,32 @@ export interface CommunityAppointment {
   submittedAt: string;
 }
 
-// ── Redis'ten topluluk paylaşımlarını çek ─────────────────────────────────────
+// ── Redis'ten veya JSON dosyasından topluluk paylaşımlarını çek ────────────────
 
 async function getAppointments(): Promise<CommunityAppointment[]> {
   const redis = getRedis();
-  if (!redis) return [];
   const cutoff = Date.now() - EXPIRY_MS;
-  await redis.zremrangebyscore(KV_KEY, 0, cutoff);
-  const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
-  return raw
-    .map(r => { try { return JSON.parse(r) as CommunityAppointment; } catch { return null; } })
-    .filter((x): x is CommunityAppointment => x !== null)
-    .slice(0, 15);
+  
+  if (redis) {
+    await redis.zremrangebyscore(KV_KEY, 0, cutoff);
+    const raw = (await redis.zrange(KV_KEY, 0, -1, { rev: true })) as string[];
+    return raw
+      .map(r => { try { return JSON.parse(r) as CommunityAppointment; } catch { return null; } })
+      .filter((x): x is CommunityAppointment => x !== null)
+      .slice(0, 15);
+  } else {
+    try {
+      const data = await fs.readFile(JSON_FILE_PATH, "utf-8");
+      let list = JSON.parse(data) as CommunityAppointment[];
+      // 10 günden eski kayıtları filtrele
+      list = list.filter(item => new Date(item.submittedAt).getTime() > cutoff);
+      // Yeniden eskiye sırala
+      list.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime());
+      return list.slice(0, 15);
+    } catch {
+      return [];
+    }
+  }
 }
 
 function getRatelimit(redis: Redis) {
@@ -96,9 +113,6 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const redis = getRedis();
-  if (!redis) {
-    return NextResponse.json({ error: "kv_unavailable" }, { status: 503 });
-  }
 
   let body: {
     countryCode: string;
@@ -154,14 +168,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "captcha_failed" }, { status: 403 });
   }
 
-  // ── Hız sınırı ───────────────────────────────────────────────────────────
-  const ratelimit = getRatelimit(redis);
-  const { success: allowed } = await ratelimit.limit(ip);
-  if (!allowed) {
-    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  // ── Hız sınırı (Yalnızca Redis bağlıysa) ──────────────────────────────────
+  if (redis) {
+    const ratelimit = getRatelimit(redis);
+    const { success: allowed } = await ratelimit.limit(ip);
+    if (!allowed) {
+      return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+    }
   }
 
-  // ── KV'ye yaz ────────────────────────────────────────────────────────────
+  // ── KV'ye veya JSON dosyasına yaz ─────────────────────────────────────────
   const now = Date.now();
   const apt: CommunityAppointment = {
     id:          `${now}-${Math.random().toString(36).slice(2, 7)}`,
@@ -174,7 +190,22 @@ export async function POST(req: NextRequest) {
     submittedAt: new Date(now).toISOString(),
   };
 
-  await redis.zadd(KV_KEY, { score: now, member: JSON.stringify(apt) });
+  if (redis) {
+    await redis.zadd(KV_KEY, { score: now, member: JSON.stringify(apt) });
+    await redis.zremrangebyrank(KV_KEY, 0, -16);
+  } else {
+    try {
+      const data = await fs.readFile(JSON_FILE_PATH, "utf-8");
+      let list = JSON.parse(data) as CommunityAppointment[];
+      // Yeni kaydı en başa ekle
+      list.unshift(apt);
+      // Maksimum 15 kaydı tut (eskileri silerek)
+      list = list.slice(0, 15);
+      await fs.writeFile(JSON_FILE_PATH, JSON.stringify(list, null, 2), "utf-8");
+    } catch {
+      return NextResponse.json({ error: "write_failed" }, { status: 500 });
+    }
+  }
 
   return NextResponse.json({ ok: true, appointment: apt }, { status: 201 });
 }
